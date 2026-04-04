@@ -1,50 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bombinhas PRO 🏖️</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #dff6ff, #b2ebf2);
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+    margin: 0;
+}
+
+.container {
+    background: white;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 24px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    padding: 20px;
+}
+
+h1 { text-align:center; }
+
+.status {
+    display: flex;
+    justify-content: space-around;
+    margin: 10px 0;
+}
+
+.clima-card, .praias, .previsao {
+    border-radius: 18px;
+    padding: 15px;
+    color: white;
+    margin-top: 10px;
+    background: linear-gradient(135deg,#00acc1,#0077ff);
+}
+
+.previsao-dias {
+    display: flex;
+    justify-content: space-between;
+    margin-top:10px;
+}
+
+.dia {
+    text-align:center;
+    font-size:12px;
+}
+
+.praia-card {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:rgba(255,255,255,0.15);
+    padding:10px;
+    border-radius:12px;
+    margin-top:8px;
+}
+
+.badge {
+    background: yellow;
+    color: black;
+    font-size:10px;
+    padding:2px 6px;
+    border-radius:6px;
+}
+
+button {
+    background:#fff;
+    border:none;
+    padding:5px 8px;
+    border-radius:8px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>Bombinhas 2026</h1>
+
+<div class="status">
+<div><strong id="visitadas">0</strong><br>Visitadas</div>
+<div><strong id="restantes">0</strong><br>Faltam</div>
+</div>
+
+<div class="clima-card">
+<div id="clima"></div>
+</div>
+
+<div class="previsao">
+<h3>📅 Próximos dias</h3>
+<div class="previsao-dias" id="previsao"></div>
+</div>
+
+<div class="praias">
+<h3>🏖️ Praias</h3>
+
+<div id="lista"></div>
+
+</div>
+
+</div>
+
 <script>
-const lista = document.getElementById('lista-praias');
 
-function salvar() {
-    document.querySelectorAll('#lista-praias input').forEach(input => {
-        localStorage.setItem(input.dataset.id, input.checked);
-    });
-}
+const apiKey = "cc78026071390eea9efc3ebf84f27bcd";
 
-function carregar() {
-    document.querySelectorAll('#lista-praias input').forEach(input => {
-        const valor = localStorage.getItem(input.dataset.id);
-        input.checked = valor === 'true';
+// PRAIAS
+const praias = [
+{nome:"Bombinhas", id:"bombinhas", mapa:"https://maps.google.com/?q=Praia+de+Bombinhas"},
+{nome:"Sepultura", id:"sepultura", mapa:"https://maps.google.com/?q=Praia+da+Sepultura"},
+{nome:"Tainha", id:"tainha", mapa:"https://maps.google.com/?q=Praia+da+Tainha"}
+];
 
-        input.onchange = () => {
-            salvar();
-            atualizarStatus();
-            ordenarLista();
-        };
-    });
-}
+// CLIMA + PREVISÃO
+fetch(`https://api.openweathermap.org/data/2.5/forecast?q=Bombinhas,BR&appid=${apiKey}&units=metric&lang=pt_br`)
+.then(res=>res.json())
+.then(data=>{
 
-function atualizarStatus() {
-    const inputs = document.querySelectorAll('#lista-praias input');
-    let visitadas = 0;
+    // clima atual
+    const atual = data.list[0];
+    const temp = Math.round(atual.main.temp);
+    const vento = atual.wind.speed;
+    const desc = atual.weather[0].main;
 
-    inputs.forEach(i => {
-        if (i.checked) visitadas++;
-    });
+    document.getElementById("clima").innerHTML =
+    `🌡️ ${temp}°C | 💨 ${vento} m/s`;
 
-    document.getElementById('visitadas').innerText = visitadas;
-    document.getElementById('restantes').innerText = inputs.length - visitadas;
-}
+    // previsão 5 dias
+    const dias = data.list.filter((item,i)=>i%8===0).slice(0,5);
 
-function ordenarLista() {
-    const items = Array.from(lista.children);
+    dias.forEach(d=>{
+        const dia = new Date(d.dt*1000).toLocaleDateString("pt-BR",{weekday:"short"});
+        const icone = d.weather[0].main.includes("Rain") ? "🌧️" :
+                      d.weather[0].main.includes("Cloud") ? "☁️" : "☀️";
 
-    items.sort((a, b) => {
-        const aChecked = a.querySelector('input').checked;
-        const bChecked = b.querySelector('input').checked;
-        return aChecked - bChecked;
+        document.getElementById("previsao").innerHTML +=
+        `<div class="dia">${dia}<br>${icone}<br>${Math.round(d.main.temp)}°</div>`;
     });
 
-    items.forEach(el => lista.appendChild(el));
+    sugerirPraia(desc, vento);
+});
+
+// SUGESTÃO
+function sugerirPraia(clima, vento){
+    let melhor = "Bombinhas";
+
+    if(vento > 6) melhor = "Sepultura";
+    if(clima.includes("Rain")) melhor = "Nenhuma";
+
+    gerarLista(melhor);
 }
 
-carregar();
-atualizarStatus();
-ordenarLista();
+// LISTA
+function gerarLista(melhor){
+
+    const lista = document.getElementById("lista");
+    lista.innerHTML="";
+
+    praias.forEach(p=>{
+
+        const checked = localStorage.getItem(p.id)==='true';
+
+        lista.innerHTML += `
+        <div class="praia-card">
+            <label>
+                <input type="checkbox" data-id="${p.id}" ${checked?"checked":""}>
+                ${p.nome}
+                ${p.nome===melhor ? '<span class="badge">⭐ HOJE</span>' : ''}
+            </label>
+            <button onclick="window.open('${p.mapa}')">📍</button>
+        </div>
+        `;
+    });
+
+    document.querySelectorAll('#lista input').forEach(i=>{
+        i.onchange=()=>{
+            localStorage.setItem(i.dataset.id, i.checked);
+            atualizar();
+        }
+    });
+
+    atualizar();
+}
+
+// CONTADOR
+function atualizar(){
+    const inputs = document.querySelectorAll('#lista input');
+    let v=0;
+
+    inputs.forEach(i=>{
+        if(i.checked) v++;
+    });
+
+    document.getElementById("visitadas").innerText=v;
+    document.getElementById("restantes").innerText=inputs.length-v;
+}
+
 </script>
+
+</body>
+</html>
