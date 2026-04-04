@@ -26,13 +26,19 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 10px;
     margin-bottom: 10px;
 }
 
+.topo-perfil h1{
+    font-size:16px;
+    line-height:1.2;
+    text-align:left;
+}
+
 .foto-logo {
-    width: 45px;
-    height: 45px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     border: 2px solid #00acc1;
     object-fit: cover;
@@ -118,7 +124,7 @@ body {
 <div class="card-f">Orçamento <strong>R$ 0</strong></div>
 <div class="card-f">Gasto <strong>R$ 0</strong></div>
 <div class="card-f">Saldo <strong>R$ 0</strong></div>
-</div><div class="checklist">
+</div></div><div class="checklist">
 <h3>🎒 Check-list</h3>
 <label><input type="checkbox"> Protetor Solar ☀️</label><br>
 <label><input type="checkbox"> Tênis Trilha 👟</label><br>
@@ -146,7 +152,7 @@ setInterval(() => {
     document.getElementById('countdown').innerText = `${dias} dias e ${horas}h`;
 }, 1000);
 
-// CLIMA COM CORES DINÂMICAS (SEM QUEBRAR)
+// CLIMA COM CORES DINÂMICAS
 fetch("https://api.openweathermap.org/data/2.5/weather?q=Bombinhas,BR&appid=cc78026071390eea9efc3ebf84f27bcd&units=metric&lang=pt_br")
 .then(r => r.json())
 .then(d => {
@@ -156,19 +162,6 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=Bombinhas,BR&appid=cc78
 
     document.getElementById('temp').innerText = desc + " | " + temp + "°C";
     document.getElementById('icone-clima').innerHTML = iconeClima(clima);
-
-    const min = Math.round(d.main.temp_min);
-    const max = Math.round(d.main.temp_max);
-    const vento = Math.round(d.wind.speed);
-
-    document.getElementById('extra-clima').innerText = `Min ${min}° / Máx ${max}° • Vento ${vento} m/s`;
-
-    function iconeClima(main){
-        if(main.includes("Clear")) return "<img src='https://cdn-icons-png.flaticon.com/512/869/869869.png' width='50'>";
-        if(main.includes("Cloud")) return "<img src='https://cdn-icons-png.flaticon.com/512/414/414825.png' width='50'>";
-        if(main.includes("Rain")) return "<img src='https://cdn-icons-png.flaticon.com/512/1163/1163624.png' width='50'>";
-        return "<img src='https://cdn-icons-png.flaticon.com/512/869/869869.png' width='50'>";
-    }
 
     function corClima(main) {
         if (main.includes("Clear")) return "linear-gradient(135deg, #f57f17, #ffb300)";
@@ -182,14 +175,10 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=Bombinhas,BR&appid=cc78
     document.querySelector('.clima-card').style.background = cor;
     document.querySelector('.praias').style.background = cor;
 
-    // destaque simples (seguro)
-    const melhor = clima.includes("Clear") ? "Bombinhas" : (clima.includes("Rain") ? "Sepultura" : "Bombinhas");
-
-    document.querySelectorAll('.praia-card').forEach(card => {
-        if (card.innerText.includes(melhor)) {
-            card.style.outline = "2px solid #fff";
-        }
-    });
+})
+.catch(() => {
+    document.getElementById('temp').innerText = "Erro ao carregar clima";
+});;
 
 })
 .catch(() => {
