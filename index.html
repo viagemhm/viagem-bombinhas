@@ -38,23 +38,12 @@ body {
     object-fit: cover;
 }
 
-h1 { font-size: 18px; margin: 0; }
-
-.data-viagem { font-size: 14px; color: #666; margin-bottom: 10px; }
-
 .clima-card {
     background: linear-gradient(135deg, #00acc1, #0077ff);
     color: white;
     border-radius: 18px;
     padding: 18px;
     margin-bottom: 15px;
-    transition: background 0.8s ease, box-shadow 0.5s ease;
-}
-
-#countdown {
-    font-size: 14px;
-    margin-top: 8px;
-    opacity: 0.9;
 }
 
 .financas {
@@ -70,13 +59,6 @@ h1 { font-size: 18px; margin: 0; }
     border-radius: 14px;
     font-size: 11px;
     font-weight: bold;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-}
-
-.card-f strong {
-    display: block;
-    font-size: 14px;
-    margin-top: 4px;
 }
 
 .checklist {
@@ -88,29 +70,12 @@ h1 { font-size: 18px; margin: 0; }
     border-radius: 14px;
 }
 
-.previsao {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    margin-top: 15px;
-}
-
-.dia {
-    min-width: 80px;
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-    font-size: 12px;
-}
-
 .praias {
     margin-top: 18px;
     padding: 14px;
     border-radius: 16px;
     color: white;
     background: linear-gradient(135deg, #00acc1, #0077ff);
-    transition: background 0.8s ease;
 }
 
 .praia-card {
@@ -118,38 +83,9 @@ h1 { font-size: 18px; margin: 0; }
     justify-content: space-between;
     align-items: center;
     background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(6px);
     padding: 10px;
     border-radius: 12px;
     margin-top: 8px;
-    font-size: 13px;
-    position: relative;
-}
-
-.praia-card.destaque {
-    background: rgba(255,255,255,0.35);
-    box-shadow: 0 0 12px rgba(255,255,255,0.6);
-}
-
-.badge-melhor {
-    position: absolute;
-    top: -8px;
-    left: 8px;
-    background: #ffeb3b;
-    color: #000;
-    font-size: 10px;
-    padding: 2px 6px;
-    border-radius: 6px;
-    font-weight: bold;
-}
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #f1f8ff;
-    padding: 10px;
-    border-radius: 12px;
-    margin-top: 8px;
-    font-size: 13px;
 }
 
 .btn-maps {
@@ -158,260 +94,69 @@ h1 { font-size: 18px; margin: 0; }
     border: none;
     padding: 6px 10px;
     border-radius: 8px;
-    cursor: pointer;
-    font-size: 12px;
-}
-
-.btn-maps:hover {
-    background: #005fcc;
 }
 </style></head><body>
 <div class="container"><div class="topo-perfil">
 <img src="https://i.ibb.co/cpfKB8d/4-de-abr-de-2026-11-11-40.png" class="foto-logo">
 <h1>Helder e Mayara em Bombinhas</h1>
-</div><!-- STATUS TIPO INSTAGRAM --><div style="display:flex; justify-content:space-around; margin:10px 0 15px 0;">
-    <div>
-        <strong id="visitadas">0</strong><br>
-        <span style="font-size:12px; color:#666;">Visitadas</span>
-    </div>
-    <div>
-        <strong id="restantes">0</strong><br>
-        <span style="font-size:12px; color:#666;">Faltam</span>
-    </div>
-</div><div style="margin-bottom:15px; text-align:left;">
-    <div style="font-size:14px; margin-bottom:6px;">
-        <strong>Data Viagem:</strong> 🗓️ 05/05 a 11/05
-    </div>
-    <div style="font-size:14px;">
-        <strong>Contagem Regressiva:</strong> <span id="countdown"></span>
-    </div>
-</div><div class="clima-card"><div style="display:flex; align-items:center; justify-content:space-between;">
-    <div id="icone-atual" style="flex:1;"></div>
-    <div style="flex:2; text-align:right;">
-        <div style="font-size:11px; opacity:0.8;">Horário atual</div>
-        <div id="hora" style="font-size: 28px; font-weight: bold;">00:00:00</div>
-    </div>
-</div><div id="temp" style="margin-top:8px;">Carregando clima...</div>
-<div id="clima-extra" style="margin-top:6px; font-size:13px; opacity:0.9;"></div></div><div class="previsao" id="previsao"></div><div class="financas">
-<div class="card-f">Orçamento <strong>R$ {{ $node["Code in JavaScript"].json["orcamento"] }}</strong></div>
-<div class="card-f" style="color:#d32f2f">Gasto <strong>R$ {{ $node["Code in JavaScript"].json["gasto"] }}</strong></div>
-<div class="card-f" style="color:#2e7d32">Saldo <strong>R$ {{ $node["Code in JavaScript"].json["disponivel"] }}</strong></div>
+</div><div style="display:flex; justify-content:space-around; margin:10px 0;">
+    <div><strong id="visitadas">0</strong><br>Visitadas</div>
+    <div><strong id="restantes">0</strong><br>Faltam</div>
+</div><div class="clima-card">
+<div id="hora" style="font-size: 24px;"></div>
+<div id="temp">Carregando clima...</div>
+</div><div class="financas">
+<div class="card-f">Orçamento <strong>R$ 0</strong></div>
+<div class="card-f">Gasto <strong>R$ 0</strong></div>
+<div class="card-f">Saldo <strong>R$ 0</strong></div>
 </div><div class="checklist">
-<h3 style="margin-top:0">🎒 Check-list</h3>
-<label><input type="checkbox"> Protetor Solar ☀️</label><br>
-<label><input type="checkbox"> Calçado p/ Trilha 👟</label><br>
-<label><input type="checkbox"> Repelente 🦟</label>
+<h3>🎒 Check-list</h3>
+<label><input type="checkbox"> Protetor Solar</label><br>
+<label><input type="checkbox"> Tênis</label>
 </div><div class="praias">
-<h3 style="margin-top:15px; text-align:left;">🏖️ Praias a visitar</h3><div id="lista-praias"><div class="praia-card">
-    <label><input type="checkbox" data-id="bombinhas-centro"> Praia de Bombinhas (Centro)</label>
-    <a href="https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombinhas" target="_blank">
-        <button class="btn-maps">📍</button>
-    </a>
-</div><div class="praia-card">
-    <label><input type="checkbox" data-id="sepultura"> Praia da Sepultura</label>
-    <a href="https://www.google.com/maps/dir/?api=1&destination=Praia+da+Sepultura" target="_blank">
-        <button class="btn-maps">📍</button>
-    </a>
-</div><div class="praia-card">
-    <label><input type="checkbox" data-id="retiro-padres"> Praia do Retiro dos Padres</label>
-    <a href="https://www.google.com/maps/dir/?api=1&destination=Praia+Retiro+dos+Padres" target="_blank">
-        <button class="btn-maps">📍</button>
-    </a>
-</div><div class="praia-card">
-    <label><input type="checkbox" data-id="quatro-ilhas"> Praia de Quatro Ilhas</label>
-    <a href="https://www.google.com/maps/dir/?api=1&destination=Praia+de+Quatro+Ilhas" target="_blank">
-        <button class="btn-maps">📍</button>
-    </a>
-</div><div class="praia-card">
-    <label><input type="checkbox" data-id="bombas"> Praia de Bombas</label>
-    <a href="https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombas" target="_blank">
-        <button class="btn-maps">📍</button>
-    </a>
-</div><div class="praia-card">
-    <label><input type="checkbox" data-id="tainha"> Praia da Tainha</label>
-    <a href="https://www.google.com/maps/dir/?api=1&destination=Praia+da+Tainha" target="_blank">
-        <button class="btn-maps">📍</button>
-    </a>
-</div><div class="praia-card">
-    <label><input type="checkbox" data-id="canto-grande"> Canto Grande (Mar de Dentro)</label>
-    <a href="https://www.google.com/maps/dir/?api=1&destination=Canto+Grande" target="_blank">
-        <button class="btn-maps">📍</button>
-    </a>
-</div><div class="praia-card">
-    <label><input type="checkbox" data-id="zimbros"> Praia de Zimbros</label>
-    <a href="https://www.google.com/maps/dir/?api=1&destination=Praia+de+Zimbros" target="_blank">
-        <button class="btn-maps">📍</button>
-    </a>
-</div><div class="praia-card">
-    <label><input type="checkbox" data-id="morro-macaco"> Morro do Macaco (Trilha)</label>
-    <a href="https://www.google.com/maps/dir/?api=1&destination=Morro+do+Macaco" target="_blank">
-        <button class="btn-maps">📍</button>
-    </a>
-</div></div></div></div></div><script>
+<h3>🏖️ Praias</h3>
+<div id="lista-praias">
+<div class="praia-card">
+<label><input type="checkbox" data-id="bombinhas"> Bombinhas</label>
+<button class="btn-maps">📍</button>
+</div>
+</div>
+</div></div><script>
 
 // relógio
 setInterval(() => {
     document.getElementById('hora').innerText = new Date().toLocaleTimeString('pt-BR');
 }, 1000);
 
-// contagem regressiva
-const dataViagem = new Date("2026-05-05T00:00:00");
-
-function atualizarContagem() {
-    const agora = new Date();
-    const diff = dataViagem - agora;
-
-    if (diff <= 0) {
-        document.getElementById('countdown').innerText = "🎉 Chegou!";
-        return;
-    }
-
-    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
-
-    document.getElementById('countdown').innerText = `⏳ ${dias} dias e ${horas}h`;
-}
-
-setInterval(atualizarContagem, 1000);
-
-// clima atual
-const apiKey = "cc78026071390eea9efc3ebf84f27bcd";
-
-fetch(`https://api.openweathermap.org/data/2.5/weather?q=Bombinhas,BR&appid=${apiKey}&units=metric&lang=pt_br`)
-.then(res => res.json())
-.then(data => {
-    const desc = data.weather[0].description;
-    const temp = Math.round(data.main.temp);
-    const min = Math.round(data.main.temp_min);
-    const max = Math.round(data.main.temp_max);
-
-    function corClima(main) {
-        if (main.includes("Clear")) return "linear-gradient(135deg, #f57f17, #ffb300)";
-        if (main.includes("Cloud")) return "linear-gradient(135deg, #90a4ae, #607d8b)";
-        if (main.includes("Rain")) return "linear-gradient(135deg, #4fc3f7, #0288d1)";
-        if (main.includes("Thunder")) return "linear-gradient(135deg, #616161, #212121)";
-        return "linear-gradient(135deg, #00acc1, #0077ff)";
-    }
-
-    function iconeAtual(main) {
-        if (main.includes("Clear")) return "<img src='https://cdn-icons-png.flaticon.com/512/869/869869.png' width='60' style='filter: drop-shadow(0 0 6px rgba(0,0,0,0.4));'>";
-        if (main.includes("Cloud")) return "<img src='https://cdn-icons-png.flaticon.com/512/414/414825.png' width='60'>";
-        if (main.includes("Rain")) return "<img src='https://cdn-icons-png.flaticon.com/512/1163/1163624.png' width='60'>";
-        if (main.includes("Thunder")) return "<img src='https://cdn-icons-png.flaticon.com/512/1146/1146860.png' width='60'>";
-        return "<img src='https://cdn-icons-png.flaticon.com/512/869/869869.png' width='60' style='filter: drop-shadow(0 0 6px rgba(0,0,0,0.4));'>";
-    }
-
-    const cor = corClima(data.weather[0].main);
-    document.querySelector('.clima-card').style.background = cor;
-    document.querySelector('.praias').style.background = cor;
-    document.getElementById('icone-atual').innerHTML = iconeAtual(data.weather[0].main);
-    document.getElementById('temp').innerHTML = `${desc} | ${temp}°C`;
-    document.getElementById('clima-extra').innerText = `Min ${min}° / Máx ${max}°`;
-
-    // definir melhor praia do dia (AGORA COM VENTO + SENSAÇÃO TÉRMICA)
-    function melhorPraia(data) {
-        const main = data.weather[0].main;
-        const vento = data.wind.speed; // m/s
-        const sensacao = data.main.feels_like;
-
-        // vento forte → evitar praias abertas
-        if (vento > 6) return "Praia da Sepultura";
-
-        // sensação muito quente → praia aberta
-        if (sensacao > 30 && main.includes("Clear")) return "Praia de Mariscal";
-
-        // nublado ou médio → praia equilibrada
-        if (main.includes("Cloud")) return "Praia de Bombinhas";
-
-        // chuva → protegida
-        if (main.includes("Rain") || main.includes("Thunder")) return "Praia da Sepultura";
-
-        return "Praia de Bombinhas";
-    }
-
-    const melhor = melhorPraia(data);
-
-    document.querySelectorAll('.praia-card').forEach(card => {
-        const nome = card.innerText;
-        if (nome.includes(melhor)) {
-            card.classList.add('destaque');
-            card.innerHTML += `<div class="badge-melhor">⭐ Melhor hoje</div>`;
-        }
-    });
+// CLIMA
+fetch("https://api.openweathermap.org/data/2.5/weather?q=Bombinhas,BR&appid=cc78026071390eea9efc3ebf84f27bcd&units=metric&lang=pt_br")
+.then(r => r.json())
+.then(d => {
+    document.getElementById('temp').innerText = d.weather[0].description + " | " + Math.round(d.main.temp) + "°C";
 });
 
-// previsão 5 dias
-fetch(`https://api.openweathermap.org/data/2.5/forecast?q=Bombinhas,BR&appid=${apiKey}&units=metric&lang=pt_br`)
-.then(res => res.json())
-.then(data => {
-    const dias = data.list.filter(item => item.dt_txt.includes("12:00:00"));
+// PLANILHA (TSV)
+async function carregarPlanilha() {
+    const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSjndkscJNSa1uHNlh_3al_4smBXaiXrGKF27dIf_vK6uwUGF0eb_UzHj74Plx-cZ6PwE0EhnWSW-xA/pub?gid=0&single=true&output=tsv";
 
-    let html = "";
+    const res = await fetch(url);
+    const texto = await res.text();
 
-    function iconeClima(main) {
-        if (main.includes("Clear")) return "<img src='https://cdn-icons-png.flaticon.com/512/869/869869.png' width='28'>";
-        if (main.includes("Cloud")) return "<img src='https://cdn-icons-png.flaticon.com/512/414/414825.png' width='28'>";
-        if (main.includes("Rain")) return "<img src='https://cdn-icons-png.flaticon.com/512/1163/1163624.png' width='28'>";
-        if (main.includes("Thunder")) return "<img src='https://cdn-icons-png.flaticon.com/512/1146/1146860.png' width='28'>";
-        return "<img src='https://cdn-icons-png.flaticon.com/512/869/869869.png' width='28'>";
-    }
+    const linhas = texto.split("\n");
+    const valores = linhas[1].split("\t");
 
-    dias.slice(0,5).forEach(dia => {
-        const icone = iconeClima(dia.weather[0].main);
-        const min = Math.round(dia.main.temp_min);
-        const max = Math.round(dia.main.temp_max);
+    const orcamento = parseFloat(valores[0]);
+    const gasto = parseFloat(valores[1]);
+    const saldo = parseFloat(valores[2]);
 
-        html += `
-        <div class="dia">
-            <strong>${new Date(dia.dt_txt).toLocaleDateString('pt-BR',{weekday:'short'})}</strong>
-            <div>${icone}</div>
-            <div style="font-size:11px; opacity:0.7">${min}° / ${max}°</div>
-        </div>`;
-    });
+    const campos = document.querySelectorAll('.card-f strong');
 
-    document.getElementById('previsao').innerHTML = html;
-});
-
-
-// salvar + ordenar + contador (POR ID ÚNICO)
-const lista = document.getElementById('lista-praias');
-
-function ordenarLista() {
-    const cards = Array.from(lista.children);
-    cards.sort((a, b) => {
-        const aChecked = a.querySelector('input').checked;
-        const bChecked = b.querySelector('input').checked;
-        return aChecked - bChecked;
-    });
-    cards.forEach(card => lista.appendChild(card));
+    campos[0].innerText = orcamento.toLocaleString('pt-BR', {style:'currency',currency:'BRL'});
+    campos[1].innerText = gasto.toLocaleString('pt-BR', {style:'currency',currency:'BRL'});
+    campos[2].innerText = saldo.toLocaleString('pt-BR', {style:'currency',currency:'BRL'});
 }
 
-function atualizarStatus() {
-    const cards = Array.from(lista.children);
-    let visitadas = 0;
-
-    cards.forEach(card => {
-        const checkbox = card.querySelector('input');
-        const id = checkbox.dataset.id;
-
-        const salvo = localStorage.getItem('praia_' + id);
-        if (salvo === 'true') checkbox.checked = true;
-
-        if (checkbox.checked) visitadas++;
-
-        checkbox.onchange = () => {
-            localStorage.setItem('praia_' + id, checkbox.checked);
-            ordenarLista();
-            atualizarStatus();
-        };
-    });
-
-    document.getElementById('visitadas').innerText = visitadas;
-    document.getElementById('restantes').innerText = cards.length - visitadas;
-}
-
-ordenarLista();
-atualizarStatus();
+carregarPlanilha();
 
 </script></body>
 </html>
