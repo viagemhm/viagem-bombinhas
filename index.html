@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Férias Bombinhas 🏖️</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #dff6ff, #b2ebf2);
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+    margin: 0;
+}
+
+.container {
+    background: white;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 24px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    padding: 20px;
+    text-align: center;
+}
+
+.topo-perfil {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.foto-logo {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid #00acc1;
+}
+
+.clima-card {
+    background: linear-gradient(135deg, #00acc1, #0077ff);
+    color: white;
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 15px;
+}
+
+.praias {
+    margin-top: 18px;
+    padding: 14px;
+    border-radius: 16px;
+    color: white;
+    background: linear-gradient(135deg, #00acc1, #0077ff);
+}
+
+.praia-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.15);
+    padding: 10px;
+    border-radius: 12px;
+    margin-top: 8px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h2>Helder e Mayara em Bombinhas</h2>
+
+<div>
+<strong id="visitadas">0</strong> Visitadas |
+<strong id="restantes">0</strong> Faltam
+</div>
+
+<div class="praias">
+<h3>🏖️ Praias</h3>
+
+<div id="lista-praias">
+
+<label><input type="checkbox" data-id="bombinhas-centro"> Bombinhas</label><br>
+<label><input type="checkbox" data-id="sepultura"> Sepultura</label><br>
+<label><input type="checkbox" data-id="tainha"> Tainha</label><br>
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// URLs do n8n
+const URL_POST = "https://emacao.app.n8n.cloud/webhook/salvar-praias";
+const URL_GET = "https://emacao.app.n8n.cloud/webhook/buscar-praias";
+
+// ordenar lista
+function ordenarLista() {
+    const lista = document.getElementById('lista-praias');
+    const items = Array.from(lista.children);
+
+    items.sort((a, b) => {
+        const aChecked = a.querySelector('input').checked;
+        const bChecked = b.querySelector('input').checked;
+        return aChecked - bChecked;
+    });
+
+    items.forEach(el => lista.appendChild(el));
+}
+
+// atualizar contador
+function atualizarStatus() {
+    const inputs = document.querySelectorAll('#lista-praias input');
+    let visitadas = 0;
+
+    inputs.forEach(input => {
+        if (input.checked) visitadas++;
+    });
+
+    document.getElementById('visitadas').innerText = visitadas;
+    document.getElementById('restantes').innerText = inputs.length - visitadas;
+}
+
+// carregar dados
+async function carregarDoN8N() {
+    const res = await fetch(URL_GET);
+    const data = await res.json();
+
+    const estado = data.praias || {};
+
+    document.querySelectorAll('#lista-praias input').forEach(input => {
+        input.checked = estado[input.dataset.id] || false;
+
+        input.onchange = () => {
+            salvarNoN8N();
+            ordenarLista();
+            atualizarStatus();
+        };
+    });
+
+    ordenarLista();
+    atualizarStatus();
+}
+
+// salvar dados
+async function salvarNoN8N() {
+    const estado = {};
+
+    document.querySelectorAll('#lista-praias input').forEach(input => {
+        estado[input.dataset.id] = input.checked;
+    });
+
+    await fetch(URL_POST, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ praias: estado })
+    });
+}
+
+// iniciar
+carregarDoN8N();
+
+</script>
+
+</body>
+</html>
