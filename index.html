@@ -106,7 +106,12 @@ body {
     <div><strong>Data Viagem:</strong> 🗓️ 05/05 a 11/05</div>
     <div><strong>Contagem Regressiva:</strong> <span id="countdown"></span></div>
 </div><div class="clima-card">
-<div id="hora" style="font-size: 24px; font-weight:bold;"></div>
+<div style="display:flex; align-items:center; justify-content:space-between;">
+    <div id="icone-clima"></div>
+    <div>
+        <div style="font-size:11px; opacity:0.8;">Horário atual</div>
+        <div id="hora" style="font-size: 24px; font-weight:bold;"></div>
+</div>
 <div id="temp">Carregando clima...</div>
 <div id="extra-clima" style="font-size:12px; opacity:0.9; margin-top:4px;"></div>
 </div><div class="financas">
@@ -116,21 +121,11 @@ body {
 </div><div class="checklist">
 <h3>🎒 Check-list</h3>
 <label><input type="checkbox"> Protetor Solar ☀️</label><br>
-<label><input type="checkbox"> Tênis 👟</label><br>
+<label><input type="checkbox"> Tênis Trilha👟</label><br>
 <label><input type="checkbox"> Repelente 🦟</label>
 </div><div class="praias">
 <h3>🏖️ Praias</h3>
-<div id="lista-praias"><div class="praia-card">
-<label><input type="checkbox" data-id="bombinhas"> Praia de Bombinhas</label>
-<a href="https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombinhas" target="_blank">
-<button class="btn-maps">📍</button>
-</a>
-</div><div class="praia-card">
-<label><input type="checkbox" data-id="sepultura"> Praia da Sepultura</label>
-<a href="https://www.google.com/maps/dir/?api=1&destination=Praia+da+Sepultura" target="_blank">
-<button class="btn-maps">📍</button>
-</a>
-</div></div>
+<div id="lista-praias"><div class="praia-card"><label><input type="checkbox"> Praia de Bombinhas</label><a href="https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombinhas" target="_blank"><button class="btn-maps">📍</button></a></div><div class="praia-card"><label><input type="checkbox"> Praia da Sepultura</label><a href="https://www.google.com/maps/dir/?api=1&destination=Praia+da+Sepultura" target="_blank"><button class="btn-maps">📍</button></a></div><div class="praia-card"><label><input type="checkbox"> Praia do Retiro dos Padres</label><a href="https://www.google.com/maps/dir/?api=1&destination=Praia+Retiro+dos+Padres" target="_blank"><button class="btn-maps">📍</button></a></div><div class="praia-card"><label><input type="checkbox"> Praia de Quatro Ilhas</label><a href="https://www.google.com/maps/dir/?api=1&destination=Praia+de+Quatro+Ilhas" target="_blank"><button class="btn-maps">📍</button></a></div><div class="praia-card"><label><input type="checkbox"> Praia de Bombas</label><a href="https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombas" target="_blank"><button class="btn-maps">📍</button></a></div><div class="praia-card"><label><input type="checkbox"> Praia da Tainha</label><a href="https://www.google.com/maps/dir/?api=1&destination=Praia+da+Tainha" target="_blank"><button class="btn-maps">📍</button></a></div><div class="praia-card"><label><input type="checkbox"> Canto Grande</label><a href="https://www.google.com/maps/dir/?api=1&destination=Canto+Grande" target="_blank"><button class="btn-maps">📍</button></a></div><div class="praia-card"><label><input type="checkbox"> Praia de Zimbros</label><a href="https://www.google.com/maps/dir/?api=1&destination=Praia+de+Zimbros" target="_blank"><button class="btn-maps">📍</button></a></div><div class="praia-card"><label><input type="checkbox"> Morro do Macaco</label><a href="https://www.google.com/maps/dir/?api=1&destination=Morro+do+Macaco" target="_blank"><button class="btn-maps">📍</button></a></div></div>
 </div></div><script>
 
 // relógio
@@ -160,12 +155,20 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=Bombinhas,BR&appid=cc78
     const clima = d.weather[0].main;
 
     document.getElementById('temp').innerText = desc + " | " + temp + "°C";
+    document.getElementById('icone-clima').innerHTML = iconeClima(clima);
 
     const min = Math.round(d.main.temp_min);
     const max = Math.round(d.main.temp_max);
     const vento = Math.round(d.wind.speed);
 
     document.getElementById('extra-clima').innerText = `Min ${min}° / Máx ${max}° • Vento ${vento} m/s`;
+
+    function iconeClima(main){
+        if(main.includes("Clear")) return "<img src='https://cdn-icons-png.flaticon.com/512/869/869869.png' width='50'>";
+        if(main.includes("Cloud")) return "<img src='https://cdn-icons-png.flaticon.com/512/414/414825.png' width='50'>";
+        if(main.includes("Rain")) return "<img src='https://cdn-icons-png.flaticon.com/512/1163/1163624.png' width='50'>";
+        return "<img src='https://cdn-icons-png.flaticon.com/512/869/869869.png' width='50'>";
+    }
 
     function corClima(main) {
         if (main.includes("Clear")) return "linear-gradient(135deg, #f57f17, #ffb300)";
@@ -195,17 +198,18 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=Bombinhas,BR&appid=cc78
 
 // PLANILHA
 async function carregarPlanilha() {
-    const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSjndkscJNSa1uHNlh_3al_4smBXaiXrGKF27dIf_vK6uwUGF0eb_UzHj74Plx-cZ6PwE0EhnWSW-xA/gviz/tq?tqx=out:json";
+    const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSjndkscJNSa1uHNlh_3al_4smBXaiXrGKF27dIf_vK6uwUGF0eb_UzHj74Plx-cZ6PwE0EhnWSW-xA/pub?gid=0&single=true&output=tsv";
 
     const res = await fetch(url);
     const text = await res.text();
 
-    const json = JSON.parse(text.substr(47).slice(0, -2));
-    const rows = json.table.rows[0].c;
+    const linhas = text.split("
+");
+    const valores = linhas[1].split("	");
 
-    const orcamento = rows[0].v;
-    const gasto = rows[1].v;
-    const saldo = rows[2].v;
+    const orcamento = parseFloat(valores[0]);
+    const gasto = parseFloat(valores[1]);
+    const saldo = parseFloat(valores[2]);
 
     const campos = document.querySelectorAll('.card-f strong');
 
