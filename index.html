@@ -102,25 +102,35 @@ body {
 </div><div style="display:flex; justify-content:space-around; margin:10px 0;">
     <div><strong id="visitadas">0</strong><br>Visitadas</div>
     <div><strong id="restantes">0</strong><br>Faltam</div>
+</div><!-- DATA + CONTAGEM --><div style="margin-bottom:15px; text-align:left;">
+    <div><strong>Data Viagem:</strong> 🗓️ 05/05 a 11/05</div>
+    <div><strong>Contagem Regressiva:</strong> <span id="countdown"></span></div>
 </div><div class="clima-card">
-<div id="hora" style="font-size: 24px;"></div>
+<div id="hora" style="font-size: 24px; font-weight:bold;"></div>
 <div id="temp">Carregando clima...</div>
+<div id="extra-clima" style="font-size:12px; opacity:0.9; margin-top:4px;"></div>
 </div><div class="financas">
 <div class="card-f">Orçamento <strong>R$ 0</strong></div>
 <div class="card-f">Gasto <strong>R$ 0</strong></div>
 <div class="card-f">Saldo <strong>R$ 0</strong></div>
 </div><div class="checklist">
 <h3>🎒 Check-list</h3>
-<label><input type="checkbox"> Protetor Solar</label><br>
-<label><input type="checkbox"> Tênis</label>
+<label><input type="checkbox"> Protetor Solar ☀️</label><br>
+<label><input type="checkbox"> Tênis 👟</label><br>
+<label><input type="checkbox"> Repelente 🦟</label>
 </div><div class="praias">
 <h3>🏖️ Praias</h3>
-<div id="lista-praias">
-<div class="praia-card">
-<label><input type="checkbox" data-id="bombinhas"> Bombinhas</label>
+<div id="lista-praias"><div class="praia-card">
+<label><input type="checkbox" data-id="bombinhas"> Praia de Bombinhas</label>
+<a href="https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombinhas" target="_blank">
 <button class="btn-maps">📍</button>
-</div>
-</div>
+</a>
+</div><div class="praia-card">
+<label><input type="checkbox" data-id="sepultura"> Praia da Sepultura</label>
+<a href="https://www.google.com/maps/dir/?api=1&destination=Praia+da+Sepultura" target="_blank">
+<button class="btn-maps">📍</button>
+</a>
+</div></div>
 </div></div><script>
 
 // relógio
@@ -128,26 +138,74 @@ setInterval(() => {
     document.getElementById('hora').innerText = new Date().toLocaleTimeString('pt-BR');
 }, 1000);
 
-// CLIMA
+// contagem regressiva
+const dataViagem = new Date("2026-05-05T00:00:00");
+
+setInterval(() => {
+    const agora = new Date();
+    const diff = dataViagem - agora;
+
+    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+
+    document.getElementById('countdown').innerText = `${dias} dias e ${horas}h`;
+}, 1000);
+
+// CLIMA COM CORES DINÂMICAS (SEM QUEBRAR)
 fetch("https://api.openweathermap.org/data/2.5/weather?q=Bombinhas,BR&appid=cc78026071390eea9efc3ebf84f27bcd&units=metric&lang=pt_br")
 .then(r => r.json())
 .then(d => {
-    document.getElementById('temp').innerText = d.weather[0].description + " | " + Math.round(d.main.temp) + "°C";
+    const desc = d.weather[0].description;
+    const temp = Math.round(d.main.temp);
+    const clima = d.weather[0].main;
+
+    document.getElementById('temp').innerText = desc + " | " + temp + "°C";
+
+    const min = Math.round(d.main.temp_min);
+    const max = Math.round(d.main.temp_max);
+    const vento = Math.round(d.wind.speed);
+
+    document.getElementById('extra-clima').innerText = `Min ${min}° / Máx ${max}° • Vento ${vento} m/s`;
+
+    function corClima(main) {
+        if (main.includes("Clear")) return "linear-gradient(135deg, #f57f17, #ffb300)";
+        if (main.includes("Cloud")) return "linear-gradient(135deg, #90a4ae, #607d8b)";
+        if (main.includes("Rain")) return "linear-gradient(135deg, #4fc3f7, #0288d1)";
+        if (main.includes("Thunder")) return "linear-gradient(135deg, #616161, #212121)";
+        return "linear-gradient(135deg, #00acc1, #0077ff)";
+    }
+
+    const cor = corClima(clima);
+    document.querySelector('.clima-card').style.background = cor;
+    document.querySelector('.praias').style.background = cor;
+
+    // destaque simples (seguro)
+    const melhor = clima.includes("Clear") ? "Bombinhas" : (clima.includes("Rain") ? "Sepultura" : "Bombinhas");
+
+    document.querySelectorAll('.praia-card').forEach(card => {
+        if (card.innerText.includes(melhor)) {
+            card.style.outline = "2px solid #fff";
+        }
+    });
+
+})
+.catch(() => {
+    document.getElementById('temp').innerText = "Erro ao carregar clima";
 });
 
-// PLANILHA (TSV)
+// PLANILHA
 async function carregarPlanilha() {
-    const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSjndkscJNSa1uHNlh_3al_4smBXaiXrGKF27dIf_vK6uwUGF0eb_UzHj74Plx-cZ6PwE0EhnWSW-xA/pub?gid=0&single=true&output=tsv";
+    const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSjndkscJNSa1uHNlh_3al_4smBXaiXrGKF27dIf_vK6uwUGF0eb_UzHj74Plx-cZ6PwE0EhnWSW-xA/gviz/tq?tqx=out:json";
 
     const res = await fetch(url);
-    const texto = await res.text();
+    const text = await res.text();
 
-    const linhas = texto.split("\n");
-    const valores = linhas[1].split("\t");
+    const json = JSON.parse(text.substr(47).slice(0, -2));
+    const rows = json.table.rows[0].c;
 
-    const orcamento = parseFloat(valores[0]);
-    const gasto = parseFloat(valores[1]);
-    const saldo = parseFloat(valores[2]);
+    const orcamento = rows[0].v;
+    const gasto = rows[1].v;
+    const saldo = rows[2].v;
 
     const campos = document.querySelectorAll('.card-f strong');
 
