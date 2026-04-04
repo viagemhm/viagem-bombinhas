@@ -1,8 +1,11 @@
-<!DOCTYPE html><html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Férias Bombinhas 🏖️</title><style>
+<title>Férias Bombinhas 🏖️</title>
+
+<style>
 body {
     font-family: 'Segoe UI', sans-serif;
     background: linear-gradient(135deg, #dff6ff, #b2ebf2);
@@ -165,11 +168,19 @@ h1 { font-size: 18px; margin: 0; }
 .btn-maps:hover {
     background: #005fcc;
 }
-</style></head><body>
-<div class="container"><div class="topo-perfil">
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<div class="topo-perfil">
 <img src="https://i.ibb.co/cpfKB8d/4-de-abr-de-2026-11-11-40.png" class="foto-logo">
 <h1>Helder e Mayara em Bombinhas</h1>
-</div><!-- STATUS TIPO INSTAGRAM --><div style="display:flex; justify-content:space-around; margin:10px 0 15px 0;">
+</div>
+
+<!-- STATUS TIPO INSTAGRAM -->
+<div style="display:flex; justify-content:space-around; margin:10px 0 15px 0;">
     <div>
         <strong id="visitadas">0</strong><br>
         <span style="font-size:12px; color:#666;">Visitadas</span>
@@ -178,76 +189,125 @@ h1 { font-size: 18px; margin: 0; }
         <strong id="restantes">0</strong><br>
         <span style="font-size:12px; color:#666;">Faltam</span>
     </div>
-</div><div style="margin-bottom:15px; text-align:left;">
+</div>
+
+<div style="margin-bottom:15px; text-align:left;">
     <div style="font-size:14px; margin-bottom:6px;">
         <strong>Data Viagem:</strong> 🗓️ 05/05 a 11/05
     </div>
     <div style="font-size:14px;">
         <strong>Contagem Regressiva:</strong> <span id="countdown"></span>
     </div>
-</div><div class="clima-card"><div style="display:flex; align-items:center; justify-content:space-between;">
+</div>
+
+<div class="clima-card">
+
+
+<div style="display:flex; align-items:center; justify-content:space-between;">
     <div id="icone-atual" style="flex:1;"></div>
     <div style="flex:2; text-align:right;">
         <div style="font-size:11px; opacity:0.8;">Horário atual</div>
         <div id="hora" style="font-size: 28px; font-weight: bold;">00:00:00</div>
     </div>
-</div><div id="temp" style="margin-top:8px;">Carregando clima...</div>
-<div id="clima-extra" style="margin-top:6px; font-size:13px; opacity:0.9;"></div></div><div class="previsao" id="previsao"></div><div class="financas">
+</div>
+
+<div id="temp" style="margin-top:8px;">Carregando clima...</div>
+<div id="clima-extra" style="margin-top:6px; font-size:13px; opacity:0.9;"></div>
+
+</div>
+
+<div class="previsao" id="previsao"></div>
+
+<div class="financas">
 <div class="card-f">Orçamento <strong>R$ {{ $node["Code in JavaScript"].json["orcamento"] }}</strong></div>
 <div class="card-f" style="color:#d32f2f">Gasto <strong>R$ {{ $node["Code in JavaScript"].json["gasto"] }}</strong></div>
 <div class="card-f" style="color:#2e7d32">Saldo <strong>R$ {{ $node["Code in JavaScript"].json["disponivel"] }}</strong></div>
-</div><div class="checklist">
+</div>
+
+<div class="checklist">
 <h3 style="margin-top:0">🎒 Check-list</h3>
 <label><input type="checkbox"> Protetor Solar ☀️</label><br>
 <label><input type="checkbox"> Calçado p/ Trilha 👟</label><br>
 <label><input type="checkbox"> Repelente 🦟</label>
-</div><div class="praias">
-<h3 style="margin-top:15px; text-align:left;">🏖️ Praias a visitar</h3><div id="lista-praias"><div class="praia-card">
+</div>
+
+<div class="praias">
+<h3 style="margin-top:15px; text-align:left;">🏖️ Praias a visitar</h3>
+
+<div id="lista-praias">
+
+<div class="praia-card">
     <label><input type="checkbox" data-id="bombinhas-centro"> Praia de Bombinhas (Centro)</label>
     <a href="https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombinhas" target="_blank">
         <button class="btn-maps">📍</button>
     </a>
-</div><div class="praia-card">
+</div>
+
+<div class="praia-card">
     <label><input type="checkbox" data-id="sepultura"> Praia da Sepultura</label>
     <a href="https://www.google.com/maps/dir/?api=1&destination=Praia+da+Sepultura" target="_blank">
         <button class="btn-maps">📍</button>
     </a>
-</div><div class="praia-card">
+</div>
+
+<div class="praia-card">
     <label><input type="checkbox" data-id="retiro-padres"> Praia do Retiro dos Padres</label>
     <a href="https://www.google.com/maps/dir/?api=1&destination=Praia+Retiro+dos+Padres" target="_blank">
         <button class="btn-maps">📍</button>
     </a>
-</div><div class="praia-card">
+</div>
+
+<div class="praia-card">
     <label><input type="checkbox" data-id="quatro-ilhas"> Praia de Quatro Ilhas</label>
     <a href="https://www.google.com/maps/dir/?api=1&destination=Praia+de+Quatro+Ilhas" target="_blank">
         <button class="btn-maps">📍</button>
     </a>
-</div><div class="praia-card">
+</div>
+
+<div class="praia-card">
     <label><input type="checkbox" data-id="bombas"> Praia de Bombas</label>
     <a href="https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombas" target="_blank">
         <button class="btn-maps">📍</button>
     </a>
-</div><div class="praia-card">
+</div>
+
+<div class="praia-card">
     <label><input type="checkbox" data-id="tainha"> Praia da Tainha</label>
     <a href="https://www.google.com/maps/dir/?api=1&destination=Praia+da+Tainha" target="_blank">
         <button class="btn-maps">📍</button>
     </a>
-</div><div class="praia-card">
+</div>
+
+<div class="praia-card">
     <label><input type="checkbox" data-id="canto-grande"> Canto Grande (Mar de Dentro)</label>
     <a href="https://www.google.com/maps/dir/?api=1&destination=Canto+Grande" target="_blank">
         <button class="btn-maps">📍</button>
     </a>
-</div><div class="praia-card">
+</div>
+
+<div class="praia-card">
     <label><input type="checkbox" data-id="zimbros"> Praia de Zimbros</label>
     <a href="https://www.google.com/maps/dir/?api=1&destination=Praia+de+Zimbros" target="_blank">
         <button class="btn-maps">📍</button>
     </a>
-</div><div class="praia-card">
+</div>
+
+<div class="praia-card">
     <label><input type="checkbox" data-id="morro-macaco"> Morro do Macaco (Trilha)</label>
     <a href="https://www.google.com/maps/dir/?api=1&destination=Morro+do+Macaco" target="_blank">
         <button class="btn-maps">📍</button>
     </a>
-</div></div></div></div></div><script>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
 
 // relógio
 setInterval(() => {
@@ -425,5 +485,7 @@ atualizarStatus();
     cards.forEach(card => lista.appendChild(card));
 });
 
-</script></body>
+</script>
+
+</body>
 </html>
