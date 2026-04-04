@@ -1,213 +1,385 @@
-<!DOCTYPE html><html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Férias Bombinhas 🏖️</title><style>
-body {
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #dff6ff, #b2ebf2);
-    display: flex;
-    justify-content: center;
-    padding: 15px;
-    margin: 0;
-}
+<!DOCTYPE html>
 
-.container {
-    background: white;
-    width: 100%;
-    max-width: 420px;
-    border-radius: 24px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
-    padding: 20px;
-    text-align: center;
-}
+<html lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Férias Bombinhas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: #e0f7fa;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px 10px;
+            transition: background-color 0.5s ease;
+        }
+        .container {
+            background: white;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 32px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            height: fit-content;
+        }
+        
+        /* Dynamic Temperature Gradients */
+        .bg-temp-hot { background: linear-gradient(135deg, #FF5722, #F44336); }
+        .bg-temp-warm { background: linear-gradient(135deg, #FF9800, #FF5722); }
+        .bg-temp-mild { background: linear-gradient(135deg, #4CAF50, #009688); }
+        .bg-temp-cool { background: linear-gradient(135deg, #2196F3, #3F51B5); }
+        .bg-temp-cold { background: linear-gradient(135deg, #03A9F4, #00BCD4); }
+        
+        .weather-card {
+            border-radius: 24px;
+            padding: 20px;
+            color: white;
+            margin-top: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s ease;
+        }
+        .finance-card {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 12px;
+            text-align: center;
+            flex: 1;
+        }
+        .checklist-container {
+            background: #fffde7;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .praias-container {
+            border-radius: 24px;
+            padding: 20px;
+            color: white;
+            margin-top: 20px;
+            transition: all 0.5s ease;
+        }
+        .praia-item {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .pin-icon {
+            background: rgba(255, 255, 255, 0.3);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .pin-icon:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.5);
+        }
+        /* Hide scrollbar for previsao */
+        .previsao::-webkit-scrollbar { display: none; }
+        .previsao { -ms-overflow-style: none; scrollbar-width: none; }
 
-.topo-perfil {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-.topo-perfil h1{
-    font-size:16px;
-    line-height:1.2;
-    text-align:left;
-}
-
-.foto-logo {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    border: 2px solid #00acc1;
-    object-fit: cover;
-}
-
-.clima-card {
-    background: linear-gradient(135deg, #00acc1, #0077ff);
-    color: white;
-    border-radius: 18px;
-    padding: 18px;
-    margin-bottom: 15px;
-}
-
-.financas {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.card-f {
-    background: #f9f9f9;
-    padding: 12px;
-    border-radius: 14px;
-    font-size: 11px;
-    font-weight: bold;
-}
-
-.checklist {
-    text-align: left;
-    margin-top: 18px;
-    font-size: 13px;
-    background: #fffde7;
-    padding: 14px;
-    border-radius: 14px;
-}
-
-.praias {
-    margin-top: 18px;
-    padding: 14px;
-    border-radius: 16px;
-    color: white;
-    background: linear-gradient(135deg, #00acc1, #0077ff);
-}
-
-.praia-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(255,255,255,0.15);
-    padding: 10px;
-    border-radius: 12px;
-    margin-top: 8px;
-}
-
-.btn-maps {
-    background: #0077ff;
-    color: white;
-    border: none;
-    padding: 6px 10px;
-    border-radius: 8px;
-}
-</style></head><body>
-<div class="container"><div class="topo-perfil">
-<img src="https://i.ibb.co/cpfKB8d/4-de-abr-de-2026-11-11-40.png" class="foto-logo">
-<h1>Helder e Mayara em Bombinhas</h1>
-</div><div style="display:flex; justify-content:space-around; margin:10px 0;">
-    <div><strong id="visitadas">0</strong><br>Visitadas</div>
-    <div><strong id="restantes">0</strong><br>Faltam</div>
-</div><!-- DATA + CONTAGEM --><div style="margin-bottom:15px; text-align:left;">
-    <div><strong>Data Viagem:</strong> 🗓️ 05/05 a 11/05</div>
-    <div><strong>Contagem Regressiva:</strong> <span id="countdown"></span></div>
-</div><div class="clima-card">
-<div style="display:flex; align-items:center; justify-content:space-between;">
-    <div id="icone-clima"></div>
-    <div>
-        <div style="font-size:11px; opacity:0.8;">Horário atual</div>
-        <div id="hora" style="font-size: 24px; font-weight:bold;"></div>
+        footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 10px;
+            color: #94a3b8;
+            padding-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+<!-- PERFIL E DATAS -->
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="w-16 h-16 rounded-full p-1 bg-gradient-to-tr from-pink-500 to-orange-400">
+<img class="w-full h-full rounded-full object-cover bg-gray-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJ3-aManxtj7zjKUISLF1GeKvzBlX6NLrRtJNjrh1mpPXgxBzn7U0YvTJabznQ3YxgVz8WGeT1Jnk5gyMgPSJNWmHaBB63rw1R-oJIpewLmKcvCIN9SeZh8b7RWz2glKGMl8bZ-UfVCbDk4OovVEf1rvHzZ_dX-vIjl4Is9nGTAjWuCwmAPNAeS-eknVKXysgcbQyEoq-XV-nZTk06Kc3Y7Oy-BQZRv3GNDtw0-VB0vLqDzQ3Bb9a4U09NUzjbh6GrOC0KagWEZIg"/>
 </div>
-<div id="temp">Carregando clima...</div>
-<div id="extra-clima" style="font-size:12px; opacity:0.9; margin-top:4px;"></div>
-</div><div class="financas">
-<div class="card-f">Orçamento <strong>R$ 0</strong></div>
-<div class="card-f">Gasto <strong>R$ 0</strong></div>
-<div class="card-f">Saldo <strong>R$ 0</strong></div>
-</div></div><div class="checklist">
-<h3>🎒 Check-list</h3>
-<label><input type="checkbox"> Protetor Solar ☀️</label><br>
-<label><input type="checkbox"> Tênis Trilha 👟</label><br>
-<label><input type="checkbox"> Repelente 🦟</label>
-</div><div class="praias">
-<h3>🏖️ Praias</h3>
-<div id="lista-praias"><div class="praia-card"><label><input type="checkbox"> Praia de Bombinhas</label><a href="https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombinhas" target="_blank"><button class="btn-maps">📍</button></a></div><div class="praia-card"><label><input type="checkbox"> Praia da Sepultura</label><a href="https://www.google.com/maps/dir/?api=1&destination=Praia+da+Sepultura" target="_blank"><button class="btn-maps">📍</button></a></div><div class="praia-card"><label><input type="checkbox"> Praia do Retiro dos Padres</label><a href="https://www.google.com/maps/dir/?api=1&destination=Praia+Retiro+dos+Padres" target="_blank"><button class="btn-maps">📍</button></a></div><div class="praia-card"><label><input type="checkbox"> Praia de Quatro Ilhas</label><a href="https://www.google.com/maps/dir/?api=1&destination=Praia+de+Quatro+Ilhas" target="_blank"><button class="btn-maps">📍</button></a></div><div class="praia-card"><label><input type="checkbox"> Praia de Bombas</label><a href="https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombas" target="_blank"><button class="btn-maps">📍</button></a></div><div class="praia-card"><label><input type="checkbox"> Praia da Tainha</label><a href="https://www.google.com/maps/dir/?api=1&destination=Praia+da+Tainha" target="_blank"><button class="btn-maps">📍</button></a></div><div class="praia-card"><label><input type="checkbox"> Canto Grande</label><a href="https://www.google.com/maps/dir/?api=1&destination=Canto+Grande" target="_blank"><button class="btn-maps">📍</button></a></div><div class="praia-card"><label><input type="checkbox"> Praia de Zimbros</label><a href="https://www.google.com/maps/dir/?api=1&destination=Praia+de+Zimbros" target="_blank"><button class="btn-maps">📍</button></a></div><div class="praia-card"><label><input type="checkbox"> Morro do Macaco</label><a href="https://www.google.com/maps/dir/?api=1&destination=Morro+do+Macaco" target="_blank"><button class="btn-maps">📍</button></a></div></div>
-</div></div><script>
-
-// relógio
+<div>
+<h2 class="font-bold text-gray-800 leading-tight">Helder e Mayara</h2>
+<div class="flex gap-4 mt-1 text-xs text-gray-500">
+<div class="text-center">
+<div class="font-bold text-gray-800 text-sm" id="visitadas">0</div>
+                        Visitadas
+                    </div>
+<div class="text-center">
+<div class="font-bold text-gray-800 text-sm" id="restantes">0</div>
+                        Faltam
+                    </div>
+</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Viagem</div>
+<div class="text-xs font-bold text-gray-700">05/05/2026</div>
+<div class="text-[10px] text-orange-500 font-bold mt-1" id="countdown"></div>
+</div>
+</div>
+<!-- CLIMA -->
+<div class="weather-card bg-temp-warm" id="clima-bg">
+<div class="flex justify-between items-start">
+<div class="text-2xl font-bold capitalize" id="desc-clima">--</div>
+<div class="text-right">
+<div class="text-[10px] opacity-80 font-black uppercase">Horário Atual</div>
+<div class="text-5xl font-black" id="hora">00:00:00</div>
+</div>
+</div>
+<div class="text-4xl font-bold mt-2" id="temp-atual">--°C</div>
+<div class="text-xs opacity-90 mt-1" id="temp-minmax">Min -- / Max --</div>
+<div class="previsao flex gap-2 overflow-x-auto mt-4" id="previsao">
+<!-- Forecast items via JS -->
+</div>
+</div>
+<!-- FINANÇAS -->
+<div class="flex gap-3 mt-5">
+<div class="finance-card">
+<div class="text-[10px] text-gray-500 uppercase font-semibold">Orçamento</div>
+<div class="font-bold text-gray-800 text-sm" id="orc">R$ 0</div>
+</div>
+<div class="finance-card">
+<div class="text-[10px] text-gray-500 uppercase font-semibold">Gasto</div>
+<div class="font-bold text-gray-800 text-sm" id="gas">R$ 0</div>
+</div>
+<div class="finance-card">
+<div class="text-[10px] text-gray-500 uppercase font-semibold">Saldo</div>
+<div class="font-bold text-gray-800 text-sm" id="sal">R$ 0</div>
+</div>
+</div>
+<!-- CHECKLIST -->
+<div class="checklist-container">
+<h3 class="font-bold text-gray-800 flex items-center gap-2 mb-3">
+<span class="text-lg">🎒</span> Check-list
+        </h3>
+<div class="flex flex-col gap-2 text-sm text-gray-700">
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="rounded text-orange-500 focus:ring-orange-400" type="checkbox"/> Protetor Solar ☀️
+            </label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="rounded text-orange-500 focus:ring-orange-400" type="checkbox"/> Tênis 👟
+            </label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="rounded text-orange-500 focus:ring-orange-400" type="checkbox"/> Repelente 🦟
+            </label>
+</div>
+</div>
+<!-- PRAIAS -->
+<div class="praias-container bg-temp-warm" id="praias-bg">
+<h3 class="font-bold text-lg flex items-center gap-2 mb-2">
+<span>🏖️</span> Locais e Praias
+        </h3>
+<div id="lista-praias">
+<!-- Beach list via JS -->
+</div>
+</div>
+<!-- FOOTER -->
+<footer>
+    Nossas Pagagas - Todos os diretos reservados.
+</footer>
+</div>
+<script>
+// RELÓGIO
 setInterval(() => {
-    document.getElementById('hora').innerText = new Date().toLocaleTimeString('pt-BR');
+    const horaEl = document.getElementById('hora');
+    if (horaEl) horaEl.innerText = new Date().toLocaleTimeString('pt-BR');
 }, 1000);
 
-// contagem regressiva
-const dataViagem = new Date("2026-05-05T00:00:00");
+// COUNTDOWN
+function updateCountdown() {
+    const target = new Date('2026-05-05T00:00:00').getTime();
+    const now = new Date().getTime();
+    const diff = target - now;
+    
+    const countdownEl = document.getElementById('countdown');
+    if (!countdownEl) return;
 
-setInterval(() => {
-    const agora = new Date();
-    const diff = dataViagem - agora;
+    if (diff > 0) {
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        countdownEl.innerText = `Faltam ${days}d ${hours}h ${mins}m`;
+    } else {
+        countdownEl.innerText = "Aproveite as férias!";
+    }
+}
+setInterval(updateCountdown, 60000);
+updateCountdown();
 
-    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+// WEATHER API & COLOR LOGIC
+const API_KEY = "cc78026071390eea9efc3ebf84f27bcd";
 
-    document.getElementById('countdown').innerText = `${dias} dias e ${horas}h`;
-}, 1000);
+function updateThemeByTemp(temp) {
+    const bgClima = document.getElementById('clima-bg');
+    const bgPraias = document.getElementById('praias-bg');
+    const body = document.body;
+    
+    // Reset classes
+    const classes = ['bg-temp-hot', 'bg-temp-warm', 'bg-temp-mild', 'bg-temp-cool', 'bg-temp-cold'];
+    [bgClima, bgPraias].forEach(el => {
+        if (el) classes.forEach(c => el.classList.remove(c));
+    });
 
-// CLIMA COM CORES DINÂMICAS
-fetch("https://api.openweathermap.org/data/2.5/weather?q=Bombinhas,BR&appid=cc78026071390eea9efc3ebf84f27bcd&units=metric&lang=pt_br")
-.then(r => r.json())
-.then(d => {
-    const desc = d.weather[0].description;
-    const temp = Math.round(d.main.temp);
-    const clima = d.weather[0].main;
+    let selectedClass = 'bg-temp-mild';
+    let bodyBg = '#e0f7fa';
 
-    document.getElementById('temp').innerText = desc + " | " + temp + "°C";
-    document.getElementById('icone-clima').innerHTML = iconeClima(clima);
-
-    function corClima(main) {
-        if (main.includes("Clear")) return "linear-gradient(135deg, #f57f17, #ffb300)";
-        if (main.includes("Cloud")) return "linear-gradient(135deg, #90a4ae, #607d8b)";
-        if (main.includes("Rain")) return "linear-gradient(135deg, #4fc3f7, #0288d1)";
-        if (main.includes("Thunder")) return "linear-gradient(135deg, #616161, #212121)";
-        return "linear-gradient(135deg, #00acc1, #0077ff)";
+    if (temp >= 32) {
+        selectedClass = 'bg-temp-hot';
+        bodyBg = '#ffebee';
+    } else if (temp >= 26) {
+        selectedClass = 'bg-temp-warm';
+        bodyBg = '#fff3e0';
+    } else if (temp >= 20) {
+        selectedClass = 'bg-temp-mild';
+        bodyBg = '#e8f5e9';
+    } else if (temp >= 15) {
+        selectedClass = 'bg-temp-cool';
+        bodyBg = '#e3f2fd';
+    } else {
+        selectedClass = 'bg-temp-cold';
+        bodyBg = '#f0f4f8';
     }
 
-    const cor = corClima(clima);
-    document.querySelector('.clima-card').style.background = cor;
-    document.querySelector('.praias').style.background = cor;
-
-})
-.catch(() => {
-    document.getElementById('temp').innerText = "Erro ao carregar clima";
-});;
-
-})
-.catch(() => {
-    document.getElementById('temp').innerText = "Erro ao carregar clima";
-});
-
-// PLANILHA
-async function carregarPlanilha() {
-    const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSjndkscJNSa1uHNlh_3al_4smBXaiXrGKF27dIf_vK6uwUGF0eb_UzHj74Plx-cZ6PwE0EhnWSW-xA/pub?gid=0&single=true&output=tsv";
-
-    const res = await fetch(url);
-    const text = await res.text();
-
-    const linhas = text.split("
-");
-    const valores = linhas[1].split("	");
-
-    const orcamento = parseFloat(valores[0]);
-    const gasto = parseFloat(valores[1]);
-    const saldo = parseFloat(valores[2]);
-
-    const campos = document.querySelectorAll('.card-f strong');
-
-    campos[0].innerText = orcamento.toLocaleString('pt-BR', {style:'currency',currency:'BRL'});
-    campos[1].innerText = gasto.toLocaleString('pt-BR', {style:'currency',currency:'BRL'});
-    campos[2].innerText = saldo.toLocaleString('pt-BR', {style:'currency',currency:'BRL'});
+    if (bgClima) bgClima.classList.add(selectedClass);
+    if (bgPraias) bgPraias.classList.add(selectedClass);
+    body.style.backgroundColor = bodyBg;
 }
 
-carregarPlanilha();
+fetch(`https://api.openweathermap.org/data/2.5/weather?q=Bombinhas,BR&appid=${API_KEY}&units=metric&lang=pt_br`)
+.then(r => r.json())
+.then(d => {
+    if (d.weather && d.weather[0]) {
+        document.getElementById('desc-clima').innerText = d.weather[0].description;
+        const currentTemp = Math.round(d.main.temp);
+        document.getElementById('temp-atual').innerText = currentTemp + "°C";
+        document.getElementById('temp-minmax').innerText = `Min ${Math.round(d.main.temp_min)}° / Max ${Math.round(d.main.temp_max)}°`;
+        
+        updateThemeByTemp(currentTemp);
+    }
+});
 
-</script></body>
-</html>
+// FORECAST
+fetch(`https://api.openweathermap.org/data/2.5/forecast?q=Bombinhas,BR&appid=${API_KEY}&units=metric&lang=pt_br`)
+.then(r => r.json())
+.then(d => {
+    if (d.list) {
+        const daily = d.list.filter(i => i.dt_txt.includes("12:00")).slice(0, 5);
+        const container = document.getElementById('previsao');
+        if (!container) return;
+        container.innerHTML = "";
+        daily.forEach(day => {
+            const div = document.createElement('div');
+            div.className = "bg-white/20 px-3 py-2 rounded-xl text-center min-w-[60px]";
+            div.innerHTML = `<div class="text-[10px] uppercase font-bold">${new Date(day.dt*1000).toLocaleDateString('pt-BR', {weekday: 'short'})}</div>
+<div class="text-sm font-bold">${Math.round(day.main.temp)}°</div>`;
+            container.appendChild(div);
+        });
+    }
+});
+
+// SPREADSHEET DATA (FINANCEIRO)
+fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSjndkscJNSa1uHNlh_3al_4smBXaiXrGKF27dIf_vK6uwUGF0eb_UzHj74Plx-cZ6PwE0EhnWSW-xA/pub?gid=0&single=true&output=tsv")
+.then(r => r.text())
+.then(t => {
+    const lines = t.trim().split("\n");
+    if (lines.length > 1) {
+        // Find the line that actually has currency data (likely skipping headers)
+        // Usually, tsv from Google Sheets might have empty rows or headers.
+        // We find the first row that starts with "R$" or is likely our data row.
+        let dataIndex = 1;
+        // Verify index 1 exists and check content
+        const v = lines[dataIndex].split("\t");
+        
+        const formatCurrency = (val) => {
+            if (!val) return "R$ 0,00";
+            let clean = val.trim();
+            if (clean.startsWith('R$')) return clean;
+            return "R$ " + clean;
+        };
+
+        document.getElementById('orc').innerText = formatCurrency(v[0]);
+        document.getElementById('gas').innerText = formatCurrency(v[1]);
+        document.getElementById('sal').innerText = formatCurrency(v[2]);
+    }
+})
+.catch(err => console.error("Error fetching sheet:", err));
+
+// BEACHES LOGIC
+const praiasData = [
+    { nome: "Praia de Bombinhas (Centro)", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombinhas" },
+    { nome: "Praia da Sepultura", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Sepultura" },
+    { nome: "Praia do Retiro dos Padres", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+Retiro+dos+Padres" },
+    { nome: "Praia de Quatro Ilhas", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Quatro+Ilhas" },
+    { nome: "Praia de Bombas", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombas" },
+    { nome: "Praia da Tainha", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Tainha" },
+    { nome: "Canto Grande (Mar de Dentro)", link: "https://www.google.com/maps/dir/?api=1&destination=Canto+Grande" },
+    { nome: "Praia de Zimbros", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Zimbros" },
+    { nome: "Morro do Macaco (Trilha/Mirante)", link: "https://www.google.com/maps/dir/?api=1&destination=Morro+do+Macaco" }
+];
+
+let checkedStates = JSON.parse(localStorage.getItem('praiasChecked')) || new Array(praiasData.length).fill(false);
+// If length changed, reset or adjust
+if (checkedStates.length !== praiasData.length) {
+    checkedStates = new Array(praiasData.length).fill(false);
+}
+
+function renderPraias() {
+    const container = document.getElementById('lista-praias');
+    if (!container) return;
+    container.innerHTML = "";
+    let count = 0;
+    
+    praiasData.forEach((p, i) => {
+        const div = document.createElement('div');
+        div.className = "praia-item";
+        
+        const label = document.createElement('label');
+        label.className = "flex items-center gap-3 cursor-pointer flex-1";
+        
+        const check = document.createElement('input');
+        check.type = "checkbox";
+        check.className = "rounded text-white/50 border-white/30 bg-white/20 focus:ring-0";
+        check.checked = checkedStates[i];
+        check.onchange = () => {
+            checkedStates[i] = check.checked;
+            localStorage.setItem('praiasChecked', JSON.stringify(checkedStates));
+            renderPraias();
+        };
+        
+        if (checkedStates[i]) count++;
+        
+        const name = document.createElement('span');
+        name.innerText = p.nome;
+        name.className = checkedStates[i] ? "line-through opacity-70 text-sm" : "font-semibold text-sm";
+        
+        label.append(check, name);
+        
+        const pin = document.createElement('a');
+        pin.href = p.link;
+        pin.target = "_blank";
+        pin.className = "pin-icon";
+        pin.innerHTML = '<span class="material-symbols-outlined text-white text-sm">location_on</span>';
+        
+        div.append(label, pin);
+        container.appendChild(div);
+    });
+    
+    const visitadasEl = document.getElementById('visitadas');
+    const restantesEl = document.getElementById('restantes');
+    if (visitadasEl) visitadasEl.innerText = count;
+    if (restantesEl) restantesEl.innerText = praiasData.length - count;
+}
+renderPraias();
+</script>
+</body></html>
