@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Checklist de Viagem - Bombinhas 2026</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error": "#490006",
+                    "outline-variant": "#3b4958",
+                    "surface-bright": "#172e42",
+                    "on-tertiary-fixed-variant": "#003388",
+                    "surface-container-high": "#0d2132",
+                    "secondary-dim": "#acc5ed",
+                    "background": "#020f1c",
+                    "on-primary-container": "#004352",
+                    "surface-container": "#081b2b",
+                    "primary": "#6dddff",
+                    "primary-dim": "#00c3eb",
+                    "on-tertiary-fixed": "#001442",
+                    "tertiary-fixed-dim": "#7da0ff",
+                    "secondary-fixed-dim": "#acc5ed",
+                    "on-secondary-fixed-variant": "#395274",
+                    "on-error-container": "#ffa8a3",
+                    "on-surface": "#d8e7fa",
+                    "on-primary-fixed-variant": "#004c5d",
+                    "secondary": "#bad3fc",
+                    "tertiary-container": "#6f94fa",
+                    "on-secondary-container": "#b9d2fb",
+                    "error": "#ff716c",
+                    "surface-variant": "#12273a",
+                    "tertiary": "#82a3ff",
+                    "surface-container-low": "#041423",
+                    "tertiary-dim": "#759aff",
+                    "surface-container-highest": "#12273a",
+                    "error-dim": "#d7383b",
+                    "tertiary-fixed": "#92aeff",
+                    "surface": "#020f1c",
+                    "on-surface-variant": "#9eacbe",
+                    "on-primary": "#004c5e",
+                    "on-secondary": "#2f486a",
+                    "surface-container-lowest": "#000000",
+                    "outline": "#697787",
+                    "surface-dim": "#020f1c",
+                    "inverse-surface": "#f7f9ff",
+                    "on-background": "#d8e7fa",
+                    "inverse-on-surface": "#495666",
+                    "secondary-container": "#2f486a",
+                    "on-tertiary-container": "#001747",
+                    "surface-tint": "#6dddff",
+                    "on-secondary-fixed": "#1b3556",
+                    "on-primary-fixed": "#002c37",
+                    "error-container": "#9f0519",
+                    "primary-container": "#00d2fd",
+                    "on-tertiary": "#002363",
+                    "secondary-fixed": "#bad3fc",
+                    "primary-fixed-dim": "#00c3eb",
+                    "inverse-primary": "#00687e",
+                    "primary-fixed": "#00d2fd"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Plus Jakarta Sans"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .checklist-item:checked + label .check-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .checklist-item:checked + label .item-text {
+            color: #9eacbe;
+            text-decoration: line-through;
+        }
+        .glass-card {
+            background: rgba(13, 33, 50, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#020f1c]/80 backdrop-blur-xl shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
+<div class="flex justify-between items-center px-6 py-4 w-full max-w-7xl mx-auto">
+<div class="flex flex-col">
+<span class="text-xl font-bold tracking-tighter text-[#6dddff] font-plus-jakarta tracking-tight font-semibold">Bombinhas 2026</span>
+<span class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-bold">Helder e Mayara</span>
+</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-[#9eacbe] hover:text-[#6dddff] transition-colors duration-300 text-sm font-medium" href="#">Home</a>
+<a class="text-[#9eacbe] hover:text-[#6dddff] transition-colors duration-300 text-sm font-medium" href="#">Expenses</a>
+<a class="text-[#6dddff] font-bold border-b-2 border-[#6dddff] text-sm font-medium" href="#">Checklist</a>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex flex-col items-end mr-2">
+<span class="text-[10px] text-primary uppercase font-bold tracking-widest">Contagem Regressiva</span>
+<span class="text-xs font-semibold">452 Dias restantes</span>
+</div>
+<span class="material-symbols-outlined text-[#6dddff] text-2xl scale-95 active:opacity-80 transition-all cursor-pointer" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</header>
+<main class="flex-grow pt-28 pb-32 px-6 max-w-4xl mx-auto w-full">
+<!-- Hero Title Section -->
+<div class="mb-12 relative">
+<div class="absolute -top-10 -left-10 w-40 h-40 bg-primary/10 rounded-full blur-[80px]"></div>
+<h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-on-surface mb-2">Checklist de Viagem</h1>
+<p class="text-on-surface-variant text-lg max-w-lg">Prepare-se para o paraíso. Organize seus itens essenciais para Bombinhas.</p>
+</div>
+<!-- Progress Sticky Header -->
+<div class="sticky top-24 z-40 mb-8 p-6 glass-card rounded-2xl shadow-xl border border-white/5">
+<div class="flex justify-between items-end mb-4">
+<div>
+<h2 class="text-sm font-bold uppercase tracking-widest text-primary mb-1">Seu Progresso</h2>
+<span class="text-2xl font-extrabold" id="progress-text">0% Concluído</span>
+</div>
+<div class="text-right">
+<span class="text-on-surface-variant text-sm font-medium" id="items-count">0 de 0 itens</span>
+</div>
+</div>
+<div class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary to-primary-container transition-all duration-700 ease-out shadow-[0_0_15px_rgba(109,221,255,0.4)]" id="progress-bar" style="width: 0%"></div>
+</div>
+</div>
+<!-- Bento Grid Checklist Sections -->
+<div class="space-y-6" id="checklist-container">
+<!-- Loading State Placeholder -->
+<div class="animate-pulse space-y-4">
+<div class="h-48 bg-surface-container-high rounded-2xl"></div>
+<div class="h-48 bg-surface-container-high rounded-2xl"></div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#020f1c]/90 backdrop-blur-2xl rounded-t-[32px] z-50 shadow-[0_-10px_30px_rgba(0,0,0,0.3)]">
+<a class="flex flex-col items-center justify-center text-[#9eacbe] px-6 py-2 hover:bg-white/5 transition-all" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span class="text-[10px] uppercase tracking-widest font-bold">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#9eacbe] px-6 py-2 hover:bg-white/5 transition-all" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="payments">payments</span>
+<span class="text-[10px] uppercase tracking-widest font-bold">Expenses</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#6dddff]/10 text-[#6dddff] rounded-full px-6 py-2 shadow-[0_0_15px_rgba(109,221,255,0.3)] scale-110 duration-500 ease-out" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="fact_check">fact_check</span>
+<span class="text-[10px] uppercase tracking-widest font-bold">Checklist</span>
+</a>
+</nav>
+<!-- Footer -->
+<footer class="w-full py-8 flex flex-col items-center justify-center mt-auto">
+<div class="flex items-center gap-2 mb-2">
+<div class="h-[1px] w-8 bg-outline-variant"></div>
+<span class="text-[#6dddff] font-bold tracking-tighter">Bombinhas 2026</span>
+<div class="h-[1px] w-8 bg-outline-variant"></div>
+</div>
+<p class="text-xs font-medium tracking-wide text-[#82a3ff]">Nossas Pegadas © 2024</p>
+</footer>
+<!-- Templates & Scripts Area -->
+<script>
+        // Mock data for the demonstration as per fetch requirements
+        const checklistData = [
+            { category: 'Documentos & Essenciais', items: ['Passaporte/RG', 'Seguro Viagem', 'Passagens Aéreas', 'Reserva de Hotel', 'Carteira de Motorista'] },
+            { category: 'Roupas & Acessórios', items: ['Roupas de Banho', 'Chinelo/Havaianas', 'Óculos de Sol', 'Boné ou Chapéu', 'Casaco Leve'] },
+            { category: 'Higiene & Saúde', items: ['Protetor Solar', 'Repelente', 'Escova de Dentes', 'Kit Medicamentos', 'Desodorante'] },
+            { category: 'Eletrônicos', items: ['Carregador de Celular', 'Power Bank', 'Fone de Ouvido', 'Adaptador de Tomada', 'Câmera/GoPro'] }
+        ];
+
+        function renderChecklist() {
+            const container = document.getElementById('checklist-container');
+            container.innerHTML = '';
+
+            checklistData.forEach((section, sIdx) => {
+                const sectionEl = document.createElement('div');
+                sectionEl.className = 'glass-card rounded-2xl p-6 border border-white/5 shadow-lg mb-6';
+                
+                let itemsHtml = section.items.map((item, iIdx) => {
+                    const itemId = `item-${sIdx}-${iIdx}`;
+                    const storageKey = `checklist_progresso_${itemId}`;
+                    const isChecked = localStorage.getItem(storageKey) === 'true';
+                    
+                    return `
+                        <div class="flex items-center py-3 group">
+                            <div class="relative flex items-center">
+                                <input type="checkbox" id="${itemId}" 
+                                       class="checklist-item hidden" 
+                                       ${isChecked ? 'checked' : ''} 
+                                       onchange="toggleItem('${itemId}')">
+                                <label for="${itemId}" class="flex items-center cursor-pointer w-full">
+                                    <div class="w-6 h-6 rounded-lg border-2 border-outline-variant flex items-center justify-center transition-all group-hover:border-primary">
+                                        <span class="material-symbols-outlined text-primary text-lg opacity-0 transform scale-50 transition-all check-icon" style="font-variation-settings: 'FILL' 1;">check</span>
+                                    </div>
+                                    <span class="item-text ml-4 text-on-surface font-medium transition-all">${item}</span>
+                                </label>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                sectionEl.innerHTML = `
+                    <h3 class="text-lg font-bold text-secondary mb-4 flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-primary rounded-full"></span>
+                        ${section.category}
+                    </h3>
+                    <div class="divide-y divide-outline-variant/10">
+                        ${itemsHtml}
+                    </div>
+                `;
+                container.appendChild(sectionEl);
+            });
+            
+            updateProgress();
+        }
+
+        window.toggleItem = function(id) {
+            const checkbox = document.getElementById(id);
+            localStorage.setItem(`checklist_progresso_${id}`, checkbox.checked);
+            updateProgress();
+        };
+
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.checklist-item');
+            const total = checkboxes.length;
+            const checked = Array.from(checkboxes).filter(c => c.checked).length;
+            const percentage = total === 0 ? 0 : Math.round((checked / total) * 100);
+
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const itemsCount = document.getElementById('items-count');
+
+            progressBar.style.width = `${percentage}%`;
+            progressText.innerText = `${percentage}% Concluído`;
+            itemsCount.innerText = `${checked} de ${total} itens`;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Simulate fetch delay
+            setTimeout(renderChecklist, 500);
+        });
+    </script>
+</body></html>
