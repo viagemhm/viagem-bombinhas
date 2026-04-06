@@ -48,22 +48,12 @@
             flex: 1;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .nav-card {
+        .checklist-container {
             background: #1e293b;
             border-radius: 20px;
-            padding: 16px;
+            padding: 20px;
             margin-top: 20px;
             border: 1px solid rgba(0, 212, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .nav-card:hover {
-            border-color: #00d4ff;
-            background: #243049;
-            transform: translateY(-2px);
         }
         .praias-container {
             border-radius: 24px;
@@ -182,17 +172,35 @@
 <div class="font-bold text-sm text-emerald-400" id="sal">R$ 0</div>
 </div>
 </div>
-<!-- CHECKLIST LINK -->
-<a class="nav-card" href="checklist.html">
-<div class="flex items-center gap-3">
-<span class="text-2xl">🎒</span>
+<!-- CHECKLIST -->
+<div class="grid grid-cols-1 gap-4 mt-5">
+<!-- CHECKLIST NAV CARD -->
+<a class="bg-[#1e293b] border border-cyan-500/10 rounded-[24px] p-5 flex items-center justify-between hover:bg-[#1e293b]/80 transition-all" href="checklist.html">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-cyan-500/10 rounded-2xl flex items-center justify-center">
+<span class="text-2xl text-cyan-400">🎒</span>
+</div>
 <div>
-<h3 class="font-bold text-white text-sm">Check-list</h3>
-<p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider">Itens essenciais</p>
+<h3 class="font-bold text-white text-lg leading-tight">Check-list</h3>
+<p class="text-xs text-slate-400 font-medium">Itens essenciais</p>
 </div>
 </div>
-<span class="material-symbols-outlined text-cyan-400">chevron_right</span>
+<span class="material-symbols-outlined text-slate-500">chevron_right</span>
 </a>
+<!-- GESTÃO DE GASTOS NAV CARD -->
+<a class="bg-[#1e293b] border border-cyan-500/10 rounded-[24px] p-5 flex items-center justify-between hover:bg-[#1e293b]/80 transition-all" href="gastos.html">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-emerald-400 text-2xl">payments</span>
+</div>
+<div>
+<h3 class="font-bold text-white text-lg leading-tight">Gestão de Gastos</h3>
+<p class="text-xs text-slate-400 font-medium">Controle Financeiro</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-500">chevron_right</span>
+</a>
+</div>
 <!-- PRAIAS -->
 <div class="praias-container bg-gradient-night" id="praias-bg">
 <h3 class="font-bold text-lg flex items-center gap-2 mb-2 text-white">
