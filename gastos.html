@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gestão de Gastos - Férias Bombinhas 2026</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #020817; /* Deep Night Blue base */
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px 10px;
+            color: #f8fafc;
+        }
+        .container {
+            background: #0f172a;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 32px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0, 212, 255, 0.1);
+            height: fit-content;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        /* Dynamic Color Classes */
+        .bg-gradient-night { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid rgba(0, 212, 255, 0.2); }
+        .bg-gradient-clear { background: linear-gradient(135deg, #0ea5e9, #2563eb); }
+        .bg-gradient-warm { background: linear-gradient(135deg, #f59e0b, #ef4444); border: 1px solid rgba(255, 165, 0, 0.2); }
+        .bg-gradient-night-warm { background: linear-gradient(135deg, #450a0a, #7f1d1d); border: 1px solid rgba(239, 68, 68, 0.2); }
+        .bg-gradient-night-cool { background: linear-gradient(135deg, #1e1b4b, #1e293b); border: 1px solid rgba(0, 212, 255, 0.2); }
+        
+        .finance-card {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 12px;
+            text-align: center;
+            flex: 1;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .history-container {
+            border-radius: 24px;
+            padding: 20px;
+            color: white;
+            margin-top: 20px;
+        }
+        .history-item {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            border-radius: 16px;
+            padding: 12px 16px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.2s ease;
+        }
+        .history-item:active {
+            transform: scale(0.98);
+        }
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #22d3ee;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            margin-top: 16px;
+            margin-bottom: 8px;
+        }
+        footer {
+            margin-top: 24px;
+            text-align: center;
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body>
+<div class="container">
+<!-- PERFIL E DATAS -->
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="w-16 h-16 rounded-full p-1 bg-gradient-to-tr from-cyan-500 to-blue-600">
+<img class="w-full h-full rounded-full object-cover bg-gray-800" src="https://lh3.googleusercontent.com/aida/ADBb0ugL4H25Tgy0lCkPi5flCJStHJzeQE4AiFO64zofC4rMZkQh6f4RN0736lX_8wvFksrVfINZNMgo1avmhokUT2ucPXJzfV9XSEeOjzQjiIm-KaWc__cfJVlTl667SWB5W5lR3VHw9TDxT96crAbTf0wMIj_Ulxt_5Z7wW841K1RFYGIiDMq7NianZMu6s69Xpi2ZWLho0a_onebjP2p7dmasOOAUE7DKIggGERTyREuv1snDC4-cXkjQdeYkB6xN9fG9aoCjML3JXw"/>
+</div>
+<div>
+<h2 class="font-bold text-white leading-tight text-base">Helder e Mayara</h2>
+<div class="text-[11px] font-bold text-cyan-400 uppercase tracking-tight">Bombinhas 2026</div>
+<div class="mt-1">
+<a class="back-link" href="index.html">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+                        Voltar ao Início
+                    </a>
+</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Viagem</div>
+<div class="text-xs font-bold text-slate-300">05/05/2026</div>
+<div class="text-[10px] text-cyan-400 font-bold mt-1" id="countdown"></div>
+</div>
+</div>
+<h1 class="text-xl font-extrabold mt-8 mb-4 tracking-tight">Gestão de Gastos</h1>
+<!-- FINANÇAS -->
+<div class="flex gap-2 mb-6">
+<div class="finance-card">
+<div class="text-[9px] text-slate-500 uppercase font-bold">Orçamento</div>
+<div class="font-bold text-white text-[13px]" id="orc">R$ 0,00</div>
+</div>
+<div class="finance-card">
+<div class="text-[9px] text-slate-500 uppercase font-bold">Gasto</div>
+<div class="font-bold text-cyan-400 text-[13px]" id="gas">R$ 0,00</div>
+</div>
+<div class="finance-card">
+<div class="text-[9px] text-slate-500 uppercase font-bold">Saldo</div>
+<div class="font-bold text-[13px] text-emerald-400" id="sal">R$ 0,00</div>
+</div>
+</div>
+<!-- HISTÓRICO -->
+<div class="history-container bg-gradient-night" id="history-bg">
+<h3 class="font-bold text-lg flex items-center gap-2 mb-4 text-white">
+<span class="material-symbols-outlined text-cyan-400">receipt_long</span> 
+            Histórico
+        </h3>
+<div class="space-y-3" id="lista-gastos">
+<div class="text-center py-8 text-slate-500 text-xs">Carregando despesas...</div>
+</div>
+</div>
+</div>
+<footer>
+    Nossas Pegadas - Todos os direitos reservados
+</footer>
+<script>
+// FORMATTING TOOLS
+function formatar(valor) {
+    if (typeof valor === 'string') {
+        valor = parseFloat(valor.replace('R$', '').replace('.', '').replace(',', '.').trim());
+    }
+    return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+function icone(desc) {
+    const d = desc.toLowerCase();
+    if (d.includes('jantar')) return '🍽️';
+    if (d.includes('almoço')) return '🍛';
+    if (d.includes('suco')) return '🍹';
+    if (d.includes('bebida') || d.includes('cerveja')) return '🍻';
+    if (d.includes('lanche') || d.includes('burger')) return '🍔';
+    return '💸';
+}
+
+function getColor(valor) {
+    if (typeof valor === 'string') {
+        valor = parseFloat(valor.replace('R$', '').replace('.', '').replace(',', '.').trim()) || 0;
+    }
+    if (valor > 100) return 'text-red-400';
+    if (valor > 50) return 'text-yellow-400';
+    return 'text-emerald-400';
+}
+
+// COUNTDOWN LOGIC
+function updateCountdown() {
+    const target = new Date('2026-05-05T00:00:00').getTime();
+    const now = new Date().getTime();
+    const diff = target - now;
+    
+    if (diff > 0) {
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        document.getElementById('countdown').innerText = `Faltam ${days}d ${hours}h ${mins}m`;
+    } else {
+        document.getElementById('countdown').innerText = "Aproveite as férias!";
+    }
+}
+setInterval(updateCountdown, 60000);
+updateCountdown();
+
+// DYNAMIC THEME LOGIC
+const API_KEY = "cc78026071390eea9efc3ebf84f27bcd";
+fetch(`https://api.openweathermap.org/data/2.5/weather?q=Bombinhas,BR&appid=${API_KEY}&units=metric&lang=pt_br`)
+.then(r => r.json())
+.then(d => {
+    const temp = Math.round(d.main.temp);
+    const hour = new Date().getHours();
+    const isNight = hour >= 18 || hour < 6;
+    const bgContainer = document.getElementById('history-bg');
+    
+    const updateBg = (el) => {
+        el.classList.remove('bg-gradient-night', 'bg-gradient-clear', 'bg-gradient-warm', 'bg-gradient-night-warm', 'bg-gradient-night-cool');
+        if (isNight) {
+            el.classList.add(temp > 25 ? 'bg-gradient-night-warm' : 'bg-gradient-night-cool');
+        } else {
+            el.classList.add(temp > 25 ? 'bg-gradient-warm' : 'bg-gradient-clear');
+        }
+    };
+    updateBg(bgContainer);
+});
+
+// SPREADSHEET FETCH LOGIC
+fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSjndkscJNSa1uHNlh_3al_4smBXaiXrGKF27dIf_vK6uwUGF0eb_UzHj74Plx-cZ6PwE0EhnWSW-xA/pub?gid=0&single=true&output=tsv")
+.then(r => r.text())
+.then(t => {
+    const lines = t.split("\n").map(l => l.split("\t"));
+    const headers = lines[0].map(h => h.toLowerCase().trim());
+    
+    const descIdx = headers.findIndex(h => h.includes('descr'));
+    const valIdx = headers.findIndex(h => h.includes('valor'));
+    
+    // Header Totals (Line 2 in TSV, which is index 1)
+    if (lines.length > 1) {
+        const totals = lines[1];
+        document.getElementById('orc').innerText = formatar(totals[0] || "0");
+        document.getElementById('gas').innerText = formatar(totals[1] || "0");
+        document.getElementById('sal').innerText = formatar(totals[2] || "0");
+    }
+
+    // Expense History
+    const historyContainer = document.getElementById('lista-gastos');
+    historyContainer.innerHTML = "";
+    
+    let expenses = [];
+    for(let i = 1; i < lines.length; i++) {
+        const desc = lines[i][descIdx];
+        const rawValor = lines[i][valIdx];
+        
+        if (desc && desc.trim() !== "" && desc.toLowerCase() !== "descrição") {
+            const numericValue = parseFloat(rawValor.replace('R$', '').replace('.', '').replace(',', '.').trim()) || 0;
+            expenses.push({ 
+                desc: desc.trim(), 
+                valor: numericValue,
+                formatted: formatar(rawValor)
+            });
+        }
+    }
+
+    // Sort: Highest to Lowest
+    expenses.sort((a, b) => b.valor - a.valor);
+    
+    if (expenses.length > 0) {
+        expenses.forEach(exp => {
+            const item = document.createElement('div');
+            item.className = "history-item";
+            item.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <span class="text-xl">${icone(exp.desc)}</span>
+                    <span class="font-semibold text-slate-100 text-sm">${exp.desc}</span>
+                </div>
+                <span class="font-bold text-sm ${getColor(exp.valor)}">${exp.formatted}</span>
+            `;
+            historyContainer.appendChild(item);
+        });
+    } else {
+        historyContainer.innerHTML = '<div class="text-center py-8 text-slate-500 text-xs uppercase font-bold tracking-widest">Nenhuma despesa registrada</div>';
+    }
+})
+.catch(err => {
+    console.error("Error fetching sheet data:", err);
+    document.getElementById('lista-gastos').innerHTML = '<div class="text-center py-8 text-red-400 text-xs font-bold">Erro ao carregar dados.</div>';
+});
+</script>
+</body></html>
