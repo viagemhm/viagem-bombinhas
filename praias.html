@@ -8,7 +8,311 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-25..0" rel="stylesheet"/>
 <link crossorigin="" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" rel="stylesheet"/>
-<script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    const beaches = [
+        { id: 1, nome: "Bombinhas", tipo: "Calma", lat: -27.148, lng: -48.487, desc: "A praia central mais famosa da cidade. Possui águas cristalinas, poucas ondas e excelente infraestrutura de bares e restaurantes.", tag: "Central", img: "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombinhas" },
+        { id: 2, nome: "Sepultura", tipo: "Calma", lat: -27.152, lng: -48.490, desc: "Um verdadeiro aquário natural ideal for snorkel e mergulho livre. Águas extremamente mansas e transparentes cercadas de rochas.", tag: "Snorkel", img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Sepultura" },
+        { id: 3, nome: "Retiro dos Padres", tipo: "Ondas", lat: -27.147, lng: -48.481, desc: "Cercada de morros e mata nativa, oferece um ambiente mais rústico e preservado. Ótima para camping e quem busca fugir do agito central.", tag: "Camping", img: "https://images.unsplash.com/photo-1520116467321-f14663f60eef?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Retiro+dos+Padres" },
+        { id: 4, nome: "Quatro Ilhas", tipo: "Ondas", lat: -27.147, lng: -48.483, desc: "Conhecida pelo mar aberto e ondas fortes, é o paraíso dos surfistas em Bombinhas. Oferece uma vista privilegiada das quatro ilhas da reserva.", tag: "Surf Pro", img: "https://images.unsplash.com/photo-1506929113670-742187d9d73a?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Quatro+Ilhas" },
+        { id: 5, nome: "Mariscal", tipo: "Ondas", lat: -27.178, lng: -48.498, desc: "A maior praia de Bombinhas em extensão. Com areia muito branca e mar agitado, é perfeita para longas caminhadas ao nascer do sol.", tag: "Caminhadas", img: "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Mariscal" },
+        { id: 6, nome: "Bombas", tipo: "Ondas", lat: -27.147, lng: -48.513, desc: "A primeira praia ao entrar na cidade. Possui calçadão para caminhadas, ciclovia e ótima infraestrutura hoteleira e gastronômica.", tag: "Perto do Centro", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombas" },
+        { id: 7, nome: "Zimbros", tipo: "Calma", lat: -27.189, lng: -48.534, desc: "Praia com águas de espelho, muito calma e rasa. É o ponto de partida para trilhas que levam a praias desertas e isoladas da reserva.", tag: "Trilhas", img: "https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Zimbros" },
+        { id: 8, nome: "Tainha", tipo: "Trilha", lat: -27.228, lng: -48.502, desc: "Localizada no extremo sul da península, o acesso é feito por estrada de terra ou barco. Oferece uma das vistas mais espetaculares da região.", tag: "Mirante", img: "https://images.unsplash.com/photo-1495954484750-af469f2f9be5?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Tainha" },
+        { id: 9, nome: "Canto Grande (Dentro)", tipo: "Calma", lat: -27.205, lng: -48.515, desc: "Banhada pelas águas da baía, possui mar extremamente calmo e é o melhor lugar para assistir ao pôr do sol em Bombinhas.", tag: "Sunset", img: "https://images.unsplash.com/photo-1502675135487-e971002a6adb?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Canto+Grande" },
+        { id: 10, nome: "Canto Grande (Fora)", tipo: "Ondas", lat: -27.202, lng: -48.508, desc: "Lado de mar aberto da vila, com ondas propícias para o surf. Fica logo aos pés do Morro do Macaco, principal trilha da cidade.", tag: "Natureza", img: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Canto+Grande" },
+        { id: 11, nome: "Lagoinha", tipo: "Calma", lat: -27.150, lng: -48.490, desc: "Pequena enseada com águas rasas e muitos peixes visíveis a olho nu. Perfeita para famílias com crianças pequenas.", tag: "Crianças", img: "https://images.unsplash.com/photo-1515238152791-8216bfdf89a7?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Lagoinha" },
+        { id: 12, nome: "Embrulho", tipo: "Calma", lat: -27.149, lng: -48.489, desc: "Praia pequena e protegida por pedras. Muito procurada por quem quer tranquilidade sem se afastar muito do centro de Bombinhas.", tag: "Sossegada", img: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Embrulho" },
+        { id: 13, nome: "Ribeiro", tipo: "Trilha", lat: -27.148, lng: -48.500, desc: "Acesso por trilha rápida entre Bombas e Bombinhas. É um refúgio deserto no meio da cidade, sem comércio, ideal para casais.", tag: "Refúgio", img: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Ribeiro" },
+        { id: 14, nome: "Conceição", tipo: "Calma", lat: -27.215, lng: -48.507, desc: "Uma pequena baía com piscinas naturais formadas entre as pedras. Águas límpidas e ambiente muito privativo e relaxante.", tag: "Privativa", img: "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Conceição" },
+        { id: 15, nome: "Praia Grossa", tipo: "Trilha", lat: -27.135, lng: -48.525, desc: "Praia selvagem com acesso via trilha íngreme partindo de Bombas. Recompensadora pela beleza intocada e isolamento total.", tag: "Trilha", img: "https://images.unsplash.com/photo-1509233725247-49e657c54213?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Grossa" },
+        { id: 16, nome: "Cardoso", tipo: "Calma", lat: -27.208, lng: -48.518, desc: "Vila de pescadores tradicional que mantém o charme do litoral catarinense antigo. Lugar ideal para comer peixe fresco.", tag: "Peixe Fresco", img: "https://images.unsplash.com/photo-1559827291-72ee739d0d9a?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Cardoso" },
+        { id: 17, nome: "Porto Belo", tipo: "Calma", lat: -27.158, lng: -48.544, desc: "Cidade vizinha com praia central calma, porto para navios de cruzeiro e águas cristalinas protegidas pela Ilha de Porto Belo.", tag: "Cais", img: "https://images.unsplash.com/photo-1542332213-9b5a5a3fab35?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Porto+Belo" },
+        { id: 18, nome: "Ilha de Porto Belo", tipo: "Trilha", lat: -27.142, lng: -48.537, desc: "Acesso por barco. Possui trilhas ecológicas, inscrições rupestres milenares e um museu, além de águas perfeitas para mergulho.", tag: "Ilha", img: "https://images.unsplash.com/photo-1533760881669-80db4d7b4c15?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Ilha+de+Porto+Belo" },
+        { id: 19, nome: "Estaleiro", tipo: "Trilha", lat: -27.185, lng: -48.548, desc: "Praia deserta acessada por trilha a partir de Zimbros. Areias grossas e águas muito verdes, cercada de costões rochosos.", tag: "Rústica", img: "https://images.unsplash.com/photo-1520942702018-0862200e6873?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Estaleiro" },
+        { id: 20, nome: "Estaleirinho", tipo: "Trilha", lat: -27.187, lng: -48.550, desc: "Continuação isolada da praia do Estaleiro. Pequena faixa de areia em meio à mata preservada, ideal para quem busca silêncio.", tag: "Natureza", img: "https://images.unsplash.com/photo-1437719417032-8595fd9e9dc6?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Estaleirinho" },
+        { id: 21, nome: "Cabeço", tipo: "Trilha", lat: -27.235, lng: -48.515, desc: "Ponto mais ao sul da península. Praia rústica, pouco visitada e com mar cristalino. Acesso requer uma trilha moderada.", tag: "Isolada", img: "https://images.unsplash.com/photo-1471922694854-ff1b63b20054?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Cabeço" },
+        { id: 22, nome: "Galheta", tipo: "Ondas", lat: -27.140, lng: -48.520, desc: "Pico de surf local próximo a Bombas. Mar agitado e ambiente frequentado principalmente por moradores e surfistas experientes.", tag: "Surf", img: "https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Galheta" },
+        { id: 23, nome: "Araçá", tipo: "Calma", lat: -27.145, lng: -48.540, desc: "Comunidade tradicional de pescadores. Águas de baía muito calmas e rasa, excelente para conhecer a cultura local.", tag: "Cultura", img: "https://images.unsplash.com/photo-1525183330358-4d6ea6605911?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Araçá" },
+        { id: 24, nome: "Perequê", tipo: "Ondas", lat: -27.155, lng: -48.580, desc: "Localizada no centro de Porto Belo. Praia extensa com boa infraestrutura, águas com ondas moderadas e fácil acesso.", tag: "Estrutura", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Perequê" },
+        { id: 25, nome: "Baía de Zimbros", tipo: "Calma", lat: -27.200, lng: -48.545, desc: "Extensa baía de águas paradas como uma lagoa. Local perfeito para a prática de caiaque e stand-up paddle.", tag: "Espelho d'água", img: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Baía+de+Zimbros" }
+    ];
+
+    let userLocation = { lat: -27.148, lng: -48.487 };
+    let favoritas = new Array(beaches.length).fill(false);
+    
+    try {
+        const saved = localStorage.getItem('praias_fav_v1');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed) && parsed.length === beaches.length) {
+                favoritas = parsed;
+            }
+        }
+    } catch (e) {
+        console.error("Erro ao carregar favoritos:", e);
+    }
+
+    let map, markerLayer;
+    let currentTemp = 29;
+
+    async function updateWeather() {
+        try {
+            const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=-27.148&lon=-48.487&appid=bd5e378503939ddaee76f12ad7a97608&units=metric⟨=pt_br`);
+            const data = await res.json();
+            if (data.main) {
+                currentTemp = Math.round(data.main.temp);
+                document.getElementById('temp-val').textContent = `${currentTemp}°C`;
+                document.getElementById('weather-desc').textContent = data.weather[0].description.charAt(0).toUpperCase() + data.weather[0].description.slice(1);
+                updateTheme();
+            }
+        } catch (e) {
+            console.error("Erro ao carregar clima:", e);
+            document.getElementById('temp-val').textContent = `29°C`;
+            document.getElementById('weather-desc').textContent = "Tempo ensolarado";
+        }
+    }
+
+    function initMap() {
+        map = L.map('map', { zoomControl: false }).setView([userLocation.lat, userLocation.lng], 13);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '© CARTO'
+        }).addTo(map);
+        markerLayer = L.layerGroup().addTo(map);
+    }
+
+    function updateTheme() {
+        const hour = new Date().getHours();
+        const climaBg = document.getElementById('clima-bg');
+        const isNight = hour >= 18 || hour < 6;
+        
+        climaBg.classList.remove('theme-night-cool', 'theme-night-warm', 'theme-day-clear', 'theme-day-warm');
+        
+        if (isNight) {
+            climaBg.classList.add(currentTemp > 25 ? 'theme-night-warm' : 'theme-night-cool');
+            document.getElementById('weather-icon').textContent = 'dark_mode';
+        } else {
+            climaBg.classList.add(currentTemp > 25 ? 'theme-day-warm' : 'theme-day-clear');
+            document.getElementById('weather-icon').textContent = 'wb_sunny';
+        }
+    }
+
+    function updateCountdown() {
+        const targetDate = new Date(2026, 4, 5);
+        const diff = targetDate - new Date();
+        if (diff <= 0) { document.getElementById('countdown').textContent = "Aproveite!"; return; }
+        const days = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        const mins = Math.floor((diff % 3600000) / 60000);
+        document.getElementById('countdown').textContent = `Faltam ${days}d ${hours}h ${mins}m`;
+    }
+
+    function getDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371; 
+        const dLat = (lat2-lat1) * Math.PI/180;
+        const dLon = (lon2-lon1) * Math.PI/180;
+        const a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    }
+
+    function formatDist(km) {
+        const d = parseFloat(km);
+        if (d < 1) return `${Math.round(d * 1000)}m`;
+        return `${d.toFixed(1)}km`;
+    }
+
+    function getMatchText(score) {
+        if (score >= 90) return "Perfeita pra você";
+        if (score >= 75) return "Alta compatibilidade";
+        if (score >= 60) return "Boa escolha";
+        return "Vale a visita";
+    }
+
+    function openMaps(event, url) {
+        if (event) event.preventDefault();
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if (isMobile) {
+            window.location.href = url;
+        } else { 
+            window.open(url, "_blank");
+        }
+    }
+
+    function toggleFavorite(index) {
+        favoritas[index] = !favoritas[index];
+        localStorage.setItem('praias_fav_v1', JSON.stringify(favoritas));
+        renderInterface();
+    }
+
+    function focusOnBeach(lat, lng) {
+        map.setView([lat, lng], 15);
+        document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function calcularScore(beach) {
+        let score = 50;
+        const dist = getDistance(userLocation.lat, userLocation.lng, beach.lat, beach.lng);
+        score += Math.max(0, 30 - (dist * 5));
+        return Math.min(100, Math.round(score));
+    }
+
+    function attachEvents() {
+        document.querySelectorAll('.fav-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = parseInt(btn.getAttribute('data-id'));
+                toggleFavorite(id);
+            });
+        });
+        
+        document.querySelectorAll('.maps-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const url = link.getAttribute('data-url');
+                openMaps(e, url);
+            });
+        });
+    }
+
+    function renderInterface() {
+        const ranked = beaches.map((b, i) => ({
+            ...b,
+            match: calcularScore(b),
+            dist: getDistance(userLocation.lat, userLocation.lng, b.lat, b.lng),
+            fav: favoritas[i],
+            originalIdx: i
+        })).sort((a, b) => b.match - a.match);
+        
+        const recContainer = document.getElementById('recommendation-engine');
+        recContainer.innerHTML = '';
+        ranked.slice(0, 4).forEach((beach, i) => {
+            const card = document.createElement('div');
+            card.className = "min-w-[150px] h-32 rounded-xl relative overflow-hidden shrink-0 border border-white/10 shadow-lg cursor-pointer transition-transform active:scale-95";
+            card.onclick = () => focusOnBeach(beach.lat, beach.lng);
+            
+            let matchClass = "bg-cyan-500/90";
+            if (beach.match >= 90) matchClass = "bg-green-500/90";
+            
+            card.innerHTML = `
+                <img class="absolute inset-0 w-full h-full object-cover brightness-[0.4] transition-opacity duration-300" src="${beach.img}"/>
+<div class="absolute inset-0 p-3 flex flex-col justify-between">
+<div class="${matchClass} text-white text-[8px] font-black px-2 py-0.5 rounded-full self-start shadow-sm">#${i+1} IA MATCH</div>
+<div class="drop-shadow-md">
+<p class="text-[11px] font-extrabold text-white leading-tight truncate">${beach.nome}</p>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="text-[9px] text-cyan-300 font-bold uppercase tracking-tight">${getMatchText(beach.match)}</span>
+</div>
+</div>
+</div>
+            `;
+            recContainer.appendChild(card);
+        });
+
+        const listContainer = document.getElementById('complete-beach-list');
+        listContainer.innerHTML = '';
+        
+        ranked.forEach(beach => {
+            const item = document.createElement('div');
+            item.className = "beach-list-item flex flex-col gap-3";
+            item.innerHTML = `
+                <div class="flex items-start justify-between gap-2">
+<div class="flex items-start gap-3 flex-1">
+<button class="fav-btn mt-0.5 flex flex-col items-center justify-center shrink-0 min-w-[40px] focus:outline-none" data-id="${beach.originalIdx}">
+<span class="material-symbols-outlined text-[24px] ${beach.fav ? 'text-red-500' : 'text-slate-500'}" style="font-variation-settings: 'FILL' ${beach.fav ? 1 : 0}">favorite</span>
+<span class="text-[8px] font-bold uppercase mt-1 ${beach.fav ? 'text-red-500' : 'text-slate-500'}">${beach.fav ? 'Favorito' : 'Favoritar'}</span>
+</button>
+<div class="flex-1">
+<p class="font-bold text-slate-100 text-sm leading-tight">${beach.nome}</p>
+<p class="text-[10px] text-cyan-400 font-medium mt-0.5 uppercase tracking-wide">
+                                ${beach.tipo.toUpperCase()} • ${formatDist(beach.dist)} DE VOCÊ
+                            </p>
+</div>
+</div>
+<div class="flex gap-2 shrink-0">
+<a class="maps-link px-3 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center gap-1 text-cyan-400 hover:bg-cyan-500/20 transition-colors" data-url="${beach.maps}" href="${beach.maps}">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span class="text-[10px] font-black uppercase">Ir</span>
+</a>
+</div>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed px-1">${beach.desc}</p>
+            `;
+            listContainer.appendChild(item);
+        });
+
+        if (markerLayer) {
+            markerLayer.clearLayers();
+            beaches.forEach((beach, i) => {
+                const isFav = favoritas[i];
+                L.circleMarker([beach.lat, beach.lng], {
+                    radius: isFav ? 9 : 6, 
+                    fillColor: isFav ? '#ef4444' : '#0ea5e9', 
+                    color: '#fff', 
+                    weight: isFav ? 3 : 1.5, 
+                    opacity: 1, 
+                    fillOpacity: 0.9
+                }).addTo(markerLayer).bindPopup(`<div class="p-1"><b class="text-slate-900">${beach.nome}</b><br/><span class="text-xs text-slate-600">${beach.tipo}</span></div>`);
+            });
+        }
+        
+        attachEvents();
+    }
+
+    const locBtn = document.getElementById('get-location-btn');
+    const locText = document.getElementById('loc-text');
+    const locIcon = document.getElementById('loc-icon');
+
+    locBtn.addEventListener('click', () => {
+        if (navigator.geolocation) {
+            locBtn.disabled = true;
+            locText.textContent = "Localizando...";
+            locIcon.classList.add('loading-pulse');
+
+            navigator.geolocation.getCurrentPosition(
+                p => {
+                    userLocation = { lat: p.coords.latitude, lng: p.coords.longitude };
+                    map.setView([userLocation.lat, userLocation.lng], 14);
+                    locText.textContent = "Localizado ✓";
+                    locIcon.textContent = "check_circle";
+                    locIcon.classList.remove('loading-pulse');
+                    renderInterface();
+                    setTimeout(() => {
+                        locBtn.disabled = false;
+                        locText.textContent = "Minha Localização";
+                        locIcon.textContent = "my_location";
+                    }, 3000);
+                },
+                err => {
+                    console.error(err);
+                    locText.textContent = "Erro ao localizar";
+                    locIcon.textContent = "error";
+                    locIcon.classList.remove('loading-pulse');
+                    setTimeout(() => {
+                        locBtn.disabled = false;
+                        locText.textContent = "Minha Localização";
+                        locIcon.textContent = "my_location";
+                    }, 3000);
+                }
+            );
+        }
+    });
+
+    document.getElementById('next-rec').onclick = () => document.getElementById('recommendation-engine').scrollBy({ left: 150, behavior: 'smooth' });
+    document.getElementById('prev-rec').onclick = () => document.getElementById('recommendation-engine').scrollBy({ left: -150, behavior: 'smooth' });
+
+    function goBack(e) {
+        if (e) e.preventDefault();
+        window.history.back();
+    }
+    
+    document.getElementById('btn-back').addEventListener('click', goBack);
+
+    updateWeather();
+    updateCountdown();
+    initMap();
+    renderInterface();
+    setInterval(updateCountdown, 60000);
+    setInterval(updateTheme, 900000);
+    setInterval(updateWeather, 1800000);
+</script>
 <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -234,7 +538,7 @@
 
     async function updateWeather() {
         try {
-            const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=-27.148&lon=-48.487&appid=bd5e378503939ddaee76f12ad7a97608&units=metric&lang=pt_br`);
+            const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=-27.148&lon=-48.487&appid=bd5e378503939ddaee76f12ad7a97608&units=metric⟨=pt_br`);
             const data = await res.json();
             if (data.main) {
                 currentTemp = Math.round(data.main.temp);
@@ -252,7 +556,7 @@
     function initMap() {
         map = L.map('map', { zoomControl: false }).setView([userLocation.lat, userLocation.lng], 13);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; CARTO'
+            attribution: '© CARTO'
         }).addTo(map);
         markerLayer = L.layerGroup().addTo(map);
     }
@@ -309,7 +613,7 @@
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         if (isMobile) {
             window.location.href = url;
-        } else {
+        } else { 
             window.open(url, "_blank");
         }
     }
@@ -369,16 +673,16 @@
             if (beach.match >= 90) matchClass = "bg-green-500/90";
             
             card.innerHTML = `
-                <img class="absolute inset-0 w-full h-full object-cover brightness-[0.4]" src="${beach.img}"/>
-                <div class="absolute inset-0 p-2.5 flex flex-col justify-between">
-                    <div class="${matchClass} text-white text-[8px] font-black px-2 py-0.5 rounded-full self-start">#${i+1} IA MATCH</div>
-                    <div>
-                        <p class="text-[11px] font-extrabold text-white leading-tight truncate">${beach.nome}</p>
-                        <div class="flex items-center gap-1 mt-0.5">
-                            <span class="text-[9px] text-cyan-300 font-bold">${getMatchText(beach.match)}</span>
-                        </div>
-                    </div>
-                </div>
+                <img class="absolute inset-0 w-full h-full object-cover brightness-[0.4] transition-opacity duration-300" src="${beach.img}"/>
+<div class="absolute inset-0 p-3 flex flex-col justify-between">
+<div class="${matchClass} text-white text-[8px] font-black px-2 py-0.5 rounded-full self-start shadow-sm">#${i+1} IA MATCH</div>
+<div class="drop-shadow-md">
+<p class="text-[11px] font-extrabold text-white leading-tight truncate">${beach.nome}</p>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="text-[9px] text-cyan-300 font-bold uppercase tracking-tight">${getMatchText(beach.match)}</span>
+</div>
+</div>
+</div>
             `;
             recContainer.appendChild(card);
         });
@@ -391,26 +695,26 @@
             item.className = "beach-list-item flex flex-col gap-3";
             item.innerHTML = `
                 <div class="flex items-start justify-between gap-2">
-                    <div class="flex items-start gap-3 flex-1">
-                        <button data-id="${beach.originalIdx}" class="fav-btn mt-0.5 flex flex-col items-center justify-center shrink-0 min-w-[40px] focus:outline-none">
-                            <span class="material-symbols-outlined text-[24px] ${beach.fav ? 'text-red-500' : 'text-slate-500'}" style="font-variation-settings: 'FILL' ${beach.fav ? 1 : 0}">favorite</span>
-                            <span class="text-[8px] font-bold uppercase mt-1 ${beach.fav ? 'text-red-500' : 'text-slate-500'}">${beach.fav ? 'Favorito' : 'Favoritar'}</span>
-                        </button>
-                        <div class="flex-1">
-                            <p class="font-bold text-slate-100 text-sm leading-tight">${beach.nome}</p>
-                            <p class="text-[10px] text-cyan-400 font-medium mt-0.5 uppercase tracking-wide">
+<div class="flex items-start gap-3 flex-1">
+<button class="fav-btn mt-0.5 flex flex-col items-center justify-center shrink-0 min-w-[40px] focus:outline-none" data-id="${beach.originalIdx}">
+<span class="material-symbols-outlined text-[24px] ${beach.fav ? 'text-red-500' : 'text-slate-500'}" style="font-variation-settings: 'FILL' ${beach.fav ? 1 : 0}">favorite</span>
+<span class="text-[8px] font-bold uppercase mt-1 ${beach.fav ? 'text-red-500' : 'text-slate-500'}">${beach.fav ? 'Favorito' : 'Favoritar'}</span>
+</button>
+<div class="flex-1">
+<p class="font-bold text-slate-100 text-sm leading-tight">${beach.nome}</p>
+<p class="text-[10px] text-cyan-400 font-medium mt-0.5 uppercase tracking-wide">
                                 ${beach.tipo.toUpperCase()} • ${formatDist(beach.dist)} DE VOCÊ
                             </p>
-                        </div>
-                    </div>
-                    <div class="flex gap-2 shrink-0">
-                        <a href="${beach.maps}" data-url="${beach.maps}" class="maps-link px-3 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center gap-1 text-cyan-400 hover:bg-cyan-500/20 transition-colors">
-                            <span class="material-symbols-outlined text-[18px]">location_on</span>
-                            <span class="text-[10px] font-black uppercase">Ir</span>
-                        </a>
-                    </div>
-                </div>
-                <p class="text-[11px] text-slate-400 leading-relaxed px-1">${beach.desc}</p>
+</div>
+</div>
+<div class="flex gap-2 shrink-0">
+<a class="maps-link px-3 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center gap-1 text-cyan-400 hover:bg-cyan-500/20 transition-colors" data-url="${beach.maps}" href="${beach.maps}">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span class="text-[10px] font-black uppercase">Ir</span>
+</a>
+</div>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed px-1">${beach.desc}</p>
             `;
             listContainer.appendChild(item);
         });
@@ -426,7 +730,7 @@
                     weight: isFav ? 3 : 1.5, 
                     opacity: 1, 
                     fillOpacity: 0.9
-                }).addTo(markerLayer).bindPopup(`<div class="p-1"><b class="text-slate-900">${beach.nome}</b><br><span class="text-xs text-slate-600">${beach.tipo}</span></div>`);
+                }).addTo(markerLayer).bindPopup(`<div class="p-1"><b class="text-slate-900">${beach.nome}</b><br/><span class="text-xs text-slate-600">${beach.tipo}</span></div>`);
             });
         }
         
