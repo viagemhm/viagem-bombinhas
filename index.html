@@ -110,7 +110,7 @@
 <div class="flex justify-between items-start">
 <div class="flex items-center gap-3">
 <div class="w-16 h-16 rounded-full p-0.5 bg-gradient-to-tr from-cyan-500 to-blue-600">
-<img class="w-full h-full rounded-full object-cover bg-gray-800" src="https://lh3.googleusercontent.com/aida/ADBb0ugL4H25Tgy0lCkPi5flCJStHJzeQE4AiFO64zofC4rMZkQh6f4RN0736lX_8wvFksrVfINZNMgo1avmhokUT2ucPXJzfV9XSEeOjzQjiIm-KaWc__cfJVlTl667SWB5W5lR3VHw9TDxT96crAbTf0wMIj_Ulxt_5Z7wW841K1RFYGIiDMq7NianZMu6s69Xpi2ZWLho0a_onebjP2p7dmasOOAUE7DKIggGERTyREuv1snDC4-cXkjQdeYkB6xN9fG9aoCjML3JXw"/>
+<img class="w-full h-full rounded-full object-cover bg-gray-800" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdMOeUJAALjE75R17bLeMD2HDI1bDeAWqXZpbDtMFLYaqeee1Mp-EXPtMRDe-edbNbv02qmSCoLCl8ApAbJcsbaeEJW8Gg4Oq44OOb80Ca8okAcqnr3N2h9X5jm2SuI6d-y9e-_cFwu00vtogfB1e0inYSi_Op7wwgXLhrKTs-hk71l0I7TnjlZkwWqxkfIq6gxWFS1DvJyIKjCFf3WsZAkACoaZv1LhHtyGol9gVuXDebFFGKebT-F85bCCDYfA4mYyvbMtfFPA8"/>
 </div>
 <div>
 <h2 class="font-bold text-white leading-tight">Helder e Mayara</h2>
@@ -153,8 +153,20 @@
 <!-- Previsão via JS -->
 </div>
 </div>
-<!-- NAVEGAÇÃO SUPERIOR (Gestão de Gastos) -->
+<!-- NAVEGAÇÃO -->
 <div class="grid grid-cols-1 gap-4 mt-5">
+<a class="bg-[#1e293b] border border-white/5 rounded-[24px] p-5 flex items-center justify-between hover:bg-[#253247] transition-all" href="checklist.html">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-cyan-500/10 rounded-2xl flex items-center justify-center">
+<span class="text-2xl">🎒</span>
+</div>
+<div>
+<h3 class="font-bold text-white text-lg leading-tight">Check-list</h3>
+<p class="text-xs text-slate-400 font-medium">Itens essenciais</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-500">chevron_right</span>
+</a>
 <a class="bg-[#1e293b] border border-white/5 rounded-[24px] p-5 flex items-center justify-between hover:bg-[#253247] transition-all" href="gastos.html">
 <div class="flex items-center gap-4">
 <div class="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center">
@@ -163,6 +175,18 @@
 <div>
 <h3 class="font-bold text-white text-lg leading-tight">Gestão de Gastos</h3>
 <p class="text-xs text-slate-400 font-medium">Controle Financeiro</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-500">chevron_right</span>
+</a>
+<a class="bg-[#1e293b] border border-white/5 rounded-[24px] p-5 flex items-center justify-between hover:bg-[#253247] transition-all" href="praias.html">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-sky-500/10 rounded-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-sky-400 text-2xl">beach_access</span>
+</div>
+<div>
+<h3 class="font-bold text-white text-lg leading-tight">Guia de Praias</h3>
+<p class="text-xs text-slate-400 font-medium">Explore as 25 praias e recomendações</p>
 </div>
 </div>
 <span class="material-symbols-outlined text-slate-500">chevron_right</span>
@@ -183,21 +207,6 @@
 <div class="font-bold text-sm text-[#10b981]" id="sal">R$ 0</div>
 </div>
 </div>
-<!-- NAVEGAÇÃO INFERIOR (Check-list) -->
-<div class="grid grid-cols-1 gap-4 mt-5">
-<a class="bg-[#1e293b] border border-white/5 rounded-[24px] p-5 flex items-center justify-between hover:bg-[#253247] transition-all" href="checklist.html">
-<div class="flex items-center gap-4">
-<div class="w-12 h-12 bg-cyan-500/10 rounded-2xl flex items-center justify-center">
-<span class="text-2xl">🎒</span>
-</div>
-<div>
-<h3 class="font-bold text-white text-lg leading-tight">Check-list</h3>
-<p class="text-xs text-slate-400 font-medium">Itens essenciais</p>
-</div>
-</div>
-<span class="material-symbols-outlined text-slate-500">chevron_right</span>
-</a>
-</div>
 <!-- PRAIAS -->
 <div class="praias-container bg-gradient-night-cool" id="praias-bg">
 <h3 class="font-bold text-lg flex items-center gap-2 mb-2 text-white">
@@ -217,28 +226,28 @@ setInterval(() => {
     document.getElementById('hora').innerText = new Date().toLocaleTimeString('pt-BR');
 }, 1000);
 
-// COUNTDOWN
+// COUNTDOWN - Fixed to May 5th 2026
 function updateCountdown() {
-    const target = new Date('2026-05-05T00:00:00').getTime();
-    const now = new Date().getTime();
-    const diff = target - now;
+    const targetDate = new Date(2026, 4, 5, 0, 0, 0); // Month is 0-indexed (4 = May)
+    const now = new Date();
+    const diff = targetDate - now;
     
     if (diff > 0) {
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        document.getElementById('countdown').innerText = `Faltam ${days}d ${hours}h ${mins}m`;
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        document.getElementById('countdown').innerText = `Faltam ${days}d ${hours}h ${minutes}m`;
     } else {
         document.getElementById('countdown').innerText = "Aproveite as férias!";
     }
 }
-setInterval(updateCountdown, 60000);
+setInterval(updateCountdown, 1000);
 updateCountdown();
 
 let currentTemp = 0;
 let currentCondition = "";
 
-// WEATHER API - Using metric units to ensure Celsius
+// WEATHER API
 const API_KEY = "cc78026071390eea9efc3ebf84f27bcd";
 fetch(`https://api.openweathermap.org/data/2.5/weather?q=Bombinhas,BR&appid=${API_KEY}&units=metric&lang=pt_br`)
 .then(r => r.json())
