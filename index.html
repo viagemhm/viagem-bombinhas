@@ -52,13 +52,6 @@
             flex: 1;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .checklist-container {
-            background: #1e293b;
-            border-radius: 20px;
-            padding: 20px;
-            margin-top: 20px;
-            border: 1px solid rgba(0, 212, 255, 0.1);
-        }
         .praias-container {
             border-radius: 24px;
             padding: 20px;
@@ -106,11 +99,11 @@
 </head>
 <body>
 <div class="container">
-<!-- PERFIL E DATAS -->
+<!-- 1. PERFIL E DATAS -->
 <div class="flex justify-between items-start">
 <div class="flex items-center gap-3">
 <div class="w-16 h-16 rounded-full p-0.5 bg-gradient-to-tr from-cyan-500 to-blue-600">
-<img class="w-full h-full rounded-full object-cover bg-gray-800" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdMOeUJAALjE75R17bLeMD2HDI1bDeAWqXZpbDtMFLYaqeee1Mp-EXPtMRDe-edbNbv02qmSCoLCl8ApAbJcsbaeEJW8Gg4Oq44OOb80Ca8okAcqnr3N2h9X5jm2SuI6d-y9e-_cFwu00vtogfB1e0inYSi_Op7wwgXLhrKTs-hk71l0I7TnjlZkwWqxkfIq6gxWFS1DvJyIKjCFf3WsZAkACoaZv1LhHtyGol9gVuXDebFFGKebT-F85bCCDYfA4mYyvbMtfFPA8"/>
+<img class="w-full h-full rounded-full object-cover bg-gray-800" src="https://lh3.googleusercontent.com/aida/ADBb0ugocHj_uikm23nml2qCmFMrYHlUYX79LzQjJbK1bEU8DqSGoZigRbfmNvsaXn_nc_NU0zbCpPr1wvtyTNL6TGR8AvzJRQN1YB_pPXktma9gFdTbH2rFtp5GNKKi5d9TGGca_zBVwnYXu7jULE058Hy0jOtCyqsBTSdO8DbIocqwsXeJu5i3El67dSpMy-DYrZ4lKfc5tr7U87zPYHM-n5mEoMzolAb7-K8-WpQPZ0DlKVa2P-y_f8l0G87pyjgx19OtbgMrZxwMAA"/>
 </div>
 <div>
 <h2 class="font-bold text-white leading-tight">Helder e Mayara</h2>
@@ -133,7 +126,7 @@
 <div class="text-[10px] text-cyan-400 font-bold mt-1" id="countdown"></div>
 </div>
 </div>
-<!-- CLIMA -->
+<!-- 2. CLIMA -->
 <div class="weather-card bg-gradient-night-cool" id="clima-bg">
 <div class="flex justify-between items-start">
 <div class="flex flex-col">
@@ -153,7 +146,37 @@
 <!-- Previsão via JS -->
 </div>
 </div>
-<!-- NAVEGAÇÃO -->
+<!-- 3. GESTÃO DE GASTOS NAV -->
+<div class="mt-5">
+<a class="bg-[#1e293b] border border-white/5 rounded-[24px] p-5 flex items-center justify-between hover:bg-[#253247] transition-all" href="gastos.html">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-emerald-400 text-2xl">payments</span>
+</div>
+<div>
+<h3 class="font-bold text-white text-lg leading-tight">Gestão de Gastos</h3>
+<p class="text-xs text-slate-400 font-medium">Controle Financeiro</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-500">chevron_right</span>
+</a>
+</div>
+<!-- 4. RESUMO FINANCEIRO -->
+<div class="flex gap-3 mt-5">
+<div class="finance-card">
+<div class="text-[10px] text-slate-500 uppercase font-semibold">Orçamento</div>
+<div class="font-bold text-white text-sm" id="orc">R$ 0</div>
+</div>
+<div class="finance-card">
+<div class="text-[10px] text-slate-500 uppercase font-semibold">Gasto</div>
+<div class="font-bold text-cyan-400 text-sm" id="gas">R$ 0</div>
+</div>
+<div class="finance-card">
+<div class="text-[10px] text-slate-500 uppercase font-semibold">Saldo</div>
+<div class="font-bold text-sm text-[#10b981]" id="sal">R$ 0</div>
+</div>
+</div>
+<!-- 5 & 6. NAVEGAÇÃO RESTANTE -->
 <div class="grid grid-cols-1 gap-4 mt-5">
 <a class="bg-[#1e293b] border border-white/5 rounded-[24px] p-5 flex items-center justify-between hover:bg-[#253247] transition-all" href="checklist.html">
 <div class="flex items-center gap-4">
@@ -163,18 +186,6 @@
 <div>
 <h3 class="font-bold text-white text-lg leading-tight">Check-list</h3>
 <p class="text-xs text-slate-400 font-medium">Itens essenciais</p>
-</div>
-</div>
-<span class="material-symbols-outlined text-slate-500">chevron_right</span>
-</a>
-<a class="bg-[#1e293b] border border-white/5 rounded-[24px] p-5 flex items-center justify-between hover:bg-[#253247] transition-all" href="gastos.html">
-<div class="flex items-center gap-4">
-<div class="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center">
-<span class="material-symbols-outlined text-emerald-400 text-2xl">payments</span>
-</div>
-<div>
-<h3 class="font-bold text-white text-lg leading-tight">Gestão de Gastos</h3>
-<p class="text-xs text-slate-400 font-medium">Controle Financeiro</p>
 </div>
 </div>
 <span class="material-symbols-outlined text-slate-500">chevron_right</span>
@@ -192,31 +203,17 @@
 <span class="material-symbols-outlined text-slate-500">chevron_right</span>
 </a>
 </div>
-<!-- FINANÇAS -->
-<div class="flex gap-3 mt-5">
-<div class="finance-card">
-<div class="text-[10px] text-slate-500 uppercase font-semibold">Orçamento</div>
-<div class="font-bold text-white text-sm" id="orc">R$ 0</div>
-</div>
-<div class="finance-card">
-<div class="text-[10px] text-slate-500 uppercase font-semibold">Gasto</div>
-<div class="font-bold text-cyan-400 text-sm" id="gas">R$ 0</div>
-</div>
-<div class="finance-card">
-<div class="text-[10px] text-slate-500 uppercase font-semibold">Saldo</div>
-<div class="font-bold text-sm text-[#10b981]" id="sal">R$ 0</div>
-</div>
-</div>
-<!-- PRAIAS -->
+<!-- 7. LISTA DE PRAIAS -->
 <div class="praias-container bg-gradient-night-cool" id="praias-bg">
 <h3 class="font-bold text-lg flex items-center gap-2 mb-2 text-white">
 <span>🏖️</span> Praias
         </h3>
 <div id="lista-praias">
-<!-- Lista via JS -->
+<!-- Lista via JS (ordenada: não visitadas topo, visitadas base) -->
 </div>
 </div>
 </div>
+<!-- 8. FOOTER -->
 <footer>
     Nossas Pegadas - Todos os direitos reservados
 </footer>
@@ -226,9 +223,9 @@ setInterval(() => {
     document.getElementById('hora').innerText = new Date().toLocaleTimeString('pt-BR');
 }, 1000);
 
-// COUNTDOWN - Fixed to May 5th 2026
+// COUNTDOWN - 05/05/2026
 function updateCountdown() {
-    const targetDate = new Date(2026, 4, 5, 0, 0, 0); // Month is 0-indexed (4 = May)
+    const targetDate = new Date(2026, 4, 5, 0, 0, 0); // May 5th
     const now = new Date();
     const diff = targetDate - now;
     
@@ -373,6 +370,8 @@ function renderPraias() {
     container.innerHTML = "";
     let count = 0;
     const bestBeach = getBestBeach();
+    
+    // Automatic sorting: not visited on top, visited on bottom
     const listToRender = praias.map((p, i) => ({ ...p, checked: checkedStates[i], originalIndex: i }));
     listToRender.sort((a, b) => (a.checked === b.checked) ? 0 : a.checked ? 1 : -1);
 
