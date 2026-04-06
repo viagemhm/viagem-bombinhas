@@ -48,12 +48,22 @@
             flex: 1;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .checklist-container {
+        .nav-card {
             background: #1e293b;
             border-radius: 20px;
-            padding: 20px;
+            padding: 16px;
             margin-top: 20px;
             border: 1px solid rgba(0, 212, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .nav-card:hover {
+            border-color: #00d4ff;
+            background: #243049;
+            transform: translateY(-2px);
         }
         .praias-container {
             border-radius: 24px;
@@ -71,6 +81,11 @@
             align-items: center;
             justify-content: space-between;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .praia-item.highlight-beach {
+            border: 2px solid #00d4ff;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
         }
         .pin-icon {
             background: #00d4ff;
@@ -167,23 +182,17 @@
 <div class="font-bold text-sm text-emerald-400" id="sal">R$ 0</div>
 </div>
 </div>
-<!-- CHECKLIST -->
-<div class="checklist-container">
-<h3 class="font-bold text-white flex items-center gap-2 mb-3">
-<span class="text-lg">🎒</span> Check-list
-        </h3>
-<div class="flex flex-col gap-2 text-sm text-slate-300">
-<label class="flex items-center gap-2 cursor-pointer">
-<input class="rounded text-cyan-500 focus:ring-cyan-400 border-slate-600 bg-slate-800" type="checkbox"/> Protetor Solar ☀️
-            </label>
-<label class="flex items-center gap-2 cursor-pointer">
-<input class="rounded text-cyan-500 focus:ring-cyan-400 border-slate-600 bg-slate-800" type="checkbox"/> Tênis 👟
-            </label>
-<label class="flex items-center gap-2 cursor-pointer">
-<input class="rounded text-cyan-500 focus:ring-cyan-400 border-slate-600 bg-slate-800" type="checkbox"/> Repelente 🦟
-            </label>
+<!-- CHECKLIST LINK -->
+<a class="nav-card" href="checklist.html">
+<div class="flex items-center gap-3">
+<span class="text-2xl">🎒</span>
+<div>
+<h3 class="font-bold text-white text-sm">Check-list</h3>
+<p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider">Itens essenciais</p>
 </div>
 </div>
+<span class="material-symbols-outlined text-cyan-400">chevron_right</span>
+</a>
 <!-- PRAIAS -->
 <div class="praias-container bg-gradient-night" id="praias-bg">
 <h3 class="font-bold text-lg flex items-center gap-2 mb-2 text-white">
@@ -221,14 +230,18 @@ function updateCountdown() {
 setInterval(updateCountdown, 60000);
 updateCountdown();
 
+let currentTemp = 0;
+let currentCondition = "";
+
 // WEATHER API
 const API_KEY = "cc78026071390eea9efc3ebf84f27bcd";
 fetch(`https://api.openweathermap.org/data/2.5/weather?q=Bombinhas,BR&appid=${API_KEY}&units=metric&lang=pt_br`)
 .then(r => r.json())
 .then(d => {
-    const temp = Math.round(d.main.temp);
+    currentTemp = Math.round(d.main.temp);
+    currentCondition = d.weather[0].main.toLowerCase();
     document.getElementById('desc-clima').innerText = d.weather[0].description;
-    document.getElementById('temp-atual').innerText = temp + "°C";
+    document.getElementById('temp-atual').innerText = currentTemp + "°C";
     document.getElementById('temp-minmax').innerText = `Min ${Math.round(d.main.temp_min)}° / Max ${Math.round(d.main.temp_max)}°`;
     
     const hour = new Date().getHours();
@@ -236,7 +249,6 @@ fetch(`https://api.openweathermap.org/data/2.5/weather?q=Bombinhas,BR&appid=${AP
     const bgClima = document.getElementById('clima-bg');
     const bgPraias = document.getElementById('praias-bg');
     
-    // Icon Mapping
     const iconEl = document.getElementById('weather-icon');
     const main = d.weather[0].main.toLowerCase();
     
@@ -255,14 +267,17 @@ fetch(`https://api.openweathermap.org/data/2.5/weather?q=Bombinhas,BR&appid=${AP
     const updateBg = (el) => {
         el.classList.remove('bg-gradient-night', 'bg-gradient-clear', 'bg-gradient-warm', 'bg-gradient-night-warm', 'bg-gradient-night-cool');
         if (isNight) {
-            el.classList.add(temp > 25 ? 'bg-gradient-night-warm' : 'bg-gradient-night-cool');
+            el.classList.add(currentTemp > 25 ? 'bg-gradient-night-warm' : 'bg-gradient-night-cool');
         } else {
-            el.classList.add(temp > 25 ? 'bg-gradient-warm' : 'bg-gradient-clear');
+            el.classList.add(currentTemp > 25 ? 'bg-gradient-warm' : 'bg-gradient-clear');
         }
     };
 
     updateBg(bgClima);
     updateBg(bgPraias);
+    
+    // Update beach logic after weather data is in
+    renderPraias();
 });
 
 // FORECAST
@@ -273,10 +288,18 @@ fetch(`https://api.openweathermap.org/data/2.5/forecast?q=Bombinhas,BR&appid=${A
     const container = document.getElementById('previsao');
     container.innerHTML = "";
     daily.forEach(day => {
+        const cond = day.weather[0].main.toLowerCase();
+        let icon = "☀️";
+        if (cond.includes("cloud")) icon = "☁️";
+        if (cond.includes("rain") || cond.includes("drizzle")) icon = "🌧️";
+        
         const div = document.createElement('div');
-        div.className = "bg-white/10 border border-white/10 px-3 py-2 rounded-xl text-center min-w-[60px]";
-        div.innerHTML = `<div class="text-[10px] uppercase font-bold text-slate-300">${new Date(day.dt*1000).toLocaleDateString('pt-BR', {weekday: 'short'})}</div>
-<div class="text-sm font-bold text-white">${Math.round(day.main.temp)}°</div>`;
+        div.className = "bg-white/10 border border-white/10 px-3 py-2 rounded-xl text-center min-w-[70px]";
+        div.innerHTML = `
+            <div class="text-[10px] uppercase font-bold text-slate-300">${new Date(day.dt*1000).toLocaleDateString('pt-BR', {weekday: 'short'})}</div>
+            <div class="text-lg my-1">${icon}</div>
+            <div class="text-[10px] font-bold text-white">${Math.round(day.main.temp_min)}° / ${Math.round(day.main.temp_max)}°</div>
+        `;
         container.appendChild(div);
     });
 });
@@ -288,34 +311,52 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSjndkscJNSa1uHNlh_3al_4s
     const lines = t.split("\n");
     if (lines.length > 1) {
         const v = lines[1].split("\t");
-        document.getElementById('orc').innerText = (v[0] ? "R$ " + v[0] : "R$ 0");
-        document.getElementById('gas').innerText = (v[1] ? "R$ " + v[1] : "R$ 0");
-        document.getElementById('sal').innerText = (v[2] ? "R$ " + v[2] : "R$ 0");
+        document.getElementById('orc').innerText = (v[0] ? "R$ " + v[0].trim() : "R$ 0");
+        document.getElementById('gas').innerText = (v[1] ? "R$ " + v[1].trim() : "R$ 0");
+        document.getElementById('sal').innerText = (v[2] ? "R$ " + v[2].trim() : "R$ 0");
     }
 });
 
 // BEACHES LOGIC
 const praias = [
-    { name: "Praia de Bombinhas (Centro)", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombinhas" },
-    { name: "Praia da Sepultura", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Sepultura" },
-    { name: "Praia do Retiro dos Padres", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+Retiro+dos+Padres" },
-    { name: "Praia de Quatro Ilhas", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Quatro+Ilhas" },
-    { name: "Praia de Bombas", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombas" },
-    { name: "Praia da Tainha", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Tainha" },
-    { name: "Canto Grande (Mar de Dentro)", link: "https://www.google.com/maps/dir/?api=1&destination=Canto+Grande" },
-    { name: "Praia de Zimbros", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Zimbros" },
-    { name: "Morro do Macaco (Trilha/Mirante)", link: "https://www.google.com/maps/dir/?api=1&destination=Morro+do+Macaco" }
+    { id: 0, name: "Praia de Bombinhas (Centro)", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombinhas" },
+    { id: 1, name: "Praia da Sepultura", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Sepultura" },
+    { id: 2, name: "Praia do Retiro dos Padres", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+Retiro+dos+Padres" },
+    { id: 3, name: "Praia de Quatro Ilhas", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Quatro+Ilhas" },
+    { id: 4, name: "Praia de Bombas", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombas" },
+    { id: 5, name: "Praia da Tainha", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Tainha" },
+    { id: 6, name: "Canto Grande (Mar de Dentro)", link: "https://www.google.com/maps/dir/?api=1&destination=Canto+Grande" },
+    { id: 7, name: "Praia de Zimbros", link: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Zimbros" },
+    { id: 8, name: "Morro do Macaco (Trilha/Mirante)", link: "https://www.google.com/maps/dir/?api=1&destination=Morro+do+Macaco" }
 ];
-let checkedStates = new Array(praias.length).fill(false);
+
+// Initialize states from localStorage
+let checkedStates = JSON.parse(localStorage.getItem('praias_v1')) || new Array(praias.length).fill(false);
+
+function getBestBeach() {
+    if (currentTemp > 28) return "Praia de Quatro Ilhas";
+    if (currentCondition.includes("rain") || currentCondition.includes("drizzle")) return "Praia da Sepultura";
+    return "Praia de Bombinhas (Centro)";
+}
 
 function renderPraias() {
     const container = document.getElementById('lista-praias');
     container.innerHTML = "";
     let count = 0;
+    const bestBeach = getBestBeach();
+
+    // Create decorated list with original index and status
+    const listToRender = praias.map((p, i) => ({ ...p, checked: checkedStates[i], originalIndex: i }));
     
-    praias.forEach((p, i) => {
+    // Sort: unchecked first, then checked
+    listToRender.sort((a, b) => (a.checked === b.checked) ? 0 : a.checked ? 1 : -1);
+
+    listToRender.forEach((p) => {
         const div = document.createElement('div');
         div.className = "praia-item";
+        if (p.name === bestBeach) {
+            div.classList.add('highlight-beach');
+        }
         
         const label = document.createElement('label');
         label.className = "flex items-center gap-3 cursor-pointer flex-1";
@@ -323,17 +364,18 @@ function renderPraias() {
         const check = document.createElement('input');
         check.type = "checkbox";
         check.className = "rounded text-cyan-500 bg-slate-800 border-slate-600 focus:ring-cyan-400";
-        check.checked = checkedStates[i];
+        check.checked = p.checked;
         check.onchange = () => {
-            checkedStates[i] = check.checked;
+            checkedStates[p.originalIndex] = check.checked;
+            localStorage.setItem('praias_v1', JSON.stringify(checkedStates));
             renderPraias();
         };
         
-        if (checkedStates[i]) count++;
+        if (p.checked) count++;
         
         const name = document.createElement('span');
-        name.innerText = p.name;
-        name.className = checkedStates[i] ? "line-through opacity-40 text-slate-500" : "font-semibold text-slate-100";
+        name.innerText = (p.name === bestBeach ? "⭐ " : "") + p.name;
+        name.className = p.checked ? "line-through opacity-40 text-slate-500" : "font-semibold text-slate-100";
         
         label.append(check, name);
         
