@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bombinhas Lume - Recomendação de Praias</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#12273a",
+                        "tertiary-fixed": "#92aeff",
+                        "inverse-primary": "#00687e",
+                        "surface": "#020f1c",
+                        "outline-variant": "#3b4958",
+                        "surface-container-high": "#0d2132",
+                        "tertiary": "#82a3ff",
+                        "secondary-dim": "#acc5ed",
+                        "secondary": "#bad3fc",
+                        "primary-container": "#00d2fd",
+                        "primary-fixed-dim": "#00c3eb",
+                        "primary-fixed": "#00d2fd",
+                        "primary": "#6dddff",
+                        "secondary-fixed": "#bad3fc",
+                        "on-secondary-container": "#b9d2fb",
+                        "outline": "#697787",
+                        "on-secondary-fixed": "#1b3556",
+                        "surface-variant": "#12273a",
+                        "tertiary-dim": "#759aff",
+                        "on-surface": "#d8e7fa",
+                        "secondary-container": "#2f486a",
+                        "on-secondary-fixed-variant": "#395274",
+                        "background": "#020f1c",
+                        "surface-bright": "#172e42",
+                        "surface-tint": "#6dddff",
+                        "on-tertiary": "#002363",
+                        "on-primary": "#004c5e",
+                        "on-tertiary-fixed-variant": "#003388",
+                        "on-tertiary-container": "#001747",
+                        "on-surface-variant": "#9eacbe",
+                        "surface-dim": "#020f1c",
+                        "on-secondary": "#2f486a",
+                        "inverse-on-surface": "#495666",
+                        "on-primary-container": "#004352",
+                        "on-background": "#d8e7fa",
+                        "tertiary-fixed-dim": "#7da0ff",
+                        "on-error-container": "#ffa8a3",
+                        "surface-container-low": "#041423",
+                        "on-primary-fixed-variant": "#004c5d",
+                        "secondary-fixed-dim": "#acc5ed",
+                        "surface-container-lowest": "#000000",
+                        "on-primary-fixed": "#002c37",
+                        "error": "#ff716c",
+                        "on-tertiary-fixed": "#001442",
+                        "primary-dim": "#00c3eb",
+                        "inverse-surface": "#f7f9ff",
+                        "surface-container": "#081b2b",
+                        "on-error": "#490006",
+                        "error-dim": "#d7383b",
+                        "tertiary-container": "#6f94fa",
+                        "error-container": "#9f0519"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Plus Jakarta Sans"],
+                        "label": ["Plus Jakarta Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        :root {
+            --bg-color: #020f1c;
+            --card-bg: rgba(13, 33, 50, 0.4);
+            --accent: #6dddff;
+        }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--bg-color); 
+            color: #d8e7fa; 
+            transition: background-color 1s ease, color 0.5s ease;
+        }
+        .glass-card { 
+            background: var(--card-bg); 
+            backdrop-filter: blur(20px); 
+            border: 1px solid rgba(109, 221, 255, 0.1); 
+            transition: all 0.5s ease;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined.filled { font-variation-settings: 'FILL' 1; }
+        .netflix-row::-webkit-scrollbar { height: 4px; }
+        .netflix-row::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+        .netflix-row::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+        
+        .theme-hot { --bg-color: #1a0f02; --card-bg: rgba(50, 30, 13, 0.4); --accent: #ffb36d; }
+        .theme-cold { --bg-color: #02121c; --card-bg: rgba(13, 27, 50, 0.4); --accent: #6da9ff; }
+        .theme-night { --bg-color: #02040a; --card-bg: rgba(10, 15, 30, 0.6); --accent: #8e6dff; }
+
+        .leaflet-container { font-family: inherit; }
+    </style>
+<link crossorigin="" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" rel="stylesheet"/>
+<script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body class="min-h-screen">
+<header class="fixed top-0 left-0 right-0 z-[2000] px-6 py-6 flex justify-between items-center max-w-7xl mx-auto backdrop-blur-md bg-transparent">
+<div class="flex items-center gap-3">
+<a class="flex items-center gap-2 text-[var(--accent)] hover:opacity-80 transition-all group" href="index.html">
+<span class="material-symbols-outlined text-xl group-hover:-translate-x-1 transition-transform">arrow_back</span>
+<span class="text-[10px] font-black uppercase tracking-[0.2em]">Voltar ao Início</span>
+</a>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right hidden sm:block">
+<p class="text-[9px] uppercase tracking-widest text-[#9eacbe] font-black">Trip Members</p>
+<p class="text-sm font-bold text-[#d8e7fa]">Helder &amp; Mayara</p>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-[var(--accent)]/30 p-0.5">
+<img alt="User Avatar" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTNPtoQAV9qGLvOd-g3eT4ZRm_W-odK4GkXq8JVWy7cGuSmmuEsvQOFTwiL97mbL2pJAqNjpYwg5d8x2cawSzMT0S31rDa-PgOXkHuUdtr8JcS0TBTimslhjYx6EURWNdwdcGWPHszyKMVW-yJc290u6pDcHrkGFrtw7cWbGYBGrhuifjYaddKqEuUF2-E6PeJoVa5Ua4FUzR0FEfPthnHAnlErWtDkAwpecr-l9HG0yOUZNlv0jdEFcuLL01NWD74YbowFyM5mT8"/>
+</div>
+</div>
+</header>
+<main class="pt-28 px-6 max-w-7xl mx-auto space-y-12 pb-24">
+<!-- Hero Section -->
+<section class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6">
+<div class="space-y-4">
+<h2 class="text-6xl font-extrabold tracking-tighter text-[#d8e7fa]">Bombinhas 2026</h2>
+<div class="flex flex-wrap items-center gap-3">
+<div class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/5">
+<span class="material-symbols-outlined text-sm text-[#9eacbe]">calendar_today</span>
+<span class="text-xs font-semibold text-[#9eacbe]">05/05 a 11/05</span>
+</div>
+<div class="flex items-center gap-2 bg-[var(--accent)]/15 px-4 py-2 rounded-full border border-[var(--accent)]/20">
+<span class="material-symbols-outlined text-sm text-[var(--accent)]">timer</span>
+<span class="text-xs font-bold text-[var(--accent)]" id="countdown-text">Calculando...</span>
+</div>
+</div>
+</div>
+<div class="glass-card p-5 rounded-[2rem] flex items-center gap-6 min-w-[260px]" id="weather-card">
+<div class="w-14 h-14 rounded-2xl bg-[var(--accent)]/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[var(--accent)] text-3xl font-light" id="weather-icon">thermostat</span>
+</div>
+<div>
+<p class="text-[9px] uppercase tracking-[0.2em] text-[#9eacbe] font-black">Temperatura Local</p>
+<p class="text-3xl font-black text-[#d8e7fa]"><span id="temp-val">29</span>°C <span class="text-xs font-medium text-[#9eacbe] ml-1">Bombinhas, SC</span></p>
+</div>
+</div>
+</section>
+<!-- Top Picks Section -->
+<section class="space-y-8">
+<div class="flex items-center justify-between">
+<h3 class="text-3xl font-bold flex items-center gap-3 tracking-tight">
+<span class="text-2xl">🔥</span> Recomendadas para você
+                </h3>
+<div class="flex gap-2">
+<button class="w-12 h-12 rounded-full glass-card flex items-center justify-center hover:bg-[var(--accent)]/20 transition-all text-[#9eacbe] hover:text-[var(--accent)]" id="prev-rec">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-12 h-12 rounded-full glass-card flex items-center justify-center hover:bg-[var(--accent)]/20 transition-all text-[#9eacbe] hover:text-[var(--accent)]" id="next-rec">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="flex gap-6 overflow-x-auto no-scrollbar pb-8 scroll-smooth netflix-row" id="recommendation-engine">
+<!-- Top picks cards will be injected by JS -->
+</div>
+</section>
+<!-- Map Section -->
+<section class="grid grid-cols-1 gap-10">
+<div class="w-full h-[550px] glass-card rounded-[3rem] overflow-hidden relative border border-white/5 shadow-2xl">
+<div class="absolute top-8 left-8 z-[1000] flex gap-4">
+<button class="bg-[#12273a]/80 backdrop-blur px-6 py-3 rounded-full text-xs font-bold text-[#d8e7fa] border border-white/10 flex items-center gap-2 hover:bg-[#12273a] transition-all">
+<span class="material-symbols-outlined text-sm">filter_list</span> Filtrar
+                    </button>
+<button class="bg-[var(--accent)] px-8 py-3 rounded-full text-xs font-black text-[#004c5e] flex items-center gap-2 shadow-xl hover:scale-105 transition-all" id="get-location-btn">
+<span class="material-symbols-outlined text-sm">my_location</span> Minha Localização
+                    </button>
+</div>
+<div class="w-full h-full relative bg-[#f8f9fa]" id="map-container">
+<div class="w-full h-full z-0" id="map"></div>
+</div>
+<div class="absolute bottom-10 right-10 z-[1000] flex flex-col gap-4">
+<button class="w-14 h-14 bg-white/90 backdrop-blur rounded-2xl flex items-center justify-center text-[#12273a] border border-black/10 hover:bg-white transition-all shadow-lg" id="zoom-in-btn"><span class="material-symbols-outlined">add</span></button>
+<button class="w-14 h-14 bg-white/90 backdrop-blur rounded-2xl flex items-center justify-center text-[#12273a] border border-black/10 hover:bg-white transition-all shadow-lg" id="zoom-out-btn"><span class="material-symbols-outlined">remove</span></button>
+</div>
+</div>
+</section>
+<!-- Complete Beach List Section -->
+<section class="space-y-8">
+<div class="flex items-center justify-between border-b border-white/5 pb-6">
+<h3 class="text-3xl font-bold flex items-center gap-3 tracking-tight">
+<span class="material-symbols-outlined text-[var(--accent)]">beach_access</span> Explore todas as 25 Praias
+                </h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="complete-beach-list">
+<!-- Beach list items will be injected by JS -->
+</div>
+</section>
+</main>
+<footer class="max-w-7xl mx-auto px-6 py-12 text-center border-t border-white/5">
+<p class="text-[#9eacbe] text-sm font-bold tracking-tight uppercase">Nossas Pegadas</p>
+</footer>
+<script>
+        const beaches = [
+            { id: 1, nome: "Bombinhas", tipo: "Calma", lat: -27.148, lng: -48.487, desc: "A principal, águas cristalinas.", tag: "Central", img: "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/bombinhas" },
+            { id: 2, nome: "Sepultura", tipo: "Calma", lat: -27.152, lng: -48.490, desc: "Aquário natural incrível.", tag: "Snorkel", img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/sepultura" },
+            { id: 3, nome: "Retiro dos Padres", tipo: "Ondas", lat: -27.147, lng: -48.481, desc: "Cercada de natureza.", tag: "Camping", img: "https://images.unsplash.com/photo-1520116467321-f14663f60eef?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/retiro" },
+            { id: 4, nome: "Quatro Ilhas", tipo: "Ondas", lat: -27.147, lng: -48.483, desc: "Mar aberto, ideal para surf.", tag: "Surf Pro", img: "https://images.unsplash.com/photo-1506929113670-742187d9d73a?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/quatroilhas" },
+            { id: 5, nome: "Mariscal", tipo: "Ondas", lat: -27.178, lng: -48.498, desc: "Extensa faixa de areia.", tag: "Caminhadas", img: "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/mariscal" },
+            { id: 6, nome: "Bombas", tipo: "Ondas", lat: -27.147, lng: -48.513, desc: "Familiar, ótima infraestrutura.", tag: "Perto do Centro", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/bombas" },
+            { id: 7, nome: "Zimbros", tipo: "Calma", lat: -27.189, lng: -48.534, desc: "Mar de espelho, barcos.", tag: "Trilhas", img: "https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/zimbros" },
+            { id: 8, nome: "Tainha", tipo: "Trilha", lat: -27.228, lng: -48.502, desc: "O ponto mais extremo.", tag: "Mirante", img: "https://images.unsplash.com/photo-1495954484750-af469f2f9be5?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/tainha" },
+            { id: 9, nome: "Canto Grande (Dentro)", tipo: "Calma", lat: -27.205, lng: -48.515, desc: "Pôr do sol maravilhoso.", tag: "Sunset", img: "https://images.unsplash.com/photo-1502675135487-e971002a6adb?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/cantogrande" },
+            { id: 10, nome: "Canto Grande (Fora)", tipo: "Ondas", lat: -27.202, lng: -48.508, desc: "Continuação de Mariscal.", tag: "Natureza", img: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/cantograndefora" },
+            { id: 11, nome: "Lagoinha", tipo: "Calma", lat: -27.150, lng: -48.490, desc: "Águas rasas e peixes.", tag: "Crianças", img: "https://images.unsplash.com/photo-1515238152791-8216bfdf89a7?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/lagoinha" },
+            { id: 12, nome: "Embrulho", tipo: "Calma", lat: -27.149, lng: -48.489, desc: "Pequena e aconchegante.", tag: "Sossegada", img: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/embrulho" },
+            { id: 13, nome: "Ribeiro", tipo: "Trilha", lat: -27.148, lng: -48.500, desc: "Entre Bombas e Bombinhas.", tag: "Refúgio", img: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/ribeiro" },
+            { id: 14, nome: "Conceição", tipo: "Calma", lat: -27.215, lng: -48.507, desc: "Piscina entre pedras.", tag: "Privativa", img: "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/conceicao" },
+            { id: 15, nome: "Praia Grossa", tipo: "Trilha", lat: -27.135, lng: -48.525, desc: "Trilha de difícil acesso.", tag: "Trilha", img: "https://images.unsplash.com/photo-1509233725247-49e657c54213?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/grossa" },
+            { id: 16, nome: "Cardoso", tipo: "Calma", lat: -27.208, lng: -48.518, desc: "Vila de pescadores tradicional.", tag: "Peixe Fresco", img: "https://images.unsplash.com/photo-1559827291-72ee739d0d9a?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/cardoso" },
+            { id: 17, nome: "Porto Belo", tipo: "Calma", lat: -27.158, lng: -48.544, desc: "Porto de transatlânticos.", tag: "Cais", img: "https://images.unsplash.com/photo-1542332213-9b5a5a3fab35?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/portobelo" },
+            { id: 18, nome: "Ilha de Porto Belo", tipo: "Trilha", lat: -27.142, lng: -48.537, desc: "Patrimônio histórico.", tag: "Ilha", img: "https://images.unsplash.com/photo-1533760881669-80db4d7b4c15?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/ilhaportobelo" },
+            { id: 19, nome: "Estaleiro", tipo: "Trilha", lat: -27.185, lng: -48.548, desc: "Acesso por trilha ou barco.", tag: "Rústica", img: "https://images.unsplash.com/photo-1520942702018-0862200e6873?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/estaleiro" },
+            { id: 20, nome: "Estaleirinho", tipo: "Trilha", lat: -27.187, lng: -48.550, desc: "Pequena e preservada.", tag: "Natureza", img: "https://images.unsplash.com/photo-1437719417032-8595fd9e9dc6?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/estaleirinho" },
+            { id: 21, nome: "Cabeço", tipo: "Trilha", lat: -27.235, lng: -48.515, desc: "Ponto mais ao sul.", tag: "Isolada", img: "https://images.unsplash.com/photo-1471922694854-ff1b63b20054?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/cabeco" },
+            { id: 22, nome: "Galheta", tipo: "Ondas", lat: -27.140, lng: -48.520, desc: "Pico de surf local.", tag: "Surf", img: "https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/galheta" },
+            { id: 23, nome: "Araçá", tipo: "Calma", lat: -27.145, lng: -48.540, desc: "Comunidade tradicional.", tag: "Cultura", img: "https://images.unsplash.com/photo-1525183330358-4d6ea6605911?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/araca" },
+            { id: 24, nome: "Perequê", tipo: "Ondas", lat: -27.155, lng: -48.580, desc: "Porto Belo centro.", tag: "Estrutura", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/pereque" },
+            { id: 25, nome: "Baía de Zimbros", tipo: "Calma", lat: -27.200, lng: -48.545, desc: "Mar calmo, perfeito para caiaque.", tag: "Espelho d'água", img: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&q=80&w=600", maps: "https://maps.app.goo.gl/baiazimbros" }
+        ];
+
+        let userLocation = { lat: -27.148, lng: -48.487 };
+        let favoritas = JSON.parse(localStorage.getItem('fav_beaches') || '[]');
+        let map, markerLayer;
+
+        function initMap() {
+            map = L.map('map', { zoomControl: false }).setView([userLocation.lat, userLocation.lng], 13);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            markerLayer = L.layerGroup().addTo(map);
+        }
+
+        function updateTheme() {
+            const hour = new Date().getHours();
+            const temp = 29; 
+            const body = document.body;
+            
+            body.classList.remove('theme-hot', 'theme-cold', 'theme-night');
+            
+            if (hour >= 18 || hour <= 5) {
+                body.classList.add('theme-night');
+                document.getElementById('weather-icon').innerText = 'dark_mode';
+            } else if (temp > 28) {
+                body.classList.add('theme-hot');
+                document.getElementById('weather-icon').innerText = 'sunny';
+            } else if (temp < 20) {
+                body.classList.add('theme-cold');
+                document.getElementById('weather-icon').innerText = 'ac_unit';
+            }
+        }
+
+        function updateCountdown() {
+            const targetDate = new Date('2026-05-05T00:00:00');
+            const now = new Date();
+            const diff = targetDate - now;
+            
+            if (diff <= 0) {
+                document.getElementById('countdown-text').innerText = "A viagem chegou!";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            document.getElementById('countdown-text').innerText = `Faltam ${days}d ${hours}h ${mins}m`;
+        }
+
+        function getDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; 
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) + 
+                    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+                    Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        function toggleFavorite(id) {
+            const index = favoritas.indexOf(id);
+            if (index > -1) {
+                favoritas.splice(index, 1);
+            } else {
+                favoritas.push(id);
+            }
+            localStorage.setItem('fav_beaches', JSON.stringify(favoritas));
+            renderInterface();
+        }
+
+        function calcularScore(beach) {
+            let score = 50;
+            const dist = getDistance(userLocation.lat, userLocation.lng, beach.lat, beach.lng);
+            score += Math.max(0, 30 - (dist * 5));
+            if (favoritas.includes(beach.id)) score += 20;
+            return Math.min(100, Math.round(score));
+        }
+
+        function renderInterface() {
+            const ranked = beaches.map(b => ({
+                ...b,
+                match: calcularScore(b),
+                distancia: getDistance(userLocation.lat, userLocation.lng, b.lat, b.lng).toFixed(1)
+            })).sort((a, b) => b.match - a.match);
+            
+            // 1. Render Top Picks
+            const recContainer = document.getElementById('recommendation-engine');
+            recContainer.innerHTML = '';
+            ranked.slice(0, 8).forEach((beach, i) => {
+                const card = document.createElement('div');
+                card.className = "min-w-[360px] h-56 rounded-[2.5rem] relative overflow-hidden group cursor-pointer border border-white/5 shadow-2xl shrink-0";
+                card.innerHTML = `
+                    <img alt="${beach.nome}" class="absolute inset-0 w-full h-full object-cover brightness-[0.45] group-hover:scale-110 transition-transform duration-[1.2s]" src="${beach.img}"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent"></div>
+                    <div class="absolute top-6 left-6 bg-[var(--accent)] text-[#004c5e] text-[10px] font-black px-4 py-2 rounded-full shadow-lg">#${i+1} Match</div>
+                    <div class="absolute bottom-8 left-8 right-8">
+                        <p class="text-white font-extrabold text-2xl tracking-tight leading-tight">${beach.nome}</p>
+                        <div class="flex items-center gap-4 mt-2">
+                            <span class="text-[var(--accent)] font-black text-sm tracking-tight">${beach.match}% Match</span>
+                            <span class="text-white/40 text-[11px] uppercase font-bold tracking-[0.2em]">• ${beach.distancia}km</span>
+                        </div>
+                    </div>
+                `;
+                recContainer.appendChild(card);
+            });
+
+            // 2. Render Full List
+            const listContainer = document.getElementById('complete-beach-list');
+            listContainer.innerHTML = '';
+            beaches.forEach(beach => {
+                const dist = getDistance(userLocation.lat, userLocation.lng, beach.lat, beach.lng).toFixed(1);
+                const isFav = favoritas.includes(beach.id);
+                const card = document.createElement('div');
+                card.className = "glass-card p-6 rounded-[2rem] flex flex-col justify-between hover:border-[var(--accent)]/30 transition-all";
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center overflow-hidden">
+                                <img src="${beach.img}" class="w-full h-full object-cover opacity-80" />
+                            </div>
+                            <button onclick="toggleFavorite(${beach.id})" class="w-10 h-10 rounded-full flex items-center justify-center ${isFav ? 'text-pink-500' : 'text-[#9eacbe]'} hover:bg-white/5 transition-colors">
+                                <span class="material-symbols-outlined ${isFav ? 'filled' : ''}">${isFav ? 'favorite' : 'favorite_border'}</span>
+                            </button>
+                        </div>
+                        <h4 class="text-xl font-bold text-[#d8e7fa] mb-1">${beach.nome}</h4>
+                        <p class="text-xs text-[#9eacbe] font-medium mb-4 flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded-md bg-white/5 uppercase tracking-wider text-[10px]">${beach.tipo}</span>
+                            <span>• ${dist} km de você</span>
+                        </p>
+                        <p class="text-sm text-[#9eacbe] leading-relaxed mb-6">${beach.desc}</p>
+                    </div>
+                    <a href="${beach.maps}" target="_blank" class="w-full py-3 px-4 bg-white/5 hover:bg-[var(--accent)]/10 border border-white/10 rounded-xl text-center text-xs font-black uppercase tracking-widest text-[#d8e7fa] hover:text-[var(--accent)] transition-all flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-sm">directions</span> Como Chegar
+                    </a>
+                `;
+                listContainer.appendChild(card);
+            });
+
+            // 3. Update Map Markers
+            if (markerLayer) {
+                markerLayer.clearLayers();
+                beaches.forEach(beach => {
+                    const beachScore = calcularScore(beach);
+                    const color = beachScore > 85 ? '#00d2fd' : '#12273a';
+                    const marker = L.circleMarker([beach.lat, beach.lng], {
+                        radius: 8,
+                        fillColor: color,
+                        color: '#fff',
+                        weight: 2,
+                        opacity: 1,
+                        fillOpacity: 0.8
+                    }).addTo(markerLayer);
+                    marker.bindPopup(`
+                        <div style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                            <b style="font-size: 14px; color: #12273a;">${beach.nome}</b><br/>
+                            <span style="color: #666; font-size: 12px;">${beach.tipo}</span><br/>
+                            <a href="${beach.maps}" target="_blank" style="display:inline-block; margin-top: 8px; color: #00d2fd; font-weight: 800; text-decoration: none; text-transform: uppercase; font-size: 10px;">Rota Google Maps</a>
+                        </div>
+                    `);
+                });
+            }
+        }
+
+        document.getElementById('next-rec').addEventListener('click', () => {
+            document.getElementById('recommendation-engine').scrollBy({ left: 380, behavior: 'smooth' });
+        });
+        
+        document.getElementById('prev-rec').addEventListener('click', () => {
+            document.getElementById('recommendation-engine').scrollBy({ left: -380, behavior: 'smooth' });
+        });
+
+        document.getElementById('get-location-btn').addEventListener('click', () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    userLocation = { lat: position.coords.latitude, lng: position.coords.longitude };
+                    if (map) map.setView([userLocation.lat, userLocation.lng], 14);
+                    renderInterface();
+                }, () => {
+                    alert("Não foi possível obter sua localização. Usando localização padrão.");
+                });
+            }
+        });
+
+        document.getElementById('zoom-in-btn').addEventListener('click', () => map.zoomIn());
+        document.getElementById('zoom-out-btn').addEventListener('click', () => map.zoomOut());
+
+        // Init
+        updateTheme();
+        updateCountdown();
+        initMap();
+        renderInterface();
+        setInterval(updateCountdown, 1000);
+        setInterval(updateTheme, 1000 * 60 * 15); // Recheck theme every 15 mins
+    </script>
+</body></html>
