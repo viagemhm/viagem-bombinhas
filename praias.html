@@ -10,16 +10,23 @@
 <link crossorigin="" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" rel="stylesheet"/>
 <script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
+        :root {
+            --accent-color: #06b6d4; /* Default Cyan */
+            --accent-gradient: linear-gradient(135deg, #0891b2, #0e7490);
+            --card-glow: rgba(6, 182, 212, 0.05);
+        }
+
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #0c0a09;
+            background: #020617; /* Deeper Dark Foundation */
             color: #f8fafc;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: background 1s ease;
+            transition: background 0.5s ease;
         }
+
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
             display: inline-block;
@@ -30,48 +37,47 @@
             white-space: nowrap;
             direction: ltr;
         }
+
         .container-wrapper {
             width: 100%;
             max-width: 420px;
             padding: 20px 10px;
         }
+
         .main-card {
-            background: #1c1917;
+            background: #0f172a;
             border-radius: 32px;
             padding: 24px;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 50px var(--card-glow);
             position: relative;
-            transition: all 0.5s ease;
         }
-        
-        /* Dynamic Themes */
-        .theme-hot { background: #1c1917; border-color: rgba(249, 115, 22, 0.2); }
-        .theme-warm { background: #1c1917; border-color: rgba(245, 158, 11, 0.2); }
-        .theme-mild { background: #1c1917; border-color: rgba(14, 165, 233, 0.2); }
-        .theme-cool { background: #1c1917; border-color: rgba(30, 64, 175, 0.2); }
-        .theme-night { background: #0f172a; border-color: rgba(99, 102, 241, 0.2); }
 
-        /* Dynamic Hero Gradients */
-        .thermal-hot { background: linear-gradient(135deg, #f97316, #ea580c); border: 1px solid rgba(255, 255, 255, 0.2); }
-        .thermal-warm { background: linear-gradient(135deg, #facc15, #eab308); border: 1px solid rgba(255, 255, 255, 0.2); }
-        .thermal-mild { background: linear-gradient(135deg, #38bdf8, #0ea5e9); border: 1px solid rgba(255, 255, 255, 0.2); }
-        .thermal-cool { background: linear-gradient(135deg, #1e40af, #1e3a8a); border: 1px solid rgba(255, 255, 255, 0.2); }
-        .thermal-night { background: linear-gradient(135deg, #312e81, #1e1b4b); border: 1px solid rgba(255, 255, 255, 0.2); }
+        /* Dynamic Theme Classes */
+        .theme-hot { --accent-color: #f97316; --accent-gradient: linear-gradient(135deg, #f97316, #ea580c); --card-glow: rgba(249, 115, 22, 0.1); }
+        .theme-warm { --accent-color: #eab308; --accent-gradient: linear-gradient(135deg, #eab308, #ca8a04); --card-glow: rgba(234, 179, 8, 0.1); }
+        .theme-fresh { --accent-color: #38bdf8; --accent-gradient: linear-gradient(135deg, #38bdf8, #0ea5e9); --card-glow: rgba(56, 189, 248, 0.1); }
+        .theme-cool { --accent-color: #3b82f6; --accent-gradient: linear-gradient(135deg, #1e3a8a, #1e40af); --card-glow: rgba(59, 130, 246, 0.1); }
 
         .glass-card {
-            background: rgba(41, 37, 36, 0.6);
+            background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(12px);
             border-radius: 24px;
             padding: 20px;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
         }
+
+        .dynamic-accent-text { color: var(--accent-color); transition: color 0.3s ease; }
+        .dynamic-accent-bg { background: var(--accent-color); transition: background 0.3s ease; }
+        .dynamic-accent-gradient { background: var(--accent-gradient); transition: background 0.3s ease; }
+        .dynamic-accent-border { border-color: var(--accent-color); transition: border-color 0.3s ease; }
+
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
         .beach-list-item {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(8px);
             border-radius: 16px;
             padding: 12px 16px;
@@ -79,9 +85,9 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             transition: all 0.3s ease;
         }
-        
-        #map { height: 300px; border-radius: 20px; z-index: 1; filter: contrast(1.1) grayscale(0.2); }
-        footer { margin-top: 24px; color: #78716c; font-size: 12px; font-weight: 500; text-align: center; padding-bottom: 20px; }
+
+        #map { height: 300px; border-radius: 20px; z-index: 1; filter: grayscale(0.2) contrast(1.1); }
+        footer { margin-top: 24px; color: #64748b; font-size: 12px; font-weight: 500; text-align: center; padding-bottom: 20px; }
 
         .loading-pulse {
             animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
@@ -91,80 +97,117 @@
             50% { opacity: .5; }
         }
 
-        .netflix-card:hover img {
-            transform: scale(1.1);
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #94a3b8;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: color 0.3s;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
         }
-        .netflix-card img {
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            object-fit: cover;
+        .back-btn:hover { color: var(--accent-color); }
+
+        .best-now-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 24px;
+            display: none;
+            position: relative;
+            overflow: hidden;
+        }
+        .best-now-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 2px;
+            background: var(--accent-gradient);
         }
     </style>
 </head>
-<body>
+<body id="body-theme">
 <div class="container-wrapper">
-<div class="main-card" id="app-container">
+<div class="main-card" id="main-card">
 <!-- TOP NAVIGATION -->
-<div class="flex justify-start mb-6">
-<button class="flex items-center gap-2 text-white/70 hover:text-white transition-colors font-display font-bold text-[10px] tracking-widest uppercase bg-transparent border-none p-0 cursor-pointer" id="btn-back">
+<button class="back-btn" id="btn-back">
 <span class="material-symbols-outlined text-[18px]">arrow_back</span>
-                    VOLTAR AO INÍCIO
-                </button>
-</div>
+            Voltar ao início
+        </button>
 <!-- HEADER -->
 <div class="flex justify-between items-start mb-6">
 <div class="flex items-center gap-3">
-<div class="w-12 h-12 rounded-full p-0.5 bg-gradient-to-tr from-amber-400 to-orange-600" id="profile-ring">
-<img alt="Profile" class="w-full h-full rounded-full object-cover bg-gray-800" src="https://lh3.googleusercontent.com/aida/ADBb0ugocHj_uikm23nml2qCmFMrYHlUYX79LzQjJbK1bEU8DqSGoZigRbfmNvsaXn_nc_NU0zbCpPr1wvtyTNL6TGR8AvzJRQN1YB_pPXktma9gFdTbH2rFtp5GNKKi5d9TGGca_zBVwnYXu7jULE058Hy0jOtCyqsBTSdO8DbIocqwsXeJu5i3El67dSpMy-DYrZ4lKfc5tr7U87zPYHM-n5mEoMzolAb7-K8-WpQPZ0DlKVa2P-y_f8l0G87pyjgx19OtbgMrZxwMAA"/>
+<div class="w-12 h-12 rounded-full p-0.5 dynamic-accent-gradient">
+<img class="w-full h-full rounded-full object-cover bg-gray-800" loading="lazy" src="https://lh3.googleusercontent.com/aida/ADBb0ugocHj_uikm23nml2qCmFMrYHlUYX79LzQjJbK1bEU8DqSGoZigRbfmNvsaXn_nc_NU0zbCpPr1wvtyTNL6TGR8AvzJRQN1YB_pPXktma9gFdTbH2rFtp5GNKKi5d9TGGca_zBVwnYXu7jULE058Hy0jOtCyqsBTSdO8DbIocqwsXeJu5i3El67dSpMy-DYrZ4lKfc5tr7U87zPYHM-n5mEoMzolAb7-K8-WpQPZ0DlKVa2P-y_f8l0G87pyjgx19OtbgMrZxwMAA"/>
 </div>
 <div>
 <h2 class="font-bold text-white text-sm leading-tight">Helder e Mayara</h2>
-<div class="text-[10px] font-bold text-amber-500 uppercase tracking-tight" id="countdown-label">Bombinhas 2026</div>
-</div>
-</div>
-</div>
-<!-- WEATHER HERO SECTION -->
-<div class="glass-card mb-6" id="clima-bg">
-<div class="flex justify-between items-start">
-<div class="flex flex-col">
-<div class="text-xl font-extrabold tracking-tighter text-white">Explorar Praias</div>
-<div class="mt-4 flex items-center justify-center">
-<span class="material-symbols-outlined text-6xl text-white drop-shadow-lg" id="weather-icon">wb_sunny</span>
+<div class="text-[10px] font-bold dynamic-accent-text uppercase tracking-tight">Bombinhas 2026</div>
 </div>
 </div>
 <div class="text-right">
-<div class="text-[10px] text-white/80 font-black uppercase">Bombinhas, SC</div>
+<div class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Viagem</div>
+<div class="text-xs font-bold text-slate-300">05/05/2026</div>
+<div class="text-[10px] dynamic-accent-text font-bold mt-0.5" id="countdown"></div>
+</div>
+</div>
+<!-- WEATHER HERO SECTION -->
+<div class="glass-card mb-4" id="clima-hero">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<div class="text-xl font-extrabold tracking-tighter text-white">Explorar Praias</div>
+<div class="mt-4 flex items-center">
+<span class="material-symbols-outlined text-5xl text-white" id="weather-icon">wb_sunny</span>
+</div>
+</div>
+<div class="text-right">
+<div class="text-[10px] text-slate-400 font-black uppercase">Bombinhas, SC</div>
 <div class="text-4xl font-black text-white tracking-tighter" id="temp-val">--°C</div>
-<p class="text-[10px] text-white/70 mt-1 font-medium italic" id="weather-desc">Sincronizando...</p>
-<div class="text-[9px] text-white/50 mt-2 font-bold uppercase tracking-widest" id="wind-speed">Vento: -- km/h</div>
+<p class="text-[10px] text-slate-300 mt-1" id="weather-desc">Carregando...</p>
 </div>
 </div>
 </div>
-<!-- AI RECOMMENDATION MOTOR -->
+<!-- BEST BEACH NOW (AI RECOMMENDATION) -->
+<div class="best-now-card" id="best-now">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined dynamic-accent-text text-sm">psychology</span>
+<span class="text-[10px] font-black dynamic-accent-text uppercase tracking-widest">IA: Melhor Escolha Agora</span>
+</div>
+<div class="flex justify-between items-center" id="best-now-content">
+<!-- Content via JS -->
+</div>
+</div>
+<!-- RECOMMENDATION ENGINE (TOP PICKS) -->
 <section class="mb-8">
 <div class="flex items-center justify-between mb-4">
 <h3 class="text-lg font-bold flex items-center gap-2 text-white">
-<span class="animate-pulse" id="rec-emoji">🔥</span> IA Recomendadas
-                    </h3>
+<span>🔥</span> Recomendadas
+                </h3>
 <div class="flex gap-2">
-<button class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-stone-400 hover:bg-white/10" id="prev-rec">
+<button class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400" id="prev-rec">
 <span class="material-symbols-outlined text-sm">chevron_left</span>
 </button>
-<button class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-stone-400 hover:bg-white/10" id="next-rec">
+<button class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400" id="next-rec">
 <span class="material-symbols-outlined text-sm">chevron_right</span>
 </button>
 </div>
 </div>
-<div class="flex gap-4 overflow-x-auto no-scrollbar pb-4" id="recommendation-engine">
-<div class="min-w-[160px] h-36 bg-white/5 rounded-xl animate-pulse"></div>
-<div class="min-w-[160px] h-36 bg-white/5 rounded-xl animate-pulse"></div>
+<div class="flex gap-3 overflow-x-auto no-scrollbar pb-2" id="recommendation-engine">
+<!-- Top picks via JS -->
 </div>
 </section>
 <!-- MAP SECTION -->
 <section class="mb-8">
-<div class="glass-card p-2 border-white/5 bg-stone-900/80">
+<div class="glass-card p-2">
 <div id="map"></div>
 <div class="flex gap-2 mt-3 px-2">
-<button class="flex-1 bg-amber-600 hover:bg-amber-500 text-white text-[10px] font-black uppercase py-3 rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-lg shadow-amber-900/40" id="get-location-btn">
+<button class="flex-1 dynamic-accent-bg hover:opacity-90 text-slate-950 text-[10px] font-black uppercase py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed" id="get-location-btn">
 <span class="material-symbols-outlined text-xs" id="loc-icon">my_location</span>
 <span id="loc-text">Minha Localização</span>
 </button>
@@ -173,296 +216,308 @@
 </section>
 <!-- COMPLETE LIST -->
 <section class="mb-6">
-<h3 class="text-lg font-bold flex items-center gap-2 mb-4 text-white px-1">
-<span class="material-symbols-outlined text-amber-500" id="list-icon">beach_access</span> 25 Praias
-                </h3>
+<h3 class="text-lg font-bold flex items-center gap-2 mb-4 text-white">
+<span class="material-symbols-outlined dynamic-accent-text">beach_access</span> 25 Praias
+            </h3>
 <div id="complete-beach-list">
 <!-- Beach list items via JS -->
 </div>
 </section>
 </div>
 <footer>
-            Nossas Pegadas - Todos os direitos reservados
-        </footer>
+        Nossas Pegadas - Todos os direitos reservados
+    </footer>
 </div>
 <script>
-        const FALLBACK_IMG = "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=400";
-        
-        const beaches = [
-            { id: 1, nome: "Bombinhas", tipo: "Calma", lat: -27.148, lng: -48.487, desc: "A praia central mais famosa da cidade. Possui águas cristalinas, poucas ondas e excelente infraestrutura.", tag: "Central", img: "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombinhas" },
-            { id: 2, nome: "Sepultura", tipo: "Calma", lat: -27.152, lng: -48.490, desc: "Aquário natural ideal para snorkel. Águas extremamente mansas cercadas de rochas.", tag: "Snorkel", img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Sepultura" },
-            { id: 3, nome: "Retiro dos Padres", tipo: "Ondas", lat: -27.147, lng: -48.481, desc: "Cercada de morros e mata nativa, oferece um ambiente mais rústico e preservado.", tag: "Camping", img: "https://images.unsplash.com/photo-1520116467321-f14663f60eef?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Retiro+dos+Padres" },
-            { id: 4, nome: "Quatro Ilhas", tipo: "Ondas", lat: -27.147, lng: -48.483, desc: "Conhecida pelo mar aberto e ondas fortes, é o paraíso dos surfistas em Bombinhas.", tag: "Surf Pro", img: "https://images.unsplash.com/photo-1506929113670-742187d9d73a?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Quatro+Ilhas" },
-            { id: 5, nome: "Mariscal", tipo: "Ondas", lat: -27.178, lng: -48.498, desc: "A maior praia em extensão. Com areia branca e mar agitado, perfeita para caminhadas.", tag: "Caminhadas", img: "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Mariscal" },
-            { id: 6, nome: "Bombas", tipo: "Ondas", lat: -27.147, lng: -48.513, desc: "A entrada da cidade. Possui calçadão, ciclovia e ótima infraestrutura hoteleira.", tag: "Perto do Centro", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombas" },
-            { id: 7, nome: "Zimbros", tipo: "Calma", lat: -27.189, lng: -48.534, desc: "Praia com águas de espelho, rasa e calma. Ponto de partida para trilhas desertas.", tag: "Trilhas", img: "https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Zimbros" },
-            { id: 8, nome: "Tainha", tipo: "Trilha", lat: -27.228, lng: -48.502, desc: "Localizada no extremo sul da península. Oferece uma das vistas mais espetaculares.", tag: "Mirante", img: "https://images.unsplash.com/photo-1495954484750-af469f2f9be5?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Tainha" },
-            { id: 9, nome: "Canto Grande (Dentro)", tipo: "Calma", lat: -27.205, lng: -48.515, desc: "Banhada pela baía, possui mar extremamente calmo e o melhor pôr do sol.", tag: "Sunset", img: "https://images.unsplash.com/photo-1502675135487-e971002a6adb?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Canto+Grande" },
-            { id: 10, nome: "Canto Grande (Fora)", tipo: "Ondas", lat: -27.202, lng: -48.508, desc: "Lado de mar aberto, ondas para surf. Aos pés da trilha do Morro do Macaco.", tag: "Natureza", img: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Canto+Grande" },
-            { id: 11, nome: "Lagoinha", tipo: "Calma", lat: -27.150, lng: -48.490, desc: "Pequena enseada com muitos peixes visíveis. Perfeita para famílias com crianças.", tag: "Crianças", img: "https://images.unsplash.com/photo-1515238152791-8216bfdf89a7?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Lagoinha" },
-            { id: 12, nome: "Embrulho", tipo: "Calma", lat: -27.149, lng: -48.489, desc: "Praia pequena e protegida por pedras. Tranquilidade próxima ao centro.", tag: "Sossegada", img: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Embrulho" },
-            { id: 13, nome: "Ribeiro", tipo: "Trilha", lat: -27.148, lng: -48.500, desc: "Acesso por trilha entre Bombas e Bombinhas. Refúgio deserto ideal para casais.", tag: "Refúgio", img: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Ribeiro" },
-            { id: 14, nome: "Conceição", tipo: "Calma", lat: -27.215, lng: -48.507, desc: "Baía com piscinas naturais entre as pedras. Ambiente privativo e relaxante.", tag: "Privativa", img: "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Conceição" },
-            { id: 15, nome: "Praia Grossa", tipo: "Trilha", lat: -27.135, lng: -48.525, desc: "Selvagem com acesso via trilha íngreme de Bombas. Recompensadora beleza intocada.", tag: "Trilha", img: "https://images.unsplash.com/photo-1509233725247-49e657c54213?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Grossa" },
-            { id: 16, nome: "Cardoso", tipo: "Calma", lat: -27.208, lng: -48.518, desc: "Vila de pescadores tradicional que mantém o charme antigo. Peixe fresco local.", tag: "Peixe Fresco", img: "https://images.unsplash.com/photo-1559827291-72ee739d0d9a?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Cardoso" },
-            { id: 17, nome: "Porto Belo", tipo: "Calma", lat: -27.158, lng: -48.544, desc: "Cidade vizinha com águas protegidas pela Ilha de Porto Belo.", tag: "Cais", img: "https://images.unsplash.com/photo-1542332213-9b5a5a3fab35?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Porto+Belo" },
-            { id: 18, nome: "Ilha de Porto Belo", tipo: "Trilha", lat: -27.142, lng: -48.537, desc: "Acesso por barco. Trilhas, inscrições rupestres e museu com águas límpidas.", tag: "Ilha", img: "https://images.unsplash.com/photo-1533760881669-80db4d7b4c15?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Ilha+de+Porto+Belo" },
-            { id: 19, nome: "Estaleiro", tipo: "Trilha", lat: -27.185, lng: -48.548, desc: "Deserta acessada por trilha de Zimbros. Areias grossas e águas verdes.", tag: "Rústica", img: "https://images.unsplash.com/photo-1520942702018-0862200e6873?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Estaleiro" },
-            { id: 20, nome: "Estaleirinho", tipo: "Trilha", lat: -27.187, lng: -48.550, desc: "Continuação isolada do Estaleiro. Pequena faixa de areia em meio à mata.", tag: "Natureza", img: "https://images.unsplash.com/photo-1437719417032-8595fd9e9dc6?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Estaleirinho" },
-            { id: 21, nome: "Cabeço", tipo: "Trilha", lat: -27.235, lng: -48.515, desc: "Ponto mais ao sul. Praia rústica pouco visitada com mar cristalino.", tag: "Isolada", img: "https://images.unsplash.com/photo-1471922694854-ff1b63b20054?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Cabeço" },
-            { id: 22, nome: "Galheta", tipo: "Ondas", lat: -27.140, lng: -48.520, desc: "Pico de surf local próximo a Bombas. Mar agitado frequentado por moradores.", tag: "Surf", img: "https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Galheta" },
-            { id: 23, nome: "Araçá", tipo: "Calma", lat: -27.145, lng: -48.540, desc: "Comunidade tradicional de pescadores. Águas de baía calmas e rasas.", tag: "Cultura", img: "https://images.unsplash.com/photo-1525183330358-4d6ea6605911?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Araçá" },
-            { id: 24, nome: "Perequê", tipo: "Ondas", lat: -27.155, lng: -48.580, desc: "Localizada no centro de Porto Belo. Praia extensa com boa infraestrutura.", tag: "Estrutura", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Perequê" },
-            { id: 25, nome: "Baía de Zimbros", tipo: "Calma", lat: -27.200, lng: -48.545, desc: "Extensa baía de águas paradas como uma lagoa. Perfeito para caiaque e SUP.", tag: "Espelho d'água", img: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Baía+de+Zimbros" }
-        ];
+    const FALLBACK_IMG = "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400&q=60";
+    const beaches = [
+        { id: 1, nome: "Bombinhas", tipo: "Calma", lat: -27.148, lng: -48.487, desc: "A praia central mais famosa da cidade. Possui águas cristalinas, poucas ondas e excelente infraestrutura de bares e restaurantes.", tag: "Central", img: "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombinhas" },
+        { id: 2, nome: "Sepultura", tipo: "Calma", lat: -27.152, lng: -48.490, desc: "Um verdadeiro aquário natural ideal para snorkel e mergulho livre. Águas extremamente mansas e transparentes cercadas de rochas.", tag: "Snorkel", img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Sepultura" },
+        { id: 3, nome: "Retiro dos Padres", tipo: "Ondas", lat: -27.147, lng: -48.481, desc: "Cercada de morros e mata nativa, oferece um ambiente mais rústico e preservado. Ótima para camping e quem busca fugir do agito central.", tag: "Camping", img: "https://images.unsplash.com/photo-1520116467321-f14663f60eef?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Retiro+dos+Padres" },
+        { id: 4, nome: "Quatro Ilhas", tipo: "Ondas", lat: -27.147, lng: -48.483, desc: "Conhecida pelo mar aberto e ondas fortes, é o paraíso dos surfistas em Bombinhas. Oferece uma vista privilegiada das quatro ilhas da reserva.", tag: "Surf Pro", img: "https://images.unsplash.com/photo-1506929113670-742187d9d73a?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Quatro+Ilhas" },
+        { id: 5, nome: "Mariscal", tipo: "Ondas", lat: -27.178, lng: -48.498, desc: "A maior praia de Bombinhas em extensão. Com areia muito branca e mar agitado, é perfeita para longas caminhadas ao nascer do sol.", tag: "Caminhadas", img: "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Mariscal" },
+        { id: 6, nome: "Bombas", tipo: "Ondas", lat: -27.147, lng: -48.513, desc: "A primeira praia ao entrar na cidade. Possui calçadão para caminhadas, ciclovia e ótima infraestrutura hoteleira e gastronômica.", tag: "Perto do Centro", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombas" },
+        { id: 7, nome: "Zimbros", tipo: "Calma", lat: -27.189, lng: -48.534, desc: "Praia com águas de espelho, muito calma e rasa. É o ponto de partida para trilhas que levam a praias desertas e isoladas da reserva.", tag: "Trilhas", img: "https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Zimbros" },
+        { id: 8, nome: "Tainha", tipo: "Trilha", lat: -27.228, lng: -48.502, desc: "Localizada no extremo sul da península, o acesso é feito por estrada de terra ou barco. Oferece uma das vistas mais espetaculares da região.", tag: "Mirante", img: "https://images.unsplash.com/photo-1495954484750-af469f2f9be5?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Tainha" },
+        { id: 9, nome: "Canto Grande (Dentro)", tipo: "Calma", lat: -27.205, lng: -48.515, desc: "Banhada pelas águas da baía, possui mar extremamente calmo e é o melhor lugar para assistir ao pôr do sol em Bombinhas.", tag: "Sunset", img: "https://images.unsplash.com/photo-1502675135487-e971002a6adb?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Canto+Grande" },
+        { id: 10, nome: "Canto Grande (Fora)", tipo: "Ondas", lat: -27.202, lng: -48.508, desc: "Lado de mar aberto da vila, com ondas propícias para o surf. Fica logo aos pés do Morro do Macaco, principal trilha da cidade.", tag: "Natureza", img: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Canto+Grande" },
+        { id: 11, nome: "Lagoinha", tipo: "Calma", lat: -27.150, lng: -48.490, desc: "Pequena enseada com águas rasas e muitos peixes visíveis a olho nu. Perfeita para famílias com crianças.", tag: "Crianças", img: "https://images.unsplash.com/photo-1515238152791-8216bfdf89a7?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Lagoinha" },
+        { id: 12, nome: "Embrulho", tipo: "Calma", lat: -27.149, lng: -48.489, desc: "Praia pequena e protegida por pedras. Muito procurada por quem quer tranquilidade sem se afastar muito do centro.", tag: "Sossegada", img: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Embrulho" },
+        { id: 13, nome: "Ribeiro", tipo: "Trilha", lat: -27.148, lng: -48.500, desc: "Acesso por trilha rápida entre Bombas e Bombinhas. É um refúgio deserto no meio da cidade, sem comércio.", tag: "Refúgio", img: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Ribeiro" },
+        { id: 14, nome: "Conceição", tipo: "Calma", lat: -27.215, lng: -48.507, desc: "Uma pequena baía com piscinas naturais formadas entre as pedras. Águas límpidas e ambiente privativo.", tag: "Privativa", img: "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Conceição" },
+        { id: 15, nome: "Praia Grossa", tipo: "Trilha", lat: -27.135, lng: -48.525, desc: "Praia selvagem com acesso via trilha íngreme partindo de Bombas. Recompensadora pela beleza intocada.", tag: "Trilha", img: "https://images.unsplash.com/photo-1509233725247-49e657c54213?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Grossa" },
+        { id: 16, nome: "Cardoso", tipo: "Calma", lat: -27.208, lng: -48.518, desc: "Vila de pescadores tradicional que mantém o charme do litoral catarinense antigo.", tag: "Peixe Fresco", img: "https://images.unsplash.com/photo-1559827291-72ee739d0d9a?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Cardoso" },
+        { id: 17, nome: "Porto Belo", tipo: "Calma", lat: -27.158, lng: -48.544, desc: "Cidade vizinha com praia central calma e águas cristalinas protegidas pela Ilha.", tag: "Cais", img: "https://images.unsplash.com/photo-1542332213-9b5a5a3fab35?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Porto+Belo" },
+        { id: 18, nome: "Ilha de Porto Belo", tipo: "Trilha", lat: -27.142, lng: -48.537, desc: "Acesso por barco. Possui trilhas ecológicas, inscrições rupestres e museu.", tag: "Ilha", img: "https://images.unsplash.com/photo-1533760881669-80db4d7b4c15?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Ilha+de+Porto+Belo" },
+        { id: 19, nome: "Estaleiro", tipo: "Trilha", lat: -27.185, lng: -48.548, desc: "Praia deserta acessada por trilha a partir de Zimbros. Areias grossas e águas verdes.", tag: "Rústica", img: "https://images.unsplash.com/photo-1520942702018-0862200e6873?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Estaleiro" },
+        { id: 20, nome: "Estaleirinho", tipo: "Trilha", lat: -27.187, lng: -48.550, desc: "Continuação isolada da praia do Estaleiro. Pequena faixa de areia em meio à mata.", tag: "Natureza", img: "https://images.unsplash.com/photo-1437719417032-8595fd9e9dc6?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Estaleirinho" },
+        { id: 21, nome: "Cabeço", tipo: "Trilha", lat: -27.235, lng: -48.515, desc: "Ponto mais ao sul da península. Praia rústica com mar cristalino e acesso via trilha.", tag: "Isolada", img: "https://images.unsplash.com/photo-1471922694854-ff1b63b20054?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Cabeço" },
+        { id: 22, nome: "Galheta", tipo: "Ondas", lat: -27.140, lng: -48.520, desc: "Pico de surf local próximo a Bombas. Mar agitado e ambiente frequentado por locais.", tag: "Surf", img: "https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Galheta" },
+        { id: 23, nome: "Araçá", tipo: "Calma", lat: -27.145, lng: -48.540, desc: "Comunidade tradicional de pescadores. Águas de baía calmas e rasas.", tag: "Cultura", img: "https://images.unsplash.com/photo-1525183330358-4d6ea6605911?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Araçá" },
+        { id: 24, nome: "Perequê", tipo: "Ondas", lat: -27.155, lng: -48.580, desc: "Localizada no centro de Porto Belo. Praia extensa com boa infraestrutura.", tag: "Estrutura", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400&q=60", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Perequê" },
+        { id: 25, nome: "Baía de Zimbros", tipo: "Calma", lat: -27.200, lng: -48.545, desc: "Extensa baía de águas paradas como uma lagoa. Local perfeito para caiaque e SUP.", tag: "Espelho d'água", img: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Baía+de+Zimbros" }
+    ];
 
-        let userLocation = { lat: -27.148, lng: -48.487 };
-        let favorites = JSON.parse(localStorage.getItem('bombinhas_favs')) || [];
-        let currentTemp = 25;
-        let weatherCondition = 'clear';
-        let windSpeed = 0;
-        let map, markerLayer;
+    let userLocation = { lat: -27.148, lng: -48.487 };
+    let favoritas = new Array(beaches.length).fill(false);
+    let map, markerLayer, userMarker;
+    let currentTemp = 25;
 
-        const getK = () => "8d904359489f" + "688849b38069542a20ca";
+    try {
+        const saved = JSON.parse(localStorage.getItem('praias_fav_v1'));
+        if (Array.isArray(saved) && saved.length === beaches.length) favoritas = saved;
+    } catch (e) {}
 
-        async function fetchWeather() {
-            const apiKey = getK(); 
-            try {
-                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=-27.14&lon=-48.49&appid=${apiKey}&units=metric&lang=pt_br`);
-                if (!response.ok) throw new Error();
-                const data = await response.json();
+    async function updateWeather() {
+        try {
+            const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=-27.148&lon=-48.487&appid=bd5e378503939ddaee76f12ad7a97608&units=metric&lang=pt_br`);
+            const data = await res.json();
+            if (data.main) {
                 currentTemp = Math.round(data.main.temp);
-                weatherCondition = data.weather[0].main.toLowerCase();
-                windSpeed = Math.round(data.wind.speed * 3.6);
-                updateWeatherUI(currentTemp, data.weather[0].description, windSpeed, data.weather[0].icon);
-            } catch (error) {
-                updateWeatherUI(28, "Céu limpo e ensolarado", 12, "01d");
+                document.getElementById('temp-val').textContent = `${currentTemp}°C`;
+                document.getElementById('weather-desc').textContent = data.weather[0].description.charAt(0).toUpperCase() + data.weather[0].description.slice(1);
+                applyDynamicTheme(currentTemp);
+                updateBestBeachNow();
+                renderInterface();
             }
-            applyDynamicTheme();
+        } catch (e) {
+            console.error("Erro clima:", e);
+            applyDynamicTheme(25);
+            updateBestBeachNow();
             renderInterface();
         }
+    }
 
-        function updateWeatherUI(temp, desc, wind, icon) {
-            document.getElementById('temp-val').textContent = `${temp}°C`;
-            document.getElementById('weather-desc').textContent = desc.charAt(0).toUpperCase() + desc.slice(1);
-            document.getElementById('wind-speed').textContent = `Vento: ${wind} km/h`;
-            
-            const climaBg = document.getElementById('clima-bg');
-            const iconEl = document.getElementById('weather-icon');
-            
-            climaBg.className = 'glass-card mb-6 ';
-            const hour = new Date().getHours();
-            const isNight = hour < 6 || hour > 19;
+    function applyDynamicTheme(temp) {
+        const body = document.getElementById('body-theme');
+        const iconEl = document.getElementById('weather-icon');
+        const hour = new Date().getHours();
+        const isNight = hour >= 18 || hour < 6;
 
-            if (isNight) {
-                climaBg.classList.add('thermal-night');
-                iconEl.textContent = 'nightlight';
-            } else if (temp >= 30) {
-                climaBg.classList.add('thermal-hot');
-                iconEl.textContent = 'wb_sunny';
-            } else if (temp >= 24) {
-                climaBg.classList.add('thermal-warm');
-                iconEl.textContent = 'sunny';
-            } else if (temp >= 18) {
-                climaBg.classList.add('thermal-mild');
-                iconEl.textContent = 'cloud';
-            } else {
-                climaBg.classList.add('thermal-cool');
-                iconEl.textContent = 'ac_unit';
-            }
+        body.classList.remove('theme-hot', 'theme-warm', 'theme-fresh', 'theme-cool');
+
+        if (isNight) {
+            body.classList.add('theme-cool');
+            iconEl.textContent = 'dark_mode';
+        } else if (temp >= 30) {
+            body.classList.add('theme-hot');
+            iconEl.textContent = 'sunny';
+        } else if (temp >= 25) {
+            body.classList.add('theme-warm');
+            iconEl.textContent = 'wb_sunny';
+        } else if (temp >= 20) {
+            body.classList.add('theme-fresh');
+            iconEl.textContent = 'cloud_queue';
+        } else {
+            body.classList.add('theme-cool');
+            iconEl.textContent = 'ac_unit';
         }
+    }
 
-        function applyDynamicTheme() {
-            const body = document.body;
-            const app = document.getElementById('app-container');
-            const profileRing = document.getElementById('profile-ring');
-            const hour = new Date().getHours();
-            const isNight = hour < 6 || hour > 19;
+    function initMap() {
+        map = L.map('map', { zoomControl: false }).setView([userLocation.lat, userLocation.lng], 13);
+        L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+            attribution: '© Stadia Maps'
+        }).addTo(map);
+        markerLayer = L.layerGroup().addTo(map);
+        updateMapMarkers();
+        setTimeout(() => map.invalidateSize(), 300);
+    }
 
-            body.classList.remove('bg-stone-950', 'bg-slate-950');
-            app.classList.remove('theme-hot', 'theme-warm', 'theme-mild', 'theme-cool', 'theme-night');
-            profileRing.className = "w-12 h-12 rounded-full p-0.5 ";
-
-            if (isNight) {
-                body.style.background = "#020617";
-                app.classList.add('theme-night');
-                profileRing.classList.add('bg-gradient-to-tr', 'from-indigo-500', 'to-purple-600');
-                document.getElementById('rec-emoji').textContent = "🌌";
-                document.getElementById('list-icon').className = "material-symbols-outlined text-indigo-400";
-            } else if (currentTemp >= 30) {
-                body.style.background = "#0c0a09";
-                app.classList.add('theme-hot');
-                profileRing.classList.add('bg-gradient-to-tr', 'from-orange-400', 'to-red-600');
-                document.getElementById('rec-emoji').textContent = "🔥";
-                document.getElementById('list-icon').className = "material-symbols-outlined text-orange-400";
-            } else {
-                body.style.background = "#0c0a09";
-                app.classList.add('theme-warm');
-                profileRing.classList.add('bg-gradient-to-tr', 'from-amber-400', 'to-orange-600');
-                document.getElementById('rec-emoji').textContent = "✨";
-                document.getElementById('list-icon').className = "material-symbols-outlined text-amber-500";
-            }
-        }
-
-        function initMap() {
-            map = L.map('map', { zoomControl: false }).setView([userLocation.lat, userLocation.lng], 13);
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                attribution: '© CARTO'
-            }).addTo(map);
-            markerLayer = L.layerGroup().addTo(map);
-            updateMapMarkers();
-        }
-
-        function getDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371; 
-            const dLat = (lat2-lat1) * Math.PI/180;
-            const dLon = (lon2-lon1) * Math.PI/180;
-            const a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
-            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        }
-
-        function calculateScore(beach) {
-            let score = 50;
-            if (currentTemp >= 30) {
-                if (beach.tipo === "Ondas") score += 30;
-            } else if (currentTemp < 24) {
-                if (beach.tipo === "Trilha") score += 35;
-            }
-            const dist = getDistance(userLocation.lat, userLocation.lng, beach.lat, beach.lng);
-            score += Math.max(0, 15 - (dist * 2));
-            if (favorites.includes(beach.id)) score += 10;
-            return Math.min(99, Math.round(score));
-        }
-
-        function getMatchLabel(score) {
-            if (score >= 85) return "Match Perfeito";
-            if (score >= 70) return "Ótima Escolha";
-            return "Pode Gostar";
-        }
-
-        function toggleFavorite(id) {
-            const index = favorites.indexOf(id);
-            if (index > -1) favorites.splice(index, 1);
-            else favorites.push(id);
-            localStorage.setItem('bombinhas_favs', JSON.stringify(favorites));
-            renderInterface();
-            updateMapMarkers();
-        }
-
-        function focusOnBeach(lat, lng) {
-            map.setView([lat, lng], 15);
-            document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        function renderInterface() {
-            const ranked = beaches.map(b => ({
-                ...b,
-                score: calculateScore(b),
-                dist: getDistance(userLocation.lat, userLocation.lng, b.lat, b.lng),
-                isFav: favorites.includes(b.id)
-            })).sort((a, b) => b.score - a.score);
-
-            const recContainer = document.getElementById('recommendation-engine');
-            recContainer.innerHTML = '';
-            ranked.slice(0, 6).forEach(beach => {
-                const card = document.createElement('div');
-                card.className = "netflix-card min-w-[160px] h-36 rounded-2xl relative overflow-hidden shrink-0 border border-white/10 shadow-xl cursor-pointer bg-stone-800";
-                card.onclick = () => focusOnBeach(beach.lat, beach.lng);
-                card.innerHTML = `
-                    <img class="absolute inset-0 w-full h-full object-cover brightness-[0.7]" 
-                         src="${beach.img}" 
-                         onerror="this.onerror=null; this.src='${FALLBACK_IMG}';"
-                         alt="${beach.nome}"/>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-3 flex flex-col justify-between">
-                        <div class="bg-amber-500 text-black text-[8px] font-black px-1.5 py-0.5 rounded-sm self-start uppercase tracking-tighter shadow-sm">${getMatchLabel(beach.score)}</div>
-                        <div>
-                            <p class="text-[11px] font-extrabold text-white leading-tight truncate">${beach.nome}</p>
-                            <div class="flex items-center gap-1">
-                                 <span class="text-[9px] text-amber-400 font-bold">${beach.score}% Match</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                recContainer.appendChild(card);
-            });
-
-            const listContainer = document.getElementById('complete-beach-list');
-            listContainer.innerHTML = '';
-            ranked.forEach(beach => {
-                const item = document.createElement('div');
-                item.className = "beach-list-item flex flex-col gap-3 group hover:bg-white/5";
-                item.innerHTML = `
-                    <div class="flex items-start justify-between">
-                        <div class="flex gap-3 flex-1">
-                            <button class="shrink-0 mt-1 flex flex-col items-center gap-0.5" onclick="toggleFavorite(${beach.id})">
-                                <span class="material-symbols-outlined text-[24px] ${beach.isFav ? 'text-orange-500' : 'text-stone-600'}" style="font-variation-settings: 'FILL' ${beach.isFav ? 1 : 0}">favorite</span>
-                                <span class="text-[7px] font-black uppercase text-stone-500">${beach.isFav ? 'Salvo' : 'Salvar'}</span>
-                            </button>
-                            <div class="flex-1 cursor-pointer" onclick="focusOnBeach(${beach.lat}, ${beach.lng})">
-                                <h4 class="font-bold text-white text-sm">${beach.nome}</h4>
-                                <p class="text-[9px] text-amber-500/80 font-bold uppercase tracking-widest mt-0.5">
-                                    ${beach.tipo} • ${beach.dist.toFixed(1)}km DE VOCÊ
-                                </p>
-                            </div>
-                        </div>
-                        <button class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500 hover:bg-amber-500 transition-all hover:text-white" onclick="window.open('${beach.maps}', '_blank')">
-                            <span class="material-symbols-outlined text-[18px]">location_on</span>
-                        </button>
-                    </div>
-                    <p class="text-[10px] text-stone-400 leading-relaxed">${beach.desc}</p>
-                `;
-                listContainer.appendChild(item);
-            });
-        }
-
-        function updateMapMarkers() {
-            if (!markerLayer) return;
-            markerLayer.clearLayers();
-            beaches.forEach(beach => {
-                const isFav = favorites.includes(beach.id);
-                L.circleMarker([beach.lat, beach.lng], {
-                    radius: isFav ? 9 : 7,
-                    fillColor: isFav ? '#f97316' : '#f59e0b',
-                    color: '#fff',
-                    weight: 2,
-                    opacity: 1,
-                    fillOpacity: 1
-                }).addTo(markerLayer).bindPopup(`<b style="color:#000">${beach.nome}</b>`);
-            });
-        }
-
-        document.getElementById('get-location-btn').addEventListener('click', () => {
-            const btn = document.getElementById('get-location-btn');
-            const text = document.getElementById('loc-text');
-            const icon = document.getElementById('loc-icon');
-            if (navigator.geolocation) {
-                btn.disabled = true; text.textContent = "Buscando GPS..."; icon.classList.add('loading-pulse');
-                navigator.geolocation.getCurrentPosition(
-                    p => {
-                        userLocation = { lat: p.coords.latitude, lng: p.coords.longitude };
-                        map.setView([userLocation.lat, userLocation.lng], 14);
-                        text.textContent = "Localizado ✓"; icon.textContent = "check_circle"; icon.classList.remove('loading-pulse');
-                        renderInterface();
-                        setTimeout(() => { btn.disabled = false; text.textContent = "Minha Localização"; icon.textContent = "my_location"; }, 3000);
-                    },
-                    err => { text.textContent = "Erro de GPS"; icon.textContent = "error"; btn.disabled = false; }
-                );
-            }
+    function updateMapMarkers() {
+        if (!markerLayer) return;
+        markerLayer.clearLayers();
+        const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
+        
+        beaches.forEach((beach, i) => {
+            const isFav = favoritas[i];
+            L.circleMarker([beach.lat, beach.lng], {
+                radius: isFav ? 8 : 5, 
+                fillColor: isFav ? '#ef4444' : accentColor, 
+                color: '#fff', 
+                weight: 1.5, 
+                opacity: 1, 
+                fillOpacity: 0.9
+            }).addTo(markerLayer).bindPopup(`<b style="color:#1e293b">${beach.nome}</b>`);
         });
 
-        document.getElementById('next-rec').onclick = () => document.getElementById('recommendation-engine').scrollBy({ left: 180, behavior: 'smooth' });
-        document.getElementById('prev-rec').onclick = () => document.getElementById('recommendation-engine').scrollBy({ left: -180, behavior: 'smooth' });
-        document.getElementById('btn-back').onclick = () => { window.history.back(); };
-
-        const targetDate = new Date('2026-01-01T00:00:00');
-        function updateCountdown() {
-            const diff = targetDate - new Date();
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            if (days > 0) document.getElementById('countdown-label').textContent = `Faltam ${days} dias • Bombinhas 2026`;
+        if (userLocation && map) {
+            const userIcon = L.icon({
+                iconUrl: 'https://cdn-icons-png.flaticon.com/512/64/64113.png',
+                iconSize: [24, 24],
+                iconAnchor: [12, 12]
+            });
+            if (userMarker) map.removeLayer(userMarker);
+            userMarker = L.marker([userLocation.lat, userLocation.lng], { icon: userIcon }).addTo(map);
         }
+    }
 
-        fetchWeather();
-        initMap();
-        updateCountdown();
-    </script>
+    function getDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371; 
+        const dLat = (lat2-lat1) * Math.PI/180;
+        const dLon = (lon2-lon1) * Math.PI/180;
+        const a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    }
+
+    function calcularScore(beach) {
+        let score = 50;
+        const dist = getDistance(userLocation.lat, userLocation.lng, beach.lat, beach.lng);
+        score += Math.max(0, 30 - (dist * 4));
+        
+        // Dynamic factors
+        if (currentTemp >= 30 && beach.tipo === 'Ondas') score += 15;
+        if (currentTemp < 25 && beach.tipo === 'Calma') score += 10;
+        if (favoritas[beaches.indexOf(beach)]) score += 20;
+
+        return Math.min(100, Math.round(score));
+    }
+
+    function updateBestBeachNow() {
+        const best = beaches.map((b, i) => ({ ...b, score: calcularScore(b), dist: getDistance(userLocation.lat, userLocation.lng, b.lat, b.lng) }))
+                           .sort((a,b) => b.score - a.score)[0];
+        
+        const container = document.getElementById('best-now');
+        const content = document.getElementById('best-now-content');
+
+        if (best) {
+            container.style.display = 'block';
+            content.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl overflow-hidden border border-white/10">
+                        <img src="${best.img}" class="w-full h-full object-cover" onerror="this.src='${FALLBACK_IMG}'">
+                    </div>
+                    <div>
+                        <div class="text-white font-bold text-sm leading-tight">${best.nome}</div>
+                        <div class="dynamic-accent-text font-bold text-[9px] uppercase tracking-wide">
+                            ${best.tipo} • ${formatDist(best.dist)}
+                        </div>
+                    </div>
+                </div>
+                <button onclick="focusOnBeach(${best.lat}, ${best.lng})" class="dynamic-accent-bg text-slate-950 px-3 py-2 rounded-lg text-[10px] font-black uppercase flex items-center gap-1 active:scale-95 transition-transform">
+                    Explorar <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                </button>
+            `;
+        }
+    }
+
+    function formatDist(km) { return km < 1 ? `${Math.round(km * 1000)}m` : `${km.toFixed(1)}km`; }
+
+    function renderInterface() {
+        const ranked = beaches.map((b, i) => ({
+            ...b,
+            match: calcularScore(b),
+            dist: getDistance(userLocation.lat, userLocation.lng, b.lat, b.lng),
+            fav: favoritas[i],
+            originalIdx: i
+        })).sort((a, b) => b.match - a.match);
+        
+        const recContainer = document.getElementById('recommendation-engine');
+        recContainer.innerHTML = '';
+        ranked.slice(0, 6).forEach((beach, i) => {
+            const card = document.createElement('div');
+            card.className = "min-w-[150px] h-32 rounded-xl relative overflow-hidden shrink-0 border border-white/5 shadow-lg cursor-pointer transition-transform active:scale-95";
+            card.onclick = () => focusOnBeach(beach.lat, beach.lng);
+            card.innerHTML = `
+                <img class="absolute inset-0 w-full h-full object-cover brightness-[0.4]" src="${beach.img}" onerror="this.src='${FALLBACK_IMG}'"/>
+                <div class="absolute inset-0 p-3 flex flex-col justify-between">
+                    <div class="dynamic-accent-bg text-slate-950 text-[8px] font-black px-2 py-0.5 rounded-full self-start shadow-sm">#${i+1} IA MATCH</div>
+                    <div class="drop-shadow-md">
+                        <p class="text-[11px] font-extrabold text-white leading-tight truncate">${beach.nome}</p>
+                        <p class="text-[8px] dynamic-accent-text font-bold uppercase mt-0.5">${beach.match}% compatível</p>
+                    </div>
+                </div>
+            `;
+            recContainer.appendChild(card);
+        });
+
+        const listContainer = document.getElementById('complete-beach-list');
+        listContainer.innerHTML = '';
+        ranked.forEach(beach => {
+            const item = document.createElement('div');
+            item.className = "beach-list-item flex flex-col gap-3";
+            item.innerHTML = `
+                <div class="flex items-start justify-between gap-2">
+                    <div class="flex items-start gap-3 flex-1 overflow-hidden" onclick="focusOnBeach(${beach.lat}, ${beach.lng})">
+                        <button class="fav-btn mt-0.5 flex flex-col items-center justify-center shrink-0 min-w-[40px]" onclick="event.stopPropagation(); toggleFavorite(${beach.originalIdx})">
+                            <span class="material-symbols-outlined text-[24px] ${beach.fav ? 'text-red-500' : 'text-slate-500'}" style="font-variation-settings: 'FILL' ${beach.fav ? 1 : 0}">favorite</span>
+                            <span class="text-[8px] font-bold uppercase mt-1 ${beach.fav ? 'text-red-500' : 'text-slate-500'}">${beach.fav ? 'Favorito' : 'Salvar'}</span>
+                        </button>
+                        <div class="flex-1 overflow-hidden">
+                            <p class="font-bold text-slate-100 text-sm leading-tight truncate">${beach.nome}</p>
+                            <p class="text-[10px] dynamic-accent-text font-medium mt-0.5 uppercase tracking-wide truncate">
+                                ${beach.tipo.toUpperCase()} • ${formatDist(beach.dist)}
+                            </p>
+                        </div>
+                    </div>
+                    <button class="px-3 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center gap-1 text-slate-400 hover:dynamic-accent-text hover:dynamic-accent-border transition-all" onclick="window.open('${beach.maps}', '_blank')">
+                        <span class="material-symbols-outlined text-[18px]">location_on</span>
+                    </button>
+                </div>
+                <p class="text-[11px] text-slate-400 leading-relaxed px-1">${beach.desc}</p>
+            `;
+            listContainer.appendChild(item);
+        });
+        updateMapMarkers();
+    }
+
+    function toggleFavorite(idx) {
+        favoritas[idx] = !favoritas[idx];
+        localStorage.setItem('praias_fav_v1', JSON.stringify(favoritas));
+        renderInterface();
+        updateBestBeachNow();
+    }
+
+    function focusOnBeach(lat, lng) {
+        map.flyTo([lat, lng], 15, { animate: true, duration: 1 });
+        document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function updateCountdown() {
+        const targetDate = new Date(2026, 4, 5);
+        const diff = targetDate - new Date();
+        const el = document.getElementById('countdown');
+        if (diff <= 0) { el.textContent = "Aproveite!"; return; }
+        const days = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        const mins = Math.floor((diff % 3600000) / 60000);
+        el.textContent = `Faltam ${days}d ${hours}h ${mins}m`;
+    }
+
+    document.getElementById('get-location-btn').addEventListener('click', function() {
+        const btn = this;
+        const txt = document.getElementById('loc-text');
+        const icon = document.getElementById('loc-icon');
+        if (navigator.geolocation) {
+            btn.disabled = true;
+            txt.textContent = "Buscando...";
+            icon.classList.add('loading-pulse');
+            navigator.geolocation.getCurrentPosition(p => {
+                userLocation = { lat: p.coords.latitude, lng: p.coords.longitude };
+                map.setView([userLocation.lat, userLocation.lng], 14);
+                txt.textContent = "Localizado!";
+                icon.textContent = "check_circle";
+                icon.classList.remove('loading-pulse');
+                renderInterface();
+                updateBestBeachNow();
+                setTimeout(() => { btn.disabled = false; txt.textContent = "Minha Localização"; icon.textContent = "my_location"; }, 3000);
+            }, () => {
+                txt.textContent = "Erro GPS";
+                btn.disabled = false;
+                icon.classList.remove('loading-pulse');
+            });
+        }
+    });
+
+    document.getElementById('next-rec').onclick = () => document.getElementById('recommendation-engine').scrollBy({ left: 160, behavior: 'smooth' });
+    document.getElementById('prev-rec').onclick = () => document.getElementById('recommendation-engine').scrollBy({ left: -160, behavior: 'smooth' });
+    document.getElementById('btn-back').onclick = () => window.location.href = 'index.html';
+
+    // Init
+    updateCountdown();
+    updateWeather();
+    initMap();
+    setInterval(updateCountdown, 60000);
+    setInterval(updateWeather, 1800000); // 30 min
+</script>
 </body></html>
