@@ -10,7 +10,7 @@
 <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #000000; /* Deep Black base */
+            background: #000000;
             margin: 0;
             display: flex;
             flex-direction: column;
@@ -36,30 +36,25 @@
             vertical-align: middle;
         }
 
-        /* Premium Dark Theme Classes */
-        .bg-premium-black { background: #111111; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .text-premium-orange { color: #f97316; }
-        .bg-premium-orange { background: #f97316; }
-        
         .finance-card {
-            background: #111111;
+            background: rgba(255, 255, 255, 0.03);
             border-radius: 16px;
             padding: 12px;
             text-align: center;
             flex: 1;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
         .history-container {
             border-radius: 24px;
             padding: 20px;
-            background: #111111;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             margin-top: 20px;
         }
         .history-item {
             background: rgba(255, 255, 255, 0.03);
             border-radius: 16px;
-            padding: 12px 16px;
+            padding: 14px 16px;
             margin-top: 10px;
             display: flex;
             align-items: center;
@@ -69,7 +64,6 @@
         }
         .history-item:active {
             transform: scale(0.98);
-            border-color: rgba(249, 115, 22, 0.5);
         }
         footer {
             margin-top: 24px;
@@ -98,35 +92,42 @@
             letter-spacing: 0.05em;
         }
         .back-btn:hover {
-            color: #f97316;
+            color: #ffffff;
         }
         
-        /* Custom scrollbar for mobile feel */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Dynamic Weather Theme Elements */
+        .weather-accent { transition: color 0.5s ease; }
     </style>
 </head>
 <body>
 <div class="container">
 <button class="back-btn" onclick="goBack(event)">
 <span class="material-symbols-outlined text-[18px]">arrow_back</span>
-        VOLTAR AO INÍCIO
-    </button>
-<!-- PERFIL E DATAS -->
+    VOLTAR AO INÍCIO
+</button>
+<!-- PERFIL E CLIMA -->
 <div class="flex justify-between items-start">
 <div class="flex items-center gap-3">
-<div class="w-14 h-14 rounded-full p-0.5 bg-gradient-to-tr from-orange-500 to-red-600">
-<img class="w-full h-full rounded-full object-cover bg-gray-900" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjcF_fg6wzIPcb6tep0uTIpC5aZqXXBV7p-KnbqrN1V3vs5puUPSKwTt-2igd5gXnNXfxZyquqmMM1VviuuXG2IKQy-wiTt22PHsNbv1S9Ejct1zxvloeAGh2DKy2I9YcWkHWdwkgODstvLxurxvzF6w7XvqHrlRz9RFKfGc4B5J-mkZi3oEprROAjeNY_GnpvVMG16rA17P6ECTCL5jxD-UIIIdRqlte4Z0rE6HicQlwK1gmPGApVBCKiu8LRu_UDkULcIBqG7rU"/>
+<div class="relative">
+<div class="w-14 h-14 rounded-full p-0.5 bg-gradient-to-tr from-zinc-700 to-zinc-900" id="profile-ring">
+<img alt="Helder e Mayara" class="w-full h-full rounded-full object-cover bg-gray-900" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjcF_fg6wzIPcb6tep0uTIpC5aZqXXBV7p-KnbqrN1V3vs5puUPSKwTt-2igd5gXnNXfxZyquqmMM1VviuuXG2IKQy-wiTt22PHsNbv1S9Ejct1zxvloeAGh2DKy2I9YcWkHWdwkgODstvLxurxvzF6w7XvqHrlRz9RFKfGc4B5J-mkZi3oEprROAjeNY_GnpvVMG16rA17P6ECTCL5jxD-UIIIdRqlte4Z0rE6HicQlwK1gmPGApVBCKiu8LRu_UDkULcIBqG7rU"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-black border border-white/10 rounded-full px-1.5 py-0.5 flex items-center gap-1" id="weather-badge">
+<span class="text-[9px] font-black" id="temp-val">--°C</span>
+</div>
 </div>
 <div>
 <h2 class="font-bold text-white leading-tight text-base">Helder e Mayara</h2>
-<div class="text-[10px] font-extrabold text-orange-500 uppercase tracking-wider">Bombinhas 2026</div>
+<div class="text-[10px] font-extrabold text-orange-500 uppercase tracking-wider weather-accent" id="location-text">Bombinhas 2026</div>
 </div>
 </div>
 <div class="text-right">
 <div class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest">Viagem</div>
 <div class="text-xs font-extrabold text-zinc-200">05/05/2026</div>
-<div class="text-[9px] text-orange-500 font-bold mt-1 uppercase" id="countdown"></div>
+<div class="text-[9px] text-orange-500 font-bold mt-1 uppercase weather-accent" id="countdown"></div>
 </div>
 </div>
 <h1 class="text-xl font-black mt-8 mb-4 tracking-tighter text-white">Gestão de Gastos</h1>
@@ -138,19 +139,19 @@
 </div>
 <div class="finance-card">
 <div class="text-[9px] text-zinc-500 uppercase font-black tracking-widest">Gasto</div>
-<div class="font-extrabold text-orange-500 text-[13px]" id="gas">R$ 0,00</div>
+<div class="font-extrabold text-[13px]" id="gas">R$ 0,00</div>
 </div>
 <div class="finance-card">
 <div class="text-[9px] text-zinc-500 uppercase font-black tracking-widest">Saldo</div>
-<div class="font-extrabold text-[13px] text-[#10B981]" id="sal">R$ 0,00</div>
+<div class="font-extrabold text-[13px] text-emerald-400" id="sal">R$ 0,00</div>
 </div>
 </div>
 <!-- HISTÓRICO -->
 <div class="history-container" id="history-bg">
 <h3 class="font-black text-sm flex items-center gap-2 mb-4 text-zinc-100 uppercase tracking-widest">
-<span class="material-symbols-outlined text-orange-500 text-[20px]">receipt_long</span> 
-            Histórico de Despesas
-        </h3>
+<span class="material-symbols-outlined text-orange-500 text-[20px] weather-accent">receipt_long</span> 
+        Histórico de Despesas
+    </h3>
 <div class="space-y-3" id="lista-gastos">
 <div class="text-center py-8 text-zinc-600 text-[10px] font-bold uppercase tracking-widest">Carregando despesas...</div>
 </div>
@@ -191,24 +192,70 @@ function icone(desc) {
     if (d.includes('combustível') || d.includes('gasolina')) return '⛽';
     if (d.includes('pedágio')) return '🛣️';
     if (d.includes('sorvete')) return '🍦';
+    if (d.includes('água')) return '💧';
+    if (d.includes('coco')) return '🥥';
+    if (d.includes('supermercado')) return '🛒';
     return '💸';
 }
 
-function getColor(valor) {
-    let val = valor;
-    if (typeof valor === 'string') {
-        val = parseFloat(valor.replace(/R\$\s?/, '').replace(/\./g, '').replace(',', '.').trim()) || 0;
+// DYNAMIC THERMAL SCALE BASED ON WEATHER
+let currentTemp = 25; // Default
+
+async function updateWeather() {
+    try {
+        const apiKey = 'bd5e378503939ddaee76f12ad7a97608'; // Shared Key
+        const city = 'Bombinhas,BR';
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=pt_br&appid=${apiKey}`);
+        const data = await response.json();
+        
+        if (data.main) {
+            currentTemp = data.main.temp;
+            document.getElementById('temp-val').innerText = `${Math.round(currentTemp)}°C`;
+            applyTheme(currentTemp);
+        }
+    } catch (e) {
+        console.error("Weather fetch failed", e);
+        applyTheme(25); // fallback
     }
+}
+
+function applyTheme(temp) {
+    let colorClass = 'text-orange-500';
+    let gradientRing = 'from-orange-500 to-red-600';
     
-    // Thermal scale logic:
-    // Orange (>30)
-    // Yellow (25-29)
-    // Light Blue (20-24)
-    // Dark Blue (<20)
-    if (val > 30) return 'text-orange-500';
-    if (val >= 25) return 'text-yellow-400';
-    if (val >= 20) return 'text-sky-400';
-    return 'text-blue-600';
+    if (temp >= 30) {
+        colorClass = 'text-orange-500';
+        gradientRing = 'from-orange-500 to-red-600';
+    } else if (temp >= 24) {
+        colorClass = 'text-yellow-400';
+        gradientRing = 'from-yellow-400 to-orange-500';
+    } else if (temp >= 18) {
+        colorClass = 'text-sky-400';
+        gradientRing = 'from-sky-400 to-blue-500';
+    } else {
+        colorClass = 'text-blue-500';
+        gradientRing = 'from-blue-600 to-indigo-800';
+    }
+
+    document.querySelectorAll('.weather-accent').forEach(el => {
+        // Remove old classes
+        el.classList.remove('text-orange-500', 'text-yellow-400', 'text-sky-400', 'text-blue-500');
+        el.classList.add(colorClass);
+    });
+
+    document.getElementById('gas').classList.remove('text-orange-500', 'text-yellow-400', 'text-sky-400', 'text-blue-500');
+    document.getElementById('gas').classList.add(colorClass);
+
+    const ring = document.getElementById('profile-ring');
+    ring.className = `w-14 h-14 rounded-full p-0.5 bg-gradient-to-tr ${gradientRing}`;
+}
+
+function getExpenseColor(valor) {
+    // Thermal scale for expense value (Independent of weather)
+    if (valor > 100) return 'text-orange-500';
+    if (valor >= 50) return 'text-yellow-400';
+    if (valor >= 20) return 'text-sky-400';
+    return 'text-blue-500';
 }
 
 // COUNTDOWN LOGIC
@@ -225,67 +272,78 @@ function updateCountdown() {
         document.getElementById('countdown').innerText = "VIVA O MOMENTO!";
     }
 }
-setInterval(updateCountdown, 60000);
-updateCountdown();
 
 // SPREADSHEET FETCH LOGIC
-fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSjndkscJNSa1uHNlh_3al_4smBXaiXrGKF27dIf_vK6uwUGF0eb_UzHj74Plx-cZ6PwE0EhnWSW-xA/pub?gid=0&single=true&output=tsv")
-.then(r => r.text())
-.then(t => {
-    const lines = t.split("\n").map(l => l.split("\t"));
-    const headers = lines[0].map(h => h.toLowerCase().trim());
-    
-    const descIdx = headers.findIndex(h => h.includes('descr'));
-    const valIdx = headers.findIndex(h => h.includes('valor'));
-    
-    if (lines.length > 1) {
-        const totals = lines[1];
-        document.getElementById('orc').innerText = formatar(totals[0] || "0");
-        document.getElementById('gas').innerText = formatar(totals[1] || "0");
-        document.getElementById('sal').innerText = formatar(totals[2] || "0");
-    }
-
-    const historyContainer = document.getElementById('lista-gastos');
-    historyContainer.innerHTML = "";
-    
-    let expenses = [];
-    for(let i = 1; i < lines.length; i++) {
-        const desc = lines[i][descIdx];
-        const rawValor = lines[i][valIdx];
+function fetchExpenses() {
+    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSjndkscJNSa1uHNlh_3al_4smBXaiXrGKF27dIf_vK6uwUGF0eb_UzHj74Plx-cZ6PwE0EhnWSW-xA/pub?gid=0&single=true&output=tsv")
+    .then(r => r.text())
+    .then(t => {
+        const lines = t.split("\n").map(l => l.split("\t"));
+        const headers = lines[0].map(h => h.toLowerCase().trim());
         
-        if (desc && desc.trim() !== "" && desc.toLowerCase() !== "descrição") {
-            const cleanVal = (rawValor || "0").replace(/R\$\s?/, '').replace(/\./g, '').replace(',', '.').trim();
-            const numericValue = parseFloat(cleanVal) || 0;
-            expenses.push({ 
-                desc: desc.trim(), 
-                valor: numericValue,
-                formatted: formatar(rawValor || "0")
-            });
+        const descIdx = headers.findIndex(h => h.includes('descr'));
+        const valIdx = headers.findIndex(h => h.includes('valor'));
+        
+        if (lines.length > 1) {
+            const totals = lines[1];
+            document.getElementById('orc').innerText = formatar(totals[0] || "0");
+            document.getElementById('gas').innerText = formatar(totals[1] || "0");
+            document.getElementById('sal').innerText = formatar(totals[2] || "0");
         }
-    }
 
-    expenses.sort((a, b) => b.valor - a.valor);
-    
-    if (expenses.length > 0) {
-        expenses.forEach(exp => {
-            const item = document.createElement('div');
-            item.className = "history-item";
-            item.innerHTML = `
-                <div class="flex items-center gap-3">
-                    <span class="text-lg filter grayscale-[0.5]">${icone(exp.desc)}</span>
-                    <span class="font-bold text-zinc-300 text-[13px]">${exp.desc}</span>
-                </div>
-                <span class="font-black text-[13px] ${getColor(exp.valor)}">${exp.formatted}</span>
-            `;
-            historyContainer.appendChild(item);
-        });
-    } else {
-        historyContainer.innerHTML = '<div class="text-center py-8 text-zinc-600 text-[10px] font-black uppercase tracking-widest">Sem registros</div>';
-    }
-})
-.catch(err => {
-    console.error("Error fetching sheet data:", err);
-    document.getElementById('lista-gastos').innerHTML = '<div class="text-center py-8 text-orange-500 text-[10px] font-black uppercase">Erro na conexão</div>';
-});
+        const historyContainer = document.getElementById('lista-gastos');
+        historyContainer.innerHTML = "";
+        
+        let expenses = [];
+        for(let i = 1; i < lines.length; i++) {
+            if (!lines[i][descIdx]) continue;
+            
+            const desc = lines[i][descIdx].trim();
+            const rawValor = lines[i][valIdx];
+            
+            if (desc !== "" && desc.toLowerCase() !== "descrição") {
+                const cleanVal = (rawValor || "0").replace(/R\$\s?/, '').replace(/\./g, '').replace(',', '.').trim();
+                const numericValue = parseFloat(cleanVal) || 0;
+                if (numericValue > 0) {
+                    expenses.push({ 
+                        desc: desc, 
+                        valor: numericValue,
+                        formatted: formatar(rawValor || "0")
+                    });
+                }
+            }
+        }
+
+        expenses.sort((a, b) => b.valor - a.valor);
+        
+        if (expenses.length > 0) {
+            expenses.forEach(exp => {
+                const item = document.createElement('div');
+                item.className = "history-item";
+                item.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="text-xl">${icone(exp.desc)}</span>
+                        <span class="font-bold text-zinc-300 text-[13px]">${exp.desc}</span>
+                    </div>
+                    <span class="font-black text-[13px] ${getExpenseColor(exp.valor)}">${exp.formatted}</span>
+                `;
+                historyContainer.appendChild(item);
+            });
+        } else {
+            historyContainer.innerHTML = '<div class="text-center py-8 text-zinc-600 text-[10px] font-black uppercase tracking-widest">Sem registros</div>';
+        }
+    })
+    .catch(err => {
+        console.error("Error fetching sheet data:", err);
+        document.getElementById('lista-gastos').innerHTML = '<div class="text-center py-8 text-orange-500 text-[10px] font-black uppercase">Erro na conexão</div>';
+    });
+}
+
+// INITIALIZE
+updateWeather();
+updateCountdown();
+fetchExpenses();
+setInterval(updateCountdown, 60000);
+setInterval(updateWeather, 600000); // 10 min
 </script>
 </body></html>
