@@ -142,7 +142,7 @@
 </div>
 <div class="finance-card">
 <div class="text-[9px] text-zinc-500 uppercase font-black tracking-widest">Saldo</div>
-<div class="font-extrabold text-[13px] text-emerald-400" id="sal">R$ 0,00</div>
+<div class="font-extrabold text-[13px] text-[#10B981]" id="sal">R$ 0,00</div>
 </div>
 </div>
 <!-- HISTÓRICO -->
@@ -199,9 +199,16 @@ function getColor(valor) {
     if (typeof valor === 'string') {
         val = parseFloat(valor.replace(/R\$\s?/, '').replace(/\./g, '').replace(',', '.').trim()) || 0;
     }
-    // Consistent with Premium Dark: High values are Orange, others are subtle white/zinc
-    if (val > 100) return 'text-orange-500';
-    return 'text-zinc-100';
+    
+    // Thermal scale logic:
+    // Orange (>30)
+    // Yellow (25-29)
+    // Light Blue (20-24)
+    // Dark Blue (<20)
+    if (val > 30) return 'text-orange-500';
+    if (val >= 25) return 'text-yellow-400';
+    if (val >= 20) return 'text-sky-400';
+    return 'text-blue-600';
 }
 
 // COUNTDOWN LOGIC
