@@ -12,7 +12,7 @@
 <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #020f1c;
+            background: #0c0a09;
             color: #f8fafc;
             min-height: 100vh;
             display: flex;
@@ -35,11 +35,11 @@
             padding: 20px 10px;
         }
         .main-card {
-            background: #0f172a;
+            background: #1c1917;
             border-radius: 32px;
             padding: 24px;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 20px 50px rgba(0, 212, 255, 0.05);
+            box-shadow: 0 20px 50px rgba(245, 158, 11, 0.05);
             position: relative;
         }
         
@@ -49,7 +49,7 @@
         .theme-day-warm { background: linear-gradient(135deg, #f59e0b, #ef4444); border: 1px solid rgba(255, 165, 0, 0.2); }
 
         .glass-card {
-            background: #1e293b;
+            background: #292524;
             border-radius: 24px;
             padding: 20px;
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -68,8 +68,8 @@
             transition: all 0.3s ease;
         }
         
-        #map { height: 300px; border-radius: 20px; z-index: 1; }
-        footer { margin-top: 24px; color: #64748b; font-size: 12px; font-weight: 500; text-align: center; padding-bottom: 20px; }
+        #map { height: 300px; border-radius: 20px; z-index: 1; filter: grayscale(0.2) contrast(1.1); }
+        footer { margin-top: 24px; color: #78716c; font-size: 12px; font-weight: 500; text-align: center; padding-bottom: 20px; }
 
         .loading-pulse {
             animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
@@ -78,65 +78,46 @@
             0%, 100% { opacity: 1; }
             50% { opacity: .5; }
         }
-    
-        .back-btn {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            color: #94a3b8;
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
-            margin-bottom: 20px;
-            transition: color 0.3s;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-        }
-        .back-btn:hover {
-            color: #00d4ff;
-        }
     </style>
 </head>
 <body>
 <div class="container-wrapper">
 <div class="main-card">
 <!-- TOP NAVIGATION -->
-<button class="back-btn" id="btn-back">
+<button class="flex items-center gap-2 text-white hover:text-amber-400 transition-colors font-display font-bold text-[10px] tracking-widest uppercase mb-6 bg-transparent border-none p-0 cursor-pointer" id="btn-back">
 <span class="material-symbols-outlined text-[18px]">arrow_back</span>
-            Voltar ao início
-        </button>
+  VOLTAR AO INÍCIO
+</button>
 <!-- HEADER -->
 <div class="flex justify-between items-start mb-6">
 <div class="flex items-center gap-3">
-<div class="w-12 h-12 rounded-full p-0.5 bg-gradient-to-tr from-cyan-500 to-blue-600">
+<div class="w-12 h-12 rounded-full p-0.5 bg-gradient-to-tr from-amber-400 to-orange-600">
 <img class="w-full h-full rounded-full object-cover bg-gray-800" src="https://lh3.googleusercontent.com/aida/ADBb0ugocHj_uikm23nml2qCmFMrYHlUYX79LzQjJbK1bEU8DqSGoZigRbfmNvsaXn_nc_NU0zbCpPr1wvtyTNL6TGR8AvzJRQN1YB_pPXktma9gFdTbH2rFtp5GNKKi5d9TGGca_zBVwnYXu7jULE058Hy0jOtCyqsBTSdO8DbIocqwsXeJu5i3El67dSpMy-DYrZ4lKfc5tr7U87zPYHM-n5mEoMzolAb7-K8-WpQPZ0DlKVa2P-y_f8l0G87pyjgx19OtbgMrZxwMAA"/>
 </div>
 <div>
 <h2 class="font-bold text-white text-sm leading-tight">Helder e Mayara</h2>
-<div class="text-[10px] font-bold text-cyan-400 uppercase tracking-tight">Bombinhas 2026</div>
+<div class="text-[10px] font-bold text-amber-500 uppercase tracking-tight">Bombinhas 2026</div>
 </div>
 </div>
 <div class="text-right">
-<div class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Viagem</div>
-<div class="text-xs font-bold text-slate-300">05/05/2026</div>
-<div class="text-[10px] text-cyan-400 font-bold mt-0.5" id="countdown"></div>
+<div class="text-[10px] font-semibold text-stone-500 uppercase tracking-wider">Viagem</div>
+<div class="text-xs font-bold text-stone-300">05/05/2026</div>
+<div class="text-[10px] text-amber-500 font-bold mt-0.5" id="countdown"></div>
 </div>
 </div>
 <!-- WEATHER HERO SECTION -->
-<div class="glass-card mb-6 theme-night-cool" id="clima-bg">
+<div class="glass-card mb-6 theme-day-warm" id="clima-bg">
 <div class="flex justify-between items-start">
 <div class="flex flex-col">
 <div class="text-xl font-extrabold tracking-tighter text-white">Explorar Praias</div>
 <div class="mt-4 flex items-center justify-center">
-<span class="material-symbols-outlined text-6xl text-white" id="weather-icon">wb_sunny</span>
+<span class="material-symbols-outlined text-6xl text-white drop-shadow-lg" id="weather-icon">wb_sunny</span>
 </div>
 </div>
 <div class="text-right">
-<div class="text-[10px] text-slate-400 font-black uppercase">Bombinhas, SC</div>
-<div class="text-4xl font-black text-white tracking-tighter" id="temp-val">--°C</div>
-<p class="text-[10px] text-slate-300 mt-1" id="weather-desc">Carregando clima...</p>
+<div class="text-[10px] text-orange-100 font-black uppercase">Bombinhas, SC</div>
+<div class="text-4xl font-black text-white tracking-tighter" id="temp-val">30°C</div>
+<p class="text-[10px] text-orange-50 mt-1 font-medium" id="weather-desc">Céu limpo e ensolarado</p>
 </div>
 </div>
 </div>
@@ -147,10 +128,10 @@
 <span>🔥</span> Recomendadas
                 </h3>
 <div class="flex gap-2">
-<button class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400" id="prev-rec">
+<button class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-stone-400" id="prev-rec">
 <span class="material-symbols-outlined text-sm">chevron_left</span>
 </button>
-<button class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400" id="next-rec">
+<button class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-stone-400" id="next-rec">
 <span class="material-symbols-outlined text-sm">chevron_right</span>
 </button>
 </div>
@@ -161,10 +142,10 @@
 </section>
 <!-- MAP SECTION -->
 <section class="mb-8">
-<div class="glass-card p-2">
+<div class="glass-card p-2 border-amber-500/20">
 <div id="map"></div>
 <div class="flex gap-2 mt-3 px-2">
-<button class="flex-1 bg-cyan-600 hover:bg-cyan-500 text-white text-[10px] font-black uppercase py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed" id="get-location-btn">
+<button class="flex-1 bg-amber-600 hover:bg-amber-500 text-white text-[10px] font-black uppercase py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-lg shadow-amber-900/20" id="get-location-btn">
 <span class="material-symbols-outlined text-xs" id="loc-icon">my_location</span>
 <span id="loc-text">Minha Localização</span>
 </button>
@@ -174,7 +155,7 @@
 <!-- COMPLETE LIST -->
 <section class="mb-6">
 <h3 class="text-lg font-bold flex items-center gap-2 mb-4 text-white">
-<span class="material-symbols-outlined text-cyan-400">beach_access</span> 25 Praias
+<span class="material-symbols-outlined text-amber-500">beach_access</span> 25 Praias
             </h3>
 <div id="complete-beach-list">
 <!-- Beach list items via JS -->
@@ -187,37 +168,36 @@
 </div>
 <script>
     const beaches = [
-        { id: 1, nome: "Bombinhas", tipo: "Calma", lat: -27.148, lng: -48.487, desc: "A praia central mais famosa da cidade. Possui águas cristalinas, poucas ondas e excelente infraestrutura de bares e restaurantes.", tag: "Central", img: "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombinhas" },
-        { id: 2, nome: "Sepultura", tipo: "Calma", lat: -27.152, lng: -48.490, desc: "Um verdadeiro aquário natural ideal for snorkel e mergulho livre. Águas extremamente mansas e transparentes cercadas de rochas.", tag: "Snorkel", img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Sepultura" },
-        { id: 3, nome: "Retiro dos Padres", tipo: "Ondas", lat: -27.147, lng: -48.481, desc: "Cercada de morros e mata nativa, oferece um ambiente mais rústico e preservado. Ótima para camping e quem busca fugir do agito central.", tag: "Camping", img: "https://images.unsplash.com/photo-1520116467321-f14663f60eef?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Retiro+dos+Padres" },
-        { id: 4, nome: "Quatro Ilhas", tipo: "Ondas", lat: -27.147, lng: -48.483, desc: "Conhecida pelo mar aberto e ondas fortes, é o paraíso dos surfistas em Bombinhas. Oferece uma vista privilegiada das quatro ilhas da reserva.", tag: "Surf Pro", img: "https://images.unsplash.com/photo-1506929113670-742187d9d73a?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Quatro+Ilhas" },
-        { id: 5, nome: "Mariscal", tipo: "Ondas", lat: -27.178, lng: -48.498, desc: "A maior praia de Bombinhas em extensão. Com areia muito branca e mar agitado, é perfeita para longas caminhadas ao nascer do sol.", tag: "Caminhadas", img: "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Mariscal" },
-        { id: 6, nome: "Bombas", tipo: "Ondas", lat: -27.147, lng: -48.513, desc: "A primeira praia ao entrar na cidade. Possui calçadão para caminhadas, ciclovia e ótima infraestrutura hoteleira e gastronômica.", tag: "Perto do Centro", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombas" },
-        { id: 7, nome: "Zimbros", tipo: "Calma", lat: -27.189, lng: -48.534, desc: "Praia com águas de espelho, muito calma e rasa. É o ponto de partida para trilhas que levam a praias desertas e isoladas da reserva.", tag: "Trilhas", img: "https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Zimbros" },
-        { id: 8, nome: "Tainha", tipo: "Trilha", lat: -27.228, lng: -48.502, desc: "Localizada no extremo sul da península, o acesso é feito por estrada de terra ou barco. Oferece uma das vistas mais espetaculares da região.", tag: "Mirante", img: "https://images.unsplash.com/photo-1495954484750-af469f2f9be5?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Tainha" },
-        { id: 9, nome: "Canto Grande (Dentro)", tipo: "Calma", lat: -27.205, lng: -48.515, desc: "Banhada pelas águas da baía, possui mar extremamente calmo e é o melhor lugar para assistir ao pôr do sol em Bombinhas.", tag: "Sunset", img: "https://images.unsplash.com/photo-1502675135487-e971002a6adb?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Canto+Grande" },
-        { id: 10, nome: "Canto Grande (Fora)", tipo: "Ondas", lat: -27.202, lng: -48.508, desc: "Lado de mar aberto da vila, com ondas propícias para o surf. Fica logo aos pés do Morro do Macaco, principal trilha da cidade.", tag: "Natureza", img: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Canto+Grande" },
-        { id: 11, nome: "Lagoinha", tipo: "Calma", lat: -27.150, lng: -48.490, desc: "Pequena enseada com águas rasas e muitos peixes visíveis a olho nu. Perfeita para famílias com crianças pequenas.", tag: "Crianças", img: "https://images.unsplash.com/photo-1515238152791-8216bfdf89a7?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Lagoinha" },
-        { id: 12, nome: "Embrulho", tipo: "Calma", lat: -27.149, lng: -48.489, desc: "Praia pequena e protegida por pedras. Muito procurada por quem quer tranquilidade sem se afastar muito do centro de Bombinhas.", tag: "Sossegada", img: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Embrulho" },
-        { id: 13, nome: "Ribeiro", tipo: "Trilha", lat: -27.148, lng: -48.500, desc: "Acesso por trilha rápida entre Bombas e Bombinhas. É um refúgio deserto no meio da cidade, sem comércio, ideal para casais.", tag: "Refúgio", img: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Ribeiro" },
-        { id: 14, nome: "Conceição", tipo: "Calma", lat: -27.215, lng: -48.507, desc: "Uma pequena baía com piscinas naturais formadas entre as pedras. Águas límpidas e ambiente muito privativo e relaxante.", tag: "Privativa", img: "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Conceição" },
-        { id: 15, nome: "Praia Grossa", tipo: "Trilha", lat: -27.135, lng: -48.525, desc: "Praia selvagem com acesso via trilha íngreme partindo de Bombas. Recompensadora pela beleza intocada e isolamento total.", tag: "Trilha", img: "https://images.unsplash.com/photo-1509233725247-49e657c54213?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Grossa" },
-        { id: 16, nome: "Cardoso", tipo: "Calma", lat: -27.208, lng: -48.518, desc: "Vila de pescadores tradicional que mantém o charme do litoral catarinense antigo. Lugar ideal para comer peixe fresco.", tag: "Peixe Fresco", img: "https://images.unsplash.com/photo-1559827291-72ee739d0d9a?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Cardoso" },
-        { id: 17, nome: "Porto Belo", tipo: "Calma", lat: -27.158, lng: -48.544, desc: "Cidade vizinha com praia central calma, porto para navios de cruzeiro e águas cristalinas protegidas pela Ilha de Porto Belo.", tag: "Cais", img: "https://images.unsplash.com/photo-1542332213-9b5a5a3fab35?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Porto+Belo" },
-        { id: 18, nome: "Ilha de Porto Belo", tipo: "Trilha", lat: -27.142, lng: -48.537, desc: "Acesso por barco. Possui trilhas ecológicas, inscrições rupestres milenares e um museu, além de águas perfeitas para mergulho.", tag: "Ilha", img: "https://images.unsplash.com/photo-1533760881669-80db4d7b4c15?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Ilha+de+Porto+Belo" },
-        { id: 19, nome: "Estaleiro", tipo: "Trilha", lat: -27.185, lng: -48.548, desc: "Praia deserta acessada por trilha a partir de Zimbros. Areias grossas e águas muito verdes, cercada de costões rochosos.", tag: "Rústica", img: "https://images.unsplash.com/photo-1520942702018-0862200e6873?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Estaleiro" },
-        { id: 20, nome: "Estaleirinho", tipo: "Trilha", lat: -27.187, lng: -48.550, desc: "Continuação isolada da praia do Estaleiro. Pequena faixa de areia em meio à mata preservada, ideal para quem busca silêncio.", tag: "Natureza", img: "https://images.unsplash.com/photo-1437719417032-8595fd9e9dc6?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Estaleirinho" },
-        { id: 21, nome: "Cabeço", tipo: "Trilha", lat: -27.235, lng: -48.515, desc: "Ponto mais ao sul da península. Praia rústica, pouco visitada e com mar cristalino. Acesso requer uma trilha moderada.", tag: "Isolada", img: "https://images.unsplash.com/photo-1471922694854-ff1b63b20054?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Cabeço" },
-        { id: 22, nome: "Galheta", tipo: "Ondas", lat: -27.140, lng: -48.520, desc: "Pico de surf local próximo a Bombas. Mar agitado e ambiente frequentado principalmente por moradores e surfistas experientes.", tag: "Surf", img: "https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Galheta" },
-        { id: 23, nome: "Araçá", tipo: "Calma", lat: -27.145, lng: -48.540, desc: "Comunidade tradicional de pescadores. Águas de baía muito calmas e rasa, excelente para conhecer a cultura local.", tag: "Cultura", img: "https://images.unsplash.com/photo-1525183330358-4d6ea6605911?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Araçá" },
-        { id: 24, nome: "Perequê", tipo: "Ondas", lat: -27.155, lng: -48.580, desc: "Localizada no centro de Porto Belo. Praia extensa com boa infraestrutura, águas com ondas moderadas e fácil acesso.", tag: "Estrutura", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Perequê" },
-        { id: 25, nome: "Baía de Zimbros", tipo: "Calma", lat: -27.200, lng: -48.545, desc: "Extensa baía de águas paradas como uma lagoa. Local perfeito para a prática de caiaque e stand-up paddle.", tag: "Espelho d'água", img: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&q=60&w=400", maps: "https://www.google.com/maps/dir/?api=1&destination=Baía+de+Zimbros" }
+        { id: 1, nome: "Bombinhas", tipo: "Calma", lat: -27.148, lng: -48.487, desc: "A praia central mais famosa da cidade. Possui águas cristalinas, poucas ondas e excelente infraestrutura de bares e restaurantes.", tag: "Central", img: "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombinhas" },
+        { id: 2, nome: "Sepultura", tipo: "Calma", lat: -27.152, lng: -48.490, desc: "Um verdadeiro aquário natural ideal for snorkel e mergulho livre. Águas extremamente mansas e transparentes cercadas de rochas.", tag: "Snorkel", img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Sepultura" },
+        { id: 3, nome: "Retiro dos Padres", tipo: "Ondas", lat: -27.147, lng: -48.481, desc: "Cercada de morros e mata nativa, oferece um ambiente mais rústico e preservado. Ótima para camping e quem busca fugir do agito central.", tag: "Camping", img: "https://images.unsplash.com/photo-1520116467321-f14663f60eef?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Retiro+dos+Padres" },
+        { id: 4, nome: "Quatro Ilhas", tipo: "Ondas", lat: -27.147, lng: -48.483, desc: "Conhecida pelo mar aberto e ondas fortes, é o paraíso dos surfistas em Bombinhas. Oferece uma vista privilegiada das quatro ilhas da reserva.", tag: "Surf Pro", img: "https://images.unsplash.com/photo-1506929113670-742187d9d73a?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Quatro+Ilhas" },
+        { id: 5, nome: "Mariscal", tipo: "Ondas", lat: -27.178, lng: -48.498, desc: "A maior praia de Bombinhas em extensão. Com areia muito branca e mar agitado, é perfeita para longas caminhadas ao nascer do sol.", tag: "Caminhadas", img: "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Mariscal" },
+        { id: 6, nome: "Bombas", tipo: "Ondas", lat: -27.147, lng: -48.513, desc: "A primeira praia ao entrar na cidade. Possui calçadão para caminhadas, ciclovia e ótima infraestrutura hoteleira e gastronômica.", tag: "Perto do Centro", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombas" },
+        { id: 7, nome: "Zimbros", tipo: "Calma", lat: -27.189, lng: -48.534, desc: "Praia com águas de espelho, muito calma e rasa. É o ponto de partida para trilhas que levam a praias desertas e isoladas da reserva.", tag: "Trilhas", img: "https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Zimbros" },
+        { id: 8, nome: "Tainha", tipo: "Trilha", lat: -27.228, lng: -48.502, desc: "Localizada no extremo sul da península, o acesso é feito por estrada de terra ou barco. Oferece uma das vistas mais espetaculares da região.", tag: "Mirante", img: "https://images.unsplash.com/photo-1495954484750-af469f2f9be5?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Tainha" },
+        { id: 9, nome: "Canto Grande (Dentro)", tipo: "Calma", lat: -27.205, lng: -48.515, desc: "Banhada pelas águas da baía, possui mar extremamente calmo e é o melhor lugar para assistir ao pôr do sol em Bombinhas.", tag: "Sunset", img: "https://images.unsplash.com/photo-1502675135487-e971002a6adb?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Canto+Grande" },
+        { id: 10, nome: "Canto Grande (Fora)", tipo: "Ondas", lat: -27.202, lng: -48.508, desc: "Lado de mar aberto da vila, com ondas propícias para o surf. Fica logo aos pés do Morro do Macaco, principal trilha da cidade.", tag: "Natureza", img: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Canto+Grande" },
+        { id: 11, nome: "Lagoinha", tipo: "Calma", lat: -27.150, lng: -48.490, desc: "Pequena enseada com águas rasas e muitos peixes visíveis a olho nu. Perfeita para famílias com crianças pequenas.", tag: "Crianças", img: "https://images.unsplash.com/photo-1515238152791-8216bfdf89a7?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Lagoinha" },
+        { id: 12, nome: "Embrulho", tipo: "Calma", lat: -27.149, lng: -48.489, desc: "Praia pequena e protegida por pedras. Muito procurada por quem quer tranquilidade sem se afastar muito do centro de Bombinhas.", tag: "Sossegada", img: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Embrulho" },
+        { id: 13, nome: "Ribeiro", tipo: "Trilha", lat: -27.148, lng: -48.500, desc: "Acesso por trilha rápida entre Bombas e Bombinhas. É um refúgio deserto no meio da cidade, sem comércio, ideal para casais.", tag: "Refúgio", img: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Ribeiro" },
+        { id: 14, nome: "Conceição", tipo: "Calma", lat: -27.215, lng: -48.507, desc: "Uma pequena baía com piscinas naturais formadas entre as pedras. Águas límpidas e ambiente muito privativo e relaxante.", tag: "Privativa", img: "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Conceição" },
+        { id: 15, nome: "Praia Grossa", tipo: "Trilha", lat: -27.135, lng: -48.525, desc: "Praia selvagem com acesso via trilha íngreme partindo de Bombas. Recompensadora pela beleza intocada e isolamento total.", tag: "Trilha", img: "https://images.unsplash.com/photo-1509233725247-49e657c54213?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Grossa" },
+        { id: 16, nome: "Cardoso", tipo: "Calma", lat: -27.208, lng: -48.518, desc: "Vila de pescadores tradicional que mantém o charme do litoral catarinense antigo. Lugar ideal para comer peixe fresco.", tag: "Peixe Fresco", img: "https://images.unsplash.com/photo-1559827291-72ee739d0d9a?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Cardoso" },
+        { id: 17, nome: "Porto Belo", tipo: "Calma", lat: -27.158, lng: -48.544, desc: "Cidade vizinha com praia central calma, porto para navios de cruzeiro e águas cristalinas protegidas pela Ilha de Porto Belo.", tag: "Cais", img: "https://images.unsplash.com/photo-1542332213-9b5a5a3fab35?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Porto+Belo" },
+        { id: 18, nome: "Ilha de Porto Belo", tipo: "Trilha", lat: -27.142, lng: -48.537, desc: "Acesso por barco. Possui trilhas ecológicas, inscrições rupestres milenares e um museu, além de águas perfeitas para mergulho.", tag: "Ilha", img: "https://images.unsplash.com/photo-1533760881669-80db4d7b4c15?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Ilha+de+Porto+Belo" },
+        { id: 19, nome: "Estaleiro", tipo: "Trilha", lat: -27.185, lng: -48.548, desc: "Praia deserta acessada por trilha a partir de Zimbros. Areias grossas e águas muito verdes, cercada de costões rochosos.", tag: "Rústica", img: "https://images.unsplash.com/photo-1520942702018-0862200e6873?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Estaleiro" },
+        { id: 20, nome: "Estaleirinho", tipo: "Trilha", lat: -27.187, lng: -48.550, desc: "Continuação isolada da praia do Estaleiro. Pequena faixa de areia em meio à mata preservada, ideal para quem busca silêncio.", tag: "Natureza", img: "https://images.unsplash.com/photo-1437719417032-8595fd9e9dc6?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Estaleirinho" },
+        { id: 21, nome: "Cabeço", tipo: "Trilha", lat: -27.235, lng: -48.515, desc: "Ponto mais ao sul da península. Praia rústica, pouco visitada e com mar cristalino. Acesso requer uma trilha moderada.", tag: "Isolada", img: "https://images.unsplash.com/photo-1471922694854-ff1b63b20054?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Cabeço" },
+        { id: 22, nome: "Galheta", tipo: "Ondas", lat: -27.140, lng: -48.520, desc: "Pico de surf local próximo a Bombas. Mar agitado e ambiente frequentado principalmente por moradores e surfistas experientes.", tag: "Surf", img: "https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Galheta" },
+        { id: 23, nome: "Araçá", tipo: "Calma", lat: -27.145, lng: -48.540, desc: "Comunidade tradicional de pescadores. Águas de baía muito calmas e rasa, excelente para conhecer a cultura local.", tag: "Cultura", img: "https://images.unsplash.com/photo-1525183330358-4d6ea6605911?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Araçá" },
+        { id: 24, nome: "Perequê", tipo: "Ondas", lat: -27.155, lng: -48.580, desc: "Localizada no centro de Porto Belo. Praia extensa com boa infraestrutura, águas com ondas moderadas e fácil acesso.", tag: "Estrutura", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Perequê" },
+        { id: 25, nome: "Baía de Zimbros", tipo: "Calma", lat: -27.200, lng: -48.545, desc: "Extensa baía de águas paradas como uma lagoa. Local perfeito para a prática de caiaque e stand-up paddle.", tag: "Espelho d'água", img: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&q=80&w=300", maps: "https://www.google.com/maps/dir/?api=1&destination=Baía+de+Zimbros" }
     ];
 
     let userLocation = { lat: -27.148, lng: -48.487 };
     let favoritas = new Array(beaches.length).fill(false);
-    const fallbackImg = "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400&q=60";
-
+    
     try {
         const saved = JSON.parse(localStorage.getItem('praias_v1'));
         if (Array.isArray(saved) && saved.length === beaches.length) {
@@ -228,31 +208,13 @@
     }
 
     let map, markerLayer;
-    let currentTemp = 29;
+    let currentTemp = 30; // UPDATED to 30 as requested
 
-    async function updateWeather() {
-        try {
-            const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=-27.148&lon=-48.487&appid=bd5e378503939ddaee76f12ad7a97608&units=metric&lang=pt_br`);
-            const data = await res.json();
-            if (data.main) {
-                currentTemp = Math.round(data.main.temp);
-                document.getElementById('temp-val').textContent = `${currentTemp}°C`;
-                document.getElementById('weather-desc').textContent = data.weather[0].description.charAt(0).toUpperCase() + data.weather[0].description.slice(1);
-                updateTheme();
-            }
-        } catch (e) {
-            console.error("Erro ao carregar clima:", e);
-            document.getElementById('temp-val').textContent = `29°C`;
-            document.getElementById('weather-desc').textContent = "Tempo ensolarado";
-        }
-    }
-
-    function fixMap() {
-        if (map) {
-            setTimeout(() => {
-                map.invalidateSize();
-            }, 400);
-        }
+    function updateWeather() {
+        // Mocking the sunny day with 30C as per instructions
+        document.getElementById('temp-val').textContent = `${currentTemp}°C`;
+        document.getElementById('weather-desc').textContent = "Céu limpo e ensolarado";
+        updateTheme();
     }
 
     function initMap() {
@@ -261,24 +223,16 @@
             attribution: '© CARTO'
         }).addTo(map);
         markerLayer = L.layerGroup().addTo(map);
-        fixMap();
     }
 
     function updateTheme() {
-        const hour = new Date().getHours();
+        // Explicitly set to warm theme as requested
         const climaBg = document.getElementById('clima-bg');
         const iconEl = document.getElementById('weather-icon');
-        const isNight = hour >= 18 || hour < 6;
         
         climaBg.classList.remove('theme-night-cool', 'theme-night-warm', 'theme-day-clear', 'theme-day-warm');
-        
-        if (isNight) {
-            climaBg.classList.add(currentTemp > 25 ? 'theme-night-warm' : 'theme-night-cool');
-            iconEl.textContent = 'dark_mode';
-        } else {
-            climaBg.classList.add(currentTemp > 25 ? 'theme-day-warm' : 'theme-day-clear');
-            iconEl.textContent = 'wb_sunny';
-        }
+        climaBg.classList.add('theme-day-warm');
+        iconEl.textContent = 'wb_sunny';
     }
 
     function updateCountdown() {
@@ -306,8 +260,8 @@
     }
 
     function getMatchText(score) {
-        if (score >= 90) return "Perfeita pra você";
-        if (score >= 75) return "Alta compatibilidade";
+        if (score >= 90) return "Perfeita pro calor";
+        if (score >= 75) return "Ideal para hoje";
         if (score >= 60) return "Boa escolha";
         return "Vale a visita";
     }
@@ -329,14 +283,20 @@
     }
 
     function focusOnBeach(lat, lng) {
-        map.setView([lat, lng], 15, { animate: true });
+        map.setView([lat, lng], 15);
         document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     function calcularScore(beach) {
         let score = 50;
+        
+        // Boost for Open/Surf beaches in hot weather (Quatro Ilhas ID: 4, Mariscal ID: 5)
+        if (beach.id === 4 || beach.id === 5) score += 40;
+        if (beach.tipo === "Ondas") score += 15;
+        
         const dist = getDistance(userLocation.lat, userLocation.lng, beach.lat, beach.lng);
-        score += Math.max(0, 30 - (dist * 5));
+        score += Math.max(0, 10 - (dist * 2));
+        
         return Math.min(100, Math.round(score));
     }
 
@@ -356,17 +316,17 @@
             card.className = "min-w-[150px] h-32 rounded-xl relative overflow-hidden shrink-0 border border-white/10 shadow-lg cursor-pointer transition-transform active:scale-95";
             card.onclick = () => focusOnBeach(beach.lat, beach.lng);
             
-            let matchClass = "bg-cyan-500/90";
-            if (beach.match >= 90) matchClass = "bg-green-500/90";
+            let matchClass = "bg-amber-500/90";
+            if (beach.match >= 90) matchClass = "bg-orange-500/90";
             
             card.innerHTML = `
-                <img class="absolute inset-0 w-full h-full object-cover brightness-[0.4] transition-opacity duration-300" src="${beach.img}" onerror="this.src='${fallbackImg}'"/>
+                <img class="absolute inset-0 w-full h-full object-cover brightness-[0.5] transition-opacity duration-300" src="${beach.img}"/>
                 <div class="absolute inset-0 p-3 flex flex-col justify-between">
-                    <div class="${matchClass} text-white text-[8px] font-black px-2 py-0.5 rounded-full self-start shadow-sm">#${i+1} IA MATCH</div>
-                    <div class="drop-shadow-md overflow-hidden">
+                    <div class="${matchClass} text-white text-[8px] font-black px-2 py-0.5 rounded-full self-start shadow-sm">#${i+1} CALOR MATCH</div>
+                    <div class="drop-shadow-md">
                         <p class="text-[11px] font-extrabold text-white leading-tight truncate">${beach.nome}</p>
                         <div class="flex items-center gap-1 mt-0.5">
-                            <span class="text-[9px] text-cyan-300 font-bold uppercase tracking-tight truncate">${getMatchText(beach.match)}</span>
+                            <span class="text-[9px] text-amber-300 font-bold uppercase tracking-tight">${getMatchText(beach.match)}</span>
                         </div>
                     </div>
                 </div>
@@ -382,26 +342,26 @@
             item.className = "beach-list-item flex flex-col gap-3";
             item.innerHTML = `
                 <div class="flex items-start justify-between gap-2">
-                    <div class="flex items-start gap-3 flex-1 overflow-hidden">
+                    <div class="flex items-start gap-3 flex-1">
                         <button class="fav-btn mt-0.5 flex flex-col items-center justify-center shrink-0 min-w-[40px] focus:outline-none" onclick="toggleFavorite(event, ${beach.originalIdx})">
-                            <span class="material-symbols-outlined text-[24px] ${beach.fav ? 'text-red-500' : 'text-slate-500'}" style="font-variation-settings: 'FILL' ${beach.fav ? 1 : 0}">favorite</span>
-                            <span class="text-[8px] font-bold uppercase mt-1 ${beach.fav ? 'text-red-500' : 'text-slate-500'}">${beach.fav ? 'Favorito' : 'Favoritar'}</span>
+                            <span class="material-symbols-outlined text-[24px] ${beach.fav ? 'text-orange-500' : 'text-stone-500'}" style="font-variation-settings: 'FILL' ${beach.fav ? 1 : 0}">favorite</span>
+                            <span class="text-[8px] font-bold uppercase mt-1 ${beach.fav ? 'text-orange-500' : 'text-stone-500'}">${beach.fav ? 'Favorito' : 'Favoritar'}</span>
                         </button>
-                        <div class="flex-1 overflow-hidden" onclick="focusOnBeach(${beach.lat}, ${beach.lng})">
-                            <p class="font-bold text-slate-100 text-sm leading-tight truncate">${beach.nome}</p>
-                            <p class="text-[10px] text-cyan-400 font-medium mt-0.5 uppercase tracking-wide truncate">
+                        <div class="flex-1" onclick="focusOnBeach(${beach.lat}, ${beach.lng})">
+                            <p class="font-bold text-white text-sm leading-tight">${beach.nome}</p>
+                            <p class="text-[10px] text-amber-500 font-medium mt-0.5 uppercase tracking-wide">
                                 ${beach.tipo.toUpperCase()} • ${formatDist(beach.dist)} DE VOCÊ
                             </p>
                         </div>
                     </div>
                     <div class="flex gap-2 shrink-0">
-                        <button class="px-3 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center gap-1 text-cyan-400 hover:bg-cyan-500/20 transition-colors" onclick="event.stopPropagation(); openMaps('${beach.maps}')">
+                        <button class="px-3 h-9 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center gap-1 text-amber-500 hover:bg-amber-500/20 transition-colors" onclick="event.stopPropagation(); openMaps('${beach.maps}')">
                             <span class="material-symbols-outlined text-[18px]">location_on</span>
                             <span class="text-[10px] font-black uppercase">Ir</span>
                         </button>
                     </div>
                 </div>
-                <p class="text-[11px] text-slate-400 leading-relaxed px-1">${beach.desc}</p>
+                <p class="text-[11px] text-stone-400 leading-relaxed px-1">${beach.desc}</p>
             `;
             listContainer.appendChild(item);
         });
@@ -412,15 +372,14 @@
                 const isFav = favoritas[i];
                 L.circleMarker([beach.lat, beach.lng], {
                     radius: isFav ? 9 : 6, 
-                    fillColor: isFav ? '#ef4444' : '#0ea5e9', 
+                    fillColor: isFav ? '#f97316' : '#f59e0b', 
                     color: '#fff', 
                     weight: isFav ? 3 : 1.5, 
                     opacity: 1, 
                     fillOpacity: 0.9
-                }).addTo(markerLayer).bindPopup(`<div class="p-1"><b class="text-slate-900">${beach.nome}</b><br/><span class="text-xs text-slate-600">${beach.tipo}</span></div>`);
+                }).addTo(markerLayer).bindPopup(`<div class="p-1"><b class="text-stone-900">${beach.nome}</b><br/><span class="text-xs text-stone-600">${beach.tipo}</span></div>`);
             });
         }
-        fixMap();
     }
 
     const locBtn = document.getElementById('get-location-btn');
@@ -436,7 +395,7 @@
             navigator.geolocation.getCurrentPosition(
                 p => {
                     userLocation = { lat: p.coords.latitude, lng: p.coords.longitude };
-                    map.setView([userLocation.lat, userLocation.lng], 14, { animate: true });
+                    map.setView([userLocation.lat, userLocation.lng], 14);
                     locText.textContent = "Localizado ✓";
                     locIcon.textContent = "check_circle";
                     locIcon.classList.remove('loading-pulse');
@@ -481,7 +440,5 @@
     initMap();
     renderInterface();
     setInterval(updateCountdown, 60000);
-    setInterval(updateTheme, 900000);
-    setInterval(updateWeather, 1800000);
 </script>
 </body></html>
