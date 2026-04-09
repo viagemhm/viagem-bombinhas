@@ -3,12 +3,26 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Férias Bombinhas 2026 - Thermal Edition</title>
+    <title>Férias Bombinhas 2026 - Dynamic Theme</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
     <style>
-        :root { --thermal-color: #FF6B00; }
+        /* O CÉREBRO DAS CORES */
+        :root { 
+            --theme-color: #f97316; /* Laranja padrão */
+            --theme-bg-light: rgba(249, 115, 22, 0.1); 
+            --theme-border: rgba(249, 115, 22, 0.3);
+            --theme-border-strong: rgba(249, 115, 22, 0.5);
+        }
+
+        /* Classes Customizadas para usar as variáveis */
+        .text-theme { color: var(--theme-color); transition: color 0.5s ease; }
+        .bg-theme-light { background-color: var(--theme-bg-light); transition: background-color 0.5s ease; }
+        .border-theme { border-color: var(--theme-border); transition: border-color 0.5s ease; }
+        .border-theme-strong { border-color: var(--theme-border-strong); transition: border-color 0.5s ease; }
+        .bg-theme { background-color: var(--theme-color); transition: background-color 0.5s ease; }
+
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #050505; margin: 0; padding: 20px 10px; color: #f8fafc; min-height: 100vh; }
         .container { background: #0f0f0f; width: 100%; max-width: 420px; border-radius: 32px; overflow: hidden; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); border: 1px solid rgba(255, 255, 255, 0.03); margin: auto; }
         
@@ -17,7 +31,7 @@
             padding: 10px 18px;
             background: rgba(0, 0, 0, 0.65);
             border: 1px solid rgba(255,255,255,0.1);
-            border-bottom: 4px solid var(--thermal-color);
+            border-bottom: 4px solid var(--theme-color);
             border-radius: 14px;
             font-size: 1.4rem;
             font-weight: 700;
@@ -27,22 +41,22 @@
         .weather-dynamic-icon { font-size: 3rem; color: #fff; animation: float 3s ease-in-out infinite; order: -1; }
         
         @keyframes borderPulse {
-            0%, 100% { border-bottom-color: var(--thermal-color); filter: drop-shadow(0 0 2px var(--thermal-color)); }
-            50% { border-bottom-color: #fff; filter: drop-shadow(0 0 8px var(--thermal-color)); }
+            0%, 100% { border-bottom-color: var(--theme-color); filter: drop-shadow(0 0 2px var(--theme-color)); }
+            50% { border-bottom-color: #fff; filter: drop-shadow(0 0 8px var(--theme-color)); }
         }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
         .sun-info { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px; margin-top: 12px; display: flex; gap: 15px; justify-content: center; }
         
         .finance-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 12px; flex: 1; text-align: center; }
         .praia-item { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 12px; display: flex; align-items: center; gap: 12px; border: 1px solid rgba(255,255,255,0.08); }
-        .rota-link { display: flex; align-items: center; gap: 4px; background: var(--thermal-color); padding: 8px 12px; border-radius: 12px; font-size: 10px; font-weight: 800; color: white; text-transform: uppercase; }
+        .rota-link { display: flex; align-items: center; gap: 4px; padding: 8px 12px; border-radius: 12px; font-size: 10px; font-weight: 800; color: white; text-transform: uppercase; }
         .glass-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; transition: all 0.3s ease; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="profile-header" style="height: 180px; background-image: url('https://i.ibb.co/j9xkVr6N/Afaste-a-imagem-202604072042.jpg'); background-size: cover; background-position: center; border-bottom: 6px solid var(--thermal-color); position: relative;">
+    <div class="profile-header border-theme-strong" style="height: 180px; background-image: url('https://i.ibb.co/j9xkVr6N/Afaste-a-imagem-202604072042.jpg'); background-size: cover; background-position: center; border-bottom-width: 6px; position: relative;">
         <div style="position: absolute; bottom: -40px; left: 24px; width: 90px; height: 90px; border: 4px solid #0f0f0f; border-radius: 50%; overflow: hidden; background: #222;">
             <img src="https://i.ibb.co/s9WK610w/Crie-uma-imagem-202604072021.jpg" class="w-full h-full object-cover">
         </div>
@@ -50,14 +64,15 @@
     <div style="padding: 50px 24px 10px; display: flex; justify-content: space-between; align-items: flex-start;">
         <div>
             <h2 class="font-bold text-xl text-white">Helder e Mayara</h2>
-            <div class="text-[11px] font-bold uppercase text-orange-500 tracking-widest">Bombinhas • 2026</div>
+            <div class="text-[11px] font-bold uppercase tracking-widest text-theme">Bombinhas • 2026</div>
         </div>
         <div class="text-right">
             <div class="text-[9px] font-bold text-white uppercase tracking-tighter mb-1">Data da Viagem: 05/05/2026</div>
-            <div id="countdown" class="bg-orange-500/10 border border-orange-500/30 px-3 py-1 rounded-full text-[11px] font-black text-orange-500 inline-block">Faltam -- dias</div>
+            <div id="countdown" class="bg-theme-light border border-theme px-3 py-1 rounded-full text-[11px] font-black text-theme inline-block">Faltam -- dias</div>
         </div>
     </div>
-    <div class="weather-card mx-4 my-6 p-6 rounded-[28px] border-2 border-orange-500/50 bg-orange-500/5">
+    
+    <div class="weather-card mx-4 my-6 p-6 rounded-[28px] border-2 border-theme-strong bg-theme-light transition-all duration-500">
         <div class="flex justify-between">
             <div id="desc-clima" class="text-lg font-bold uppercase text-white">Sincronizando...</div>
             <div class="text-right">
@@ -67,20 +82,20 @@
         </div>
         
         <div class="clock-container">
-            <span id="weather-icon-dynamic" class="material-symbols-outlined weather-dynamic-icon">cloud</span>
+            <span id="weather-icon-dynamic" class="material-symbols-outlined weather-dynamic-icon text-theme drop-shadow-md">cloud</span>
             <div class="clock-box" id="clock">00:00:00</div>
         </div>
         <div class="sun-info">
             <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm text-yellow-500">wb_twilight</span> <span id="sunrise">--:--</span></span>
-            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm text-orange-600">bedtime_off</span> <span id="sunset">--:--</span></span>
+            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm text-theme">bedtime_off</span> <span id="sunset">--:--</span></span>
         </div>
         <div class="flex gap-2 overflow-x-auto mt-6 no-scrollbar" id="previsao"></div>
     </div>
+
     <div class="px-4 space-y-4 pb-8">
-        
         <a href="gastos.html" class="block space-y-2 group">
             <div class="flex items-center gap-2 p-4 glass-card hover:bg-white/5 mb-2">
-                <span class="material-symbols-outlined text-orange-500">payments</span>
+                <span class="material-symbols-outlined text-theme">payments</span>
                 <div class="flex flex-col">
                     <h3 class="font-bold text-white text-xs">Gestão de Gastos</h3>
                     <p class="text-[9px] text-zinc-500 uppercase font-black">Controle Financeiro</p>
@@ -93,7 +108,7 @@
                 </div>
                 <div class="finance-card group-hover:bg-white/5 transition-all">
                     <div class="text-[9px] text-zinc-500 uppercase font-black">Gasto</div>
-                    <div id="gas" class="text-sm font-bold text-orange-500">R$ 0</div>
+                    <div id="gas" class="text-sm font-bold text-theme">R$ 0</div>
                 </div>
                 <div class="finance-card group-hover:bg-white/5 transition-all">
                     <div class="text-[9px] text-zinc-500 uppercase font-black">Saldo</div>
@@ -103,40 +118,58 @@
         </a>
         <div class="grid grid-cols-2 gap-3">
             <a href="checklist.html" class="glass-card p-4 flex flex-col gap-2 hover:bg-white/5">
-                <span class="text-xl">🎒</span>
+                <span class="text-xl text-theme"><span class="material-symbols-outlined">luggage</span></span>
                 <h3 class="font-bold text-white text-xs">Check-list</h3>
             </a>
             <a href="praias.html" class="glass-card p-4 flex flex-col gap-2 hover:bg-white/5">
-                <span class="material-symbols-outlined text-orange-500 text-xl">beach_access</span>
+                <span class="material-symbols-outlined text-theme text-xl">beach_access</span>
                 <h3 class="font-bold text-white text-xs">Guia de Praias</h3>
             </a>
         </div>
         <div class="mt-4">
             <h3 class="font-bold text-white flex items-center gap-2 mb-4">
-                <span class="material-symbols-outlined text-orange-500 text-sm">favorite</span> 
+                <span class="material-symbols-outlined text-theme text-sm">favorite</span> 
                 Favoritos Selecionados
             </h3>
             <div id="lista-praias" class="space-y-3"></div>
         </div>
     </div>
 </div>
+
+<script src="praias-db.js"></script>
+
 <script>
     const API_KEY = 'bd5e378503939ddaee76f12ad7a97608';
     
-    const beachData = [
-        { id: 1, nome: "Galheta", tipo: "Ondas", img: "https://picsum.photos/id/1015/200", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Galheta+Bombinhas" },
-        { id: 2, nome: "Bombas", tipo: "Ondas", img: "https://picsum.photos/id/1016/200", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombas" },
-        { id: 3, nome: "Ribeiro", tipo: "Trilha", img: "https://picsum.photos/id/133/200", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+do+Ribeiro" },
-        { id: 4, nome: "Bombinhas", tipo: "Calma", img: "https://picsum.photos/id/1018/200", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Bombinhas" },
-        { id: 8, nome: "Sepultura", tipo: "Calma", img: "https://picsum.photos/id/133/200", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Sepultura" },
-        { id: 12, nome: "Retiro dos Padres", tipo: "Ondas", img: "https://picsum.photos/id/251/200", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+Retiro+dos+Padres" },
-        { id: 13, nome: "Quatro Ilhas", tipo: "Ondas", img: "https://picsum.photos/id/1018/200", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+de+Quatro+Ilhas" },
-        { id: 21, nome: "Tainha", tipo: "Mirante", img: "https://picsum.photos/id/201/200", maps: "https://www.google.com/maps/dir/?api=1&destination=Praia+da+Tainha" }
-    ];
+    // FUNÇÃO DO MOTOR DE CORES
+    function applyDynamicColors(timestampAtual, sunriseTs, sunsetTs) {
+        const root = document.documentElement;
+        
+        // Verifica se é noite (o timestamp atual é menor que nascer ou maior que por do sol)
+        const isNight = timestampAtual < sunriseTs || timestampAtual > sunsetTs;
+
+        if (isNight) {
+            // TEMA NOITE: Azul Neon
+            root.style.setProperty('--theme-color', '#3b82f6'); // Tailwind blue-500
+            root.style.setProperty('--theme-bg-light', 'rgba(59, 130, 246, 0.1)');
+            root.style.setProperty('--theme-border', 'rgba(59, 130, 246, 0.3)');
+            root.style.setProperty('--theme-border-strong', 'rgba(59, 130, 246, 0.6)');
+        } else {
+            // TEMA DIA: Laranja Thermal
+            root.style.setProperty('--theme-color', '#f97316'); // Tailwind orange-500
+            root.style.setProperty('--theme-bg-light', 'rgba(249, 115, 22, 0.1)');
+            root.style.setProperty('--theme-border', 'rgba(249, 115, 22, 0.3)');
+            root.style.setProperty('--theme-border-strong', 'rgba(249, 115, 22, 0.6)');
+        }
+    }
+
     async function fetchWeather() {
         try {
             const resCurr = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=-27.148&lon=-48.487&appid=${API_KEY}&units=metric&lang=pt_br`);
             const dataCurr = await resCurr.json();
+            
+            // Ativa a troca de cores inteligente baseada no Sol
+            applyDynamicColors(dataCurr.dt, dataCurr.sys.sunrise, dataCurr.sys.sunset);
             
             const formatT = (ts) => new Date(ts * 1000).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
             document.getElementById('sunrise').innerText = formatT(dataCurr.sys.sunrise);
@@ -144,6 +177,7 @@
             
             const iconCodes = {'01d':'wb_sunny','01n':'nightlight','02d':'partly_cloudy_day','02n':'partly_cloudy_night','03d':'cloud','04d':'cloudy','09d':'rainy','10d':'rainy_heavy','11d':'thunderstorm','13d':'ac_unit','50d':'foggy'};
             document.getElementById('weather-icon-dynamic').innerText = iconCodes[dataCurr.weather[0].icon] || 'cloud';
+            
             const resFore = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=-27.148&lon=-48.487&appid=${API_KEY}&units=metric&lang=pt_br`);
             const dataFore = await resFore.json();
             const daily = {};
@@ -161,45 +195,61 @@
                         <span class="text-[9px] font-bold text-zinc-500">${Math.round(d.min)}°</span>
                     </div>
                 </div>`).join('');
+                
             document.getElementById('temp-atual').innerText = Math.round(dataCurr.main.temp) + "°C";
             document.getElementById('desc-clima').innerText = dataCurr.weather[0].description;
             document.getElementById('temp-minmax').innerText = `Mín ${Math.round(dataCurr.main.temp_min)}° / Máx ${Math.round(dataCurr.main.temp_max)}°`;
-        } catch (e) {}
+        } catch (e) {
+            console.error(e);
+        }
     }
+
     function renderFavoritas() {
         const container = document.getElementById('lista-praias');
-        const morro = { nome: "Morro do Macaco", tipo: "Trilha 360°", img: "https://i.ibb.co/j9xkVr6N/Afaste-a-imagem-202604072042.jpg", maps: "https://www.google.com/maps/search/Trilha+Morro+do+Macaco" };
-        let html = `
-            <div class="praia-item">
-                <div class="w-14 h-14 rounded-xl overflow-hidden shrink-0"><img src="${morro.img}" class="w-full h-full object-cover"></div>
-                <div class="flex-1 flex justify-between items-center">
-                    <div><div class="font-bold text-white text-xs">${morro.nome}</div><div class="text-[8px] text-zinc-500 uppercase font-black">${morro.tipo}</div></div>
-                    <a href="${morro.maps}" target="_blank" class="rota-link"><span class="material-symbols-outlined text-[14px]">directions</span> Rota</a>
-                </div>
-            </div>`;
+        let html = '';
         try {
-            const favoritados = JSON.parse(localStorage.getItem('praias_favoritas_v2')) || [];
-            beachData.forEach(p => { if (favoritados[p.id - 1]) {
-                html += `<div class="praia-item mt-3">
-                    <div class="w-14 h-14 rounded-xl overflow-hidden shrink-0"><img src="${p.img}" class="w-full h-full object-cover"></div>
-                    <div class="flex-1 flex justify-between items-center">
-                        <div><div class="font-bold text-white text-xs">${p.nome}</div><div class="text-[8px] text-zinc-500 uppercase font-black">${p.tipo}</div></div>
-                        <a href="${p.maps}" target="_blank" class="rota-link"><span class="material-symbols-outlined text-[14px]">directions</span> Rota</a>
-                    </div>
-                </div>`;
-            }});
+            const favsNomes = JSON.parse(localStorage.getItem('favs')) || [];
+            
+            if (favsNomes.length === 0) {
+                html = '<div class="text-[11px] text-zinc-500 italic p-4 text-center border border-white/5 rounded-xl bg-white/5">Nenhum local favoritado ainda. Explore as praias e marque o coração!</div>';
+            } else {
+                locaisBombinhas.forEach(p => { 
+                    if (favsNomes.includes(p.nome)) {
+                        const imagemFallback = p.img || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=200&q=60';
+                        
+                        html += `
+                        <div class="praia-item mb-2">
+                            <div class="w-14 h-14 rounded-xl overflow-hidden shrink-0">
+                                <img src="${imagemFallback}" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-1 flex justify-between items-center">
+                                <div>
+                                    <div class="font-bold text-white text-xs">${p.nome}</div>
+                                    <div class="text-[8px] text-theme uppercase font-black">${p.cat}</div>
+                                </div>
+                                <a href="${p.maps}" target="_blank" class="rota-link bg-theme">
+                                    <span class="material-symbols-outlined text-[14px]">directions</span> Rota
+                                </a>
+                            </div>
+                        </div>`;
+                    }
+                });
+            }
         } catch (e) {}
         container.innerHTML = html;
     }
+
     setInterval(() => document.getElementById('clock').innerText = new Date().toLocaleTimeString('pt-BR'), 1000);
     const updateCD = () => {
         const diff = new Date(2026, 4, 5) - new Date();
         const d = Math.floor(diff / 86400000);
         document.getElementById('countdown').innerText = d > 0 ? `Faltam ${d} dias` : "Partiu!";
     };
+    
     fetchWeather(); updateCD(); renderFavoritas();
     window.addEventListener('focus', renderFavoritas);
-    // Budget data link (mantido)
+    
+    // Budget data link
     fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSjndkscJNSa1uHNlh_3al_4smBXaiXrGKF27dIf_vK6uwUGF0eb_UzHj74Plx-cZ6PwE0EhnWSW-xA/pub?gid=0&single=true&output=tsv")
     .then(r => r.text()).then(t => {
         const lines = t.split("\n");
