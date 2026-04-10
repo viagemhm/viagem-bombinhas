@@ -14,41 +14,39 @@
     <style>
         :root { 
             --theme-color: #f97316; 
-            --theme-bg-light: rgba(249, 115, 22, 0.1); 
-            --theme-border: rgba(249, 115, 22, 0.3);
+            --theme-border: rgba(249, 115, 22, 0.4);
         }
 
-        .text-theme { color: var(--theme-color); transition: color 0.5s ease; }
-        .bg-theme { background-color: var(--theme-color); transition: background-color 0.5s ease; }
+        .text-theme { color: var(--theme-color); }
+        .bg-theme { background-color: var(--theme-color); }
 
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #050505; margin: 0; padding: 20px 10px; color: #f8fafc; min-height: 100vh; }
-        .container { background: #0f0f0f; width: 100%; max-width: 420px; border-radius: 32px; overflow: hidden; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); border: 1px solid rgba(255, 255, 255, 0.03); margin: auto; }
+        .container { background: #0f0f0f; width: 100%; max-width: 420px; border-radius: 32px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.03); margin: auto; }
         
-        #map { height: 320px; width: calc(100% - 24px); border-radius: 24px; margin: 0 12px 20px 12px; border: 1px solid var(--theme-border); }
+        /* Container do Mapa Otimizado */
+        #map { height: 350px; width: calc(100% - 24px); border-radius: 24px; margin: 0 12px 20px 12px; border: 2px solid var(--theme-border); }
         
-        /* ESTILO DO MARCADOR CUSTOMIZADO (PONTINHOS) */
+        /* Marcador Minimalista para não tampar a visão do satélite */
         .custom-marker {
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            border: 2px solid white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5), 0 0 5px var(--theme-color);
+            border: 2px solid #fff;
+            box-shadow: 0 0 8px rgba(0,0,0,0.8);
             cursor: pointer;
             transition: transform 0.2s;
         }
-        .custom-marker:hover { transform: scale(1.4); z-index: 10; }
 
         .beach-list-item { background: rgba(255,255,255,0.03); border-radius: 20px; padding: 16px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.05); }
-        .beach-list-item.visitada { opacity: 0.4; filter: grayscale(1); border-left: 4px solid #4caf50; }
+        .beach-list-item.visitada { opacity: 0.5; filter: grayscale(1); border-left: 4px solid #4caf50; }
         
         .filter-btn { transition: all 0.3s ease; }
         .active-filter { background-color: var(--theme-color) !important; color: #000 !important; font-weight: 800; }
         
-        .mapboxgl-popup-content { background: #111 !important; color: white !important; border-radius: 10px !important; padding: 8px 12px !important; font-size: 11px !important; border: 1px solid var(--theme-border); }
+        .mapboxgl-popup-content { background: #111 !important; color: white !important; border-radius: 10px !important; padding: 8px !important; font-size: 11px !important; border: 1px solid var(--theme-border); }
         .mapboxgl-popup-tip { border-top-color: #111 !important; }
 
         .back-btn { color: #94a3b8; font-size: 13px; font-weight: 700; background: none; border: none; cursor: pointer; text-transform: uppercase; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body id="body-theme">
@@ -62,7 +60,7 @@
     </div>
 
     <div class="profile-header" style="height: 140px; background-image: url('https://i.ibb.co/j9xkVr6N/Afaste-a-imagem-202604072042.jpg'); background-size: cover; background-position: center; border-bottom: 5px solid var(--theme-color); position: relative;">
-        <div style="position: absolute; bottom: -30px; left: 20px; width: 70px; height: 70px; border: 3px solid #0f0f0f; border-radius: 50%; overflow: hidden; background: #222;">
+        <div style="position: absolute; bottom: -30px; left: 20px; width: 70px; height: 70px; border: 3px solid #0f0f0f; border-radius: 50%; overflow: hidden;">
             <img src="https://i.ibb.co/s9WK610w/Crie-uma-imagem-202604072021.jpg" class="w-full h-full object-cover">
         </div>
     </div>
@@ -113,8 +111,6 @@
         const isNight = timestampAtual < sunriseTs || timestampAtual > sunsetTs;
         const themeColor = isNight ? '#3b82f6' : '#f97316';
         root.style.setProperty('--theme-color', themeColor);
-        root.style.setProperty('--theme-bg-light', isNight ? 'rgba(59, 130, 246, 0.1)' : 'rgba(249, 115, 22, 0.1)');
-        root.style.setProperty('--theme-border', isNight ? 'rgba(59, 130, 246, 0.3)' : 'rgba(249, 115, 22, 0.3)');
         renderizar();
     }
 
@@ -131,20 +127,17 @@
     function initMap() {
         map = new mapboxgl.Map({
             container: 'map',
-            style: 'mapbox://styles/mapbox/outdoors-v12',   // ← Mudança principal aqui
+            // ESTILO HÍBRIDO: Satélite + Ruas + Trilhas
+            style: 'mapbox://styles/mapbox/satellite-streets-v12',
             center: [-48.487, -27.148],
-            zoom: 12,          // Zoom um pouco maior para melhor visualização inicial
-            pitch: 35          // Pitch suave para dar sensação 3D nas praias
+            zoom: 12,
+            pitch: 0 // Vista reta de cima para conferir os pontos na areia
         });
 
         map.on('load', () => {
             const bounds = new mapboxgl.LngLatBounds();
             locaisBombinhas.forEach(l => bounds.extend([l.lng, l.lat]));
-            map.fitBounds(bounds, { padding: 50, duration: 1200 });
-
-            // Força redesenho para evitar problemas de carregamento
-            setTimeout(() => map.resize(), 400);
-
+            map.fitBounds(bounds, { padding: 30 });
             renderizar();
         });
     }
@@ -156,12 +149,6 @@
         markers = [];
 
         let lista = categoriaAtual === 'Todos' ? [...locaisBombinhas] : locaisBombinhas.filter(l => l.cat === categoriaAtual);
-
-        if (userLat && userLng) {
-            lista.forEach(l => l.dist = haversine(userLat, userLng, l.lat, l.lng));
-            lista.sort((a, b) => a.dist - b.dist);
-        }
-
         const currentThemeColor = getComputedStyle(document.documentElement).getPropertyValue('--theme-color').trim();
 
         lista.forEach(local => {
@@ -175,34 +162,28 @@
                 <div class="flex justify-between items-start mb-3">
                     <div class="flex-1">
                         <h3 class="text-white font-bold text-sm tracking-tight">${local.nome}</h3>
-                        <p class="text-[9px] text-theme font-black uppercase tracking-tighter">
-                            ${local.cat} • ${local.dist ? local.dist.toFixed(1) + ' KM' : '--- KM'}
-                        </p>
+                        <p class="text-[9px] text-theme font-black uppercase tracking-tighter">${local.cat}</p>
                     </div>
                     <div class="flex gap-3">
-                        <button onclick="toggleFav('\( {local.nome}')" class=" \){isFav ? 'text-red-500' : 'text-slate-600'}">
+                        <button onclick="toggleFav('${local.nome}')" class="${isFav ? 'text-red-500' : 'text-slate-600'}">
                             <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' ${isFav ? 1 : 0}">favorite</span>
-                        </button>
-                        <button onclick="toggleVis('\( {local.nome}')" class=" \){isVis ? 'text-green-500' : 'text-slate-600'}">
-                            <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' ${isVis ? 1 : 0}">check_circle</span>
                         </button>
                     </div>
                 </div>
-                <p class="text-[11px] text-slate-400 leading-relaxed mb-4">${local.desc}</p>
                 <a href="${local.maps}" target="_blank" class="flex items-center justify-center gap-2 w-full py-3 bg-white/5 border border-theme rounded-xl text-white text-[10px] font-black uppercase">
-                    <span class="material-symbols-outlined text-xs text-theme">directions</span> Rota
+                    <span class="material-symbols-outlined text-xs text-theme">directions</span> Rota GPS
                 </a>
             `;
             container.appendChild(card);
 
-            // Criar Marcador Minimalista
+            // Marcador Bolinha (Minimalista)
             const el = document.createElement('div');
             el.className = 'custom-marker';
             el.style.backgroundColor = isFav ? "#ef4444" : currentThemeColor;
 
             const marker = new mapboxgl.Marker(el)
                 .setLngLat([local.lng, local.lat])
-                .setPopup(new mapboxgl.Popup({ offset: 10 }).setHTML(`<b style="font-weight:800">${local.nome}</b>`))
+                .setPopup(new mapboxgl.Popup({ offset: 10 }).setHTML(`<b style="color:white">${local.nome}</b>`))
                 .addTo(map);
             
             markers.push(marker);
@@ -210,24 +191,10 @@
     }
 
     function ativarGPS() {
-        const txt = document.getElementById('txt-gps');
-        txt.innerText = "GPS Ativo...";
         navigator.geolocation.getCurrentPosition(pos => {
-            userLat = pos.coords.latitude; 
-            userLng = pos.coords.longitude;
-            renderizar();
-            map.flyTo({ 
-                center: [userLng, userLat], 
-                zoom: 14.5,
-                duration: 2000 
-            });
-            
-            new mapboxgl.Marker({ color: "#fff", scale: 0.8 })
-                .setLngLat([userLng, userLat])
-                .addTo(map);
-        }, () => {
-            txt.innerText = "Erro ao obter GPS";
-            setTimeout(() => txt.innerText = "Ordenar por Proximidade", 3000);
+            userLat = pos.coords.latitude; userLng = pos.coords.longitude;
+            map.flyTo({ center: [userLng, userLat], zoom: 15 });
+            new mapboxgl.Marker({ color: "#fff" }).setLngLat([userLng, userLat]).addTo(map);
         });
     }
 
@@ -250,10 +217,7 @@
         renderizar();
     }
 
-    window.onload = () => { 
-        fetchWeather(); 
-        initMap(); 
-    };
+    window.onload = () => { fetchWeather(); initMap(); };
 </script>
 </body>
 </html>
