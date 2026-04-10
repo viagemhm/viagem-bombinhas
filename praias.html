@@ -16,31 +16,38 @@
             --theme-color: #f97316; 
             --theme-bg-light: rgba(249, 115, 22, 0.1); 
             --theme-border: rgba(249, 115, 22, 0.3);
-            --theme-border-strong: rgba(249, 115, 22, 0.5);
         }
 
         .text-theme { color: var(--theme-color); transition: color 0.5s ease; }
-        .bg-theme-light { background-color: var(--theme-bg-light); transition: background-color 0.5s ease; }
-        .border-theme { border-color: var(--theme-border); transition: border-color 0.5s ease; }
         .bg-theme { background-color: var(--theme-color); transition: background-color 0.5s ease; }
 
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #050505; margin: 0; padding: 20px 10px; color: #f8fafc; min-height: 100vh; }
         .container { background: #0f0f0f; width: 100%; max-width: 420px; border-radius: 32px; overflow: hidden; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); border: 1px solid rgba(255, 255, 255, 0.03); margin: auto; }
         
-        #map { height: 300px; width: calc(100% - 32px); border-radius: 24px; margin: 0 16px 20px 16px; border: 1px solid var(--theme-border); }
+        #map { height: 320px; width: calc(100% - 24px); border-radius: 24px; margin: 0 12px 20px 12px; border: 1px solid var(--theme-border); }
         
-        .beach-list-item { background: rgba(255,255,255,0.03); border-radius: 20px; padding: 16px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s ease; }
+        /* ESTILO DO MARCADOR CUSTOMIZADO (PONTINHOS) */
+        .custom-marker {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5), 0 0 5px var(--theme-color);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .custom-marker:hover { transform: scale(1.4); z-index: 10; }
+
+        .beach-list-item { background: rgba(255,255,255,0.03); border-radius: 20px; padding: 16px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.05); }
         .beach-list-item.visitada { opacity: 0.4; filter: grayscale(1); border-left: 4px solid #4caf50; }
         
         .filter-btn { transition: all 0.3s ease; }
         .active-filter { background-color: var(--theme-color) !important; color: #000 !important; font-weight: 800; }
         
-        /* Estilo dos Popups do Mapbox */
-        .mapboxgl-popup-content { background: #0f172a !important; color: white !important; border-radius: 12px !important; padding: 10px !important; font-size: 11px !important; border: 1px solid var(--theme-border); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        .mapboxgl-popup-tip { border-top-color: #0f172a !important; }
+        .mapboxgl-popup-content { background: #111 !important; color: white !important; border-radius: 10px !important; padding: 8px 12px !important; font-size: 11px !important; border: 1px solid var(--theme-border); }
+        .mapboxgl-popup-tip { border-top-color: #111 !important; }
 
-        .back-btn { color: #94a3b8; font-size: 13px; font-weight: 700; transition: color 0.3s; background: none; border: none; cursor: pointer; text-transform: uppercase; }
-        .back-btn:hover { color: var(--theme-color); }
+        .back-btn { color: #94a3b8; font-size: 13px; font-weight: 700; background: none; border: none; cursor: pointer; text-transform: uppercase; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
@@ -54,34 +61,34 @@
         </button>
     </div>
 
-    <div class="profile-header border-theme-strong" style="height: 150px; background-image: url('https://i.ibb.co/j9xkVr6N/Afaste-a-imagem-202604072042.jpg'); background-size: cover; background-position: center; border-bottom-width: 6px; position: relative;">
-        <div style="position: absolute; bottom: -35px; left: 24px; width: 80px; height: 80px; border: 4px solid #0f0f0f; border-radius: 50%; overflow: hidden; background: #222;">
+    <div class="profile-header" style="height: 140px; background-image: url('https://i.ibb.co/j9xkVr6N/Afaste-a-imagem-202604072042.jpg'); background-size: cover; background-position: center; border-bottom: 5px solid var(--theme-color); position: relative;">
+        <div style="position: absolute; bottom: -30px; left: 20px; width: 70px; height: 70px; border: 3px solid #0f0f0f; border-radius: 50%; overflow: hidden; background: #222;">
             <img src="https://i.ibb.co/s9WK610w/Crie-uma-imagem-202604072021.jpg" class="w-full h-full object-cover">
         </div>
     </div>
 
-    <div style="padding: 45px 24px 10px; display: flex; justify-content: space-between; align-items: flex-start;">
+    <div style="padding: 40px 20px 10px; display: flex; justify-content: space-between; align-items: flex-start;">
         <div>
-            <h2 class="font-bold text-xl text-white">Helder e Mayara</h2>
-            <div class="text-[11px] font-bold uppercase tracking-widest text-theme">Explorar • Bombinhas</div>
+            <h2 class="font-bold text-lg text-white">Helder e Mayara</h2>
+            <div class="text-[10px] font-bold uppercase tracking-widest text-theme">Explorar • Bombinhas</div>
         </div>
         <div class="text-right">
-            <div id="temp-atual" class="text-2xl font-black text-white">--°C</div>
-            <div id="weather-desc" class="text-[9px] font-bold text-theme uppercase tracking-tighter">Sincronizando...</div>
+            <div id="temp-atual" class="text-xl font-black text-white">--°C</div>
+            <div id="weather-desc" class="text-[8px] font-bold text-theme uppercase tracking-tighter">Sincronizando...</div>
         </div>
     </div>
 
-    <div id="map" class="mt-6"></div>
+    <div id="map" class="mt-4"></div>
 
     <div class="flex gap-2 overflow-x-auto no-scrollbar px-4 mb-6">
-        <button onclick="filtrar('Todos', this)" class="px-5 py-2.5 rounded-2xl bg-white/5 text-slate-400 text-[10px] font-black uppercase whitespace-nowrap filter-btn active-filter">Todos</button>
-        <button onclick="filtrar('Mar Calmo', this)" class="px-5 py-2.5 rounded-2xl bg-white/5 text-slate-400 text-[10px] font-black uppercase whitespace-nowrap filter-btn">🌊 Mar Calmo</button>
-        <button onclick="filtrar('Com Ondas', this)" class="px-5 py-2.5 rounded-2xl bg-white/5 text-slate-400 text-[10px] font-black uppercase whitespace-nowrap filter-btn">🏄 Ondas</button>
-        <button onclick="filtrar('Trilhas', this)" class="px-5 py-2.5 rounded-2xl bg-white/5 text-slate-400 text-[10px] font-black uppercase whitespace-nowrap filter-btn">🥾 Trilhas</button>
+        <button onclick="filtrar('Todos', this)" class="px-4 py-2 rounded-xl bg-white/5 text-slate-400 text-[9px] font-black uppercase whitespace-nowrap filter-btn active-filter">Todos</button>
+        <button onclick="filtrar('Mar Calmo', this)" class="px-4 py-2 rounded-xl bg-white/5 text-slate-400 text-[9px] font-black uppercase whitespace-nowrap filter-btn">🌊 Mar Calmo</button>
+        <button onclick="filtrar('Com Ondas', this)" class="px-4 py-2 rounded-xl bg-white/5 text-slate-400 text-[9px] font-black uppercase whitespace-nowrap filter-btn">🏄 Ondas</button>
+        <button onclick="filtrar('Trilhas', this)" class="px-4 py-2 rounded-xl bg-white/5 text-slate-400 text-[9px] font-black uppercase whitespace-nowrap filter-btn">🥾 Trilhas</button>
     </div>
 
-    <div class="px-4 mb-8">
-        <button id="btn-gps" onclick="ativarGPS()" class="w-full py-4 rounded-2xl bg-white/5 border border-theme text-white font-black text-[10px] uppercase flex items-center justify-center gap-2 hover:bg-white/10 transition-all">
+    <div class="px-4 mb-6">
+        <button id="btn-gps" onclick="ativarGPS()" class="w-full py-3.5 rounded-xl bg-white/5 border border-theme text-white font-black text-[9px] uppercase flex items-center justify-center gap-2">
             <span class="material-symbols-outlined text-sm text-theme">my_location</span>
             <span id="txt-gps">Ordenar por Proximidade</span>
         </button>
@@ -90,14 +97,9 @@
     <div id="lista-praias" class="px-4 pb-10"></div>
 </div>
 
-<footer class="mt-8 text-slate-600 text-[10px] font-bold uppercase tracking-widest text-center pb-10">
-    Nossas Pegadas © 2026
-</footer>
-
 <script src="praias-db.js"></script>
 
 <script>
-    // TOKEN INSERIDO COM SUCESSO
     mapboxgl.accessToken = 'Pk.eyJ1IjoiaGVsZGVyMTk5NSIsImEiOiJjbW50ZG4zYnIwbmJmMnNxMHZyeWFjNmpjIn0.dkfOtjk0PbNcD78S88dljw';
 
     const API_KEY = 'bd5e378503939ddaee76f12ad7a97608';
@@ -106,17 +108,14 @@
     let favoritos = JSON.parse(localStorage.getItem('favs')) || [];
     let visitados = JSON.parse(localStorage.getItem('vis')) || [];
 
-    // MOTOR DE CORES
     function applyDynamicColors(timestampAtual, sunriseTs, sunsetTs) {
         const root = document.documentElement;
         const isNight = timestampAtual < sunriseTs || timestampAtual > sunsetTs;
         const themeColor = isNight ? '#3b82f6' : '#f97316';
-        
         root.style.setProperty('--theme-color', themeColor);
         root.style.setProperty('--theme-bg-light', isNight ? 'rgba(59, 130, 246, 0.1)' : 'rgba(249, 115, 22, 0.1)');
         root.style.setProperty('--theme-border', isNight ? 'rgba(59, 130, 246, 0.3)' : 'rgba(249, 115, 22, 0.3)');
-        
-        renderizar(); // Re-renderiza para atualizar cores dos marcadores
+        renderizar();
     }
 
     async function fetchWeather() {
@@ -132,13 +131,17 @@
     function initMap() {
         map = new mapboxgl.Map({
             container: 'map',
-            style: 'mapbox://styles/mapbox/satellite-streets-v12', // Satélite de alta precisão
-            center: [-48.487, -27.148], // [lng, lat]
-            zoom: 12,
-            pitch: 45 // Inclinação 3D
+            style: 'mapbox://styles/mapbox/satellite-streets-v12',
+            center: [-48.487, -27.148],
+            zoom: 11.5,
+            pitch: 30
         });
 
         map.on('load', () => {
+            // Ajustar o mapa para mostrar todos os pontos de uma vez
+            const bounds = new mapboxgl.LngLatBounds();
+            locaisBombinhas.forEach(l => bounds.extend([l.lng, l.lat]));
+            map.fitBounds(bounds, { padding: 40, duration: 1000 });
             renderizar();
         });
     }
@@ -146,7 +149,6 @@
     function renderizar() {
         const container = document.getElementById('lista-praias');
         container.innerHTML = '';
-        
         markers.forEach(m => m.remove());
         markers = [];
 
@@ -163,6 +165,7 @@
             const isFav = favoritos.includes(local.nome);
             const isVis = visitados.includes(local.nome);
             
+            // Render Lista
             const card = document.createElement('div');
             card.className = `beach-list-item ${isVis ? 'visitada' : ''}`;
             card.innerHTML = `
@@ -183,18 +186,21 @@
                     </div>
                 </div>
                 <p class="text-[11px] text-slate-400 leading-relaxed mb-4">${local.desc}</p>
-                <a href="${local.maps}" target="_blank" class="flex items-center justify-center gap-2 w-full py-3 bg-white/5 border border-theme rounded-xl text-white text-[10px] font-black uppercase hover:bg-white/10 transition-all">
-                    <span class="material-symbols-outlined text-xs text-theme">directions</span> Traçar Rota
+                <a href="${local.maps}" target="_blank" class="flex items-center justify-center gap-2 w-full py-3 bg-white/5 border border-theme rounded-xl text-white text-[10px] font-black uppercase">
+                    <span class="material-symbols-outlined text-xs text-theme">directions</span> Rota
                 </a>
             `;
             container.appendChild(card);
 
-            const marker = new mapboxgl.Marker({
-                color: isFav ? "#ef4444" : currentThemeColor
-            })
-            .setLngLat([local.lng, local.lat])
-            .setPopup(new mapboxgl.Popup().setHTML(`<b style="color:white">${local.nome}</b>`))
-            .addTo(map);
+            // Criar Marcador Minimalista (Bolinha)
+            const el = document.createElement('div');
+            el.className = 'custom-marker';
+            el.style.backgroundColor = isFav ? "#ef4444" : currentThemeColor;
+
+            const marker = new mapboxgl.Marker(el)
+                .setLngLat([local.lng, local.lat])
+                .setPopup(new mapboxgl.Popup({ offset: 10 }).setHTML(`<b style="font-weight:800">${local.nome}</b>`))
+                .addTo(map);
             
             markers.push(marker);
         });
@@ -202,17 +208,14 @@
 
     function ativarGPS() {
         const txt = document.getElementById('txt-gps');
-        txt.innerText = "Sincronizando GPS...";
+        txt.innerText = "GPS Ativo...";
         navigator.geolocation.getCurrentPosition(pos => {
             userLat = pos.coords.latitude; userLng = pos.coords.longitude;
-            txt.innerText = "Mais próximas primeiro";
             renderizar();
-            map.flyTo({ center: [userLng, userLat], zoom: 14, duration: 2000 });
+            map.flyTo({ center: [userLng, userLat], zoom: 14 });
             
-            // Marcador do Helder/Mayara
             new mapboxgl.Marker({ color: "#fff" })
                 .setLngLat([userLng, userLat])
-                .setPopup(new mapboxgl.Popup().setHTML("<b style='color:black'>Você está aqui</b>"))
                 .addTo(map);
         }, () => txt.innerText = "Erro GPS");
     }
