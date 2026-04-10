@@ -1,17 +1,17 @@
 /**
  * Banco de Dados de Praias e Pontos Turísticos - Bombinhas 2026
  * Autor: Helder
- * Revisão Técnica: Coordenadas validadas para pontos de areia e início de trilhas.
+ * Revisão: Pontos validados via Satélite para garantir precisão no GPS.
  */
 
 const locaisBombinhas = [
-    { id: 1, nome: "Morro do Macaco", cat: "Trilhas", lat: -27.1852, lng: -48.5034, desc: "Vista 360º de tirar o fôlego. Trilha de nível médio.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.1852,-48.5034" },
+    { id: 1, nome: "Morro do Macaco", cat: "Trilhas", lat: -27.2006, lng: -48.4982, desc: "Vista 360º de Bombinhas. Entrada oficial pela Rua Jequitibá.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.2006,-48.4982" },
     { id: 2, nome: "Praia da Sepultura", cat: "Mar Calmo", lat: -27.1438, lng: -48.4746, desc: "Piscina natural. O melhor snorkel da região.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.1438,-48.4746" },
     { id: 3, nome: "Praia da Lagoinha", cat: "Mar Calmo", lat: -27.1439, lng: -48.4776, desc: "Muitos peixinhos na beira da água. Ótima para relaxar.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.1439,-48.4776" },
     { id: 4, nome: "Retiro dos Padres", cat: "Mar Calmo", lat: -27.1415, lng: -48.4725, desc: "Cercada por pedras e mata nativa. Antiga Praia dos Ingleses.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.1415,-48.4725" },
     { id: 5, nome: "Praia de Quatro Ilhas", cat: "Com Ondas", lat: -27.1495, lng: -48.4766, desc: "Mar aberto e águas cristalinas. Famosa pelas ilhas no horizonte.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.1495,-48.4766" },
     { id: 6, nome: "Praia de Mariscal", cat: "Com Ondas", lat: -27.1844, lng: -48.4892, desc: "Praia extensa, mar limpo e areia que 'canta' ao pisar.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.1844,-48.4892" },
-    { id: 7, nome: "Praia da Tainha", cat: "Trilhas", lat: -27.2064, lng: -48.5142, desc: "Isolada e paradisíaca. Acesso por estrada de terra ou trilha.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.2064,-48.5142" },
+    { id: 7, nome: "Praia da Tainha", cat: "Trilhas", lat: -27.2104, lng: -48.5033, desc: "Isolada e paradisíaca. Acesso por estrada de terra ou trilha.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.2104,-48.5033" },
     { id: 8, nome: "Praia de Bombas", cat: "Mar Calmo", lat: -27.1378, lng: -48.5039, desc: "Calçadão ótimo para caminhar. Águas calmas.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.1378,-48.5039" },
     { id: 9, nome: "Praia de Bombinhas", cat: "Mar Calmo", lat: -27.1431, lng: -48.4894, desc: "O coração da cidade. Água transparente e mansa.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.1431,-48.4894" },
     { id: 10, nome: "Canto Grande (Mar de Dentro)", cat: "Mar Calmo", lat: -27.1842, lng: -48.5047, desc: "Pôr do sol mais lindo da cidade. Mar de espelho.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.1842,-48.5047" },
@@ -20,7 +20,7 @@ const locaisBombinhas = [
     { id: 13, nome: "Praia de Zimbros", cat: "Mar Calmo", lat: -27.1645, lng: -48.5242, desc: "Tradicional vila de pescadores. Água muito calma.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.1645,-48.5242" },
     { id: 14, nome: "Praia do Embrulho", cat: "Mar Calmo", lat: -27.1428, lng: -48.4795, desc: "Pequena e entre rochas, ideal para fotos.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.1428,-48.4795" },
     { id: 15, nome: "Praia do Ribeiro", cat: "Trilhas", lat: -27.1412, lng: -48.4972, desc: "Acesso por passarela ou trilha. Deserta e linda.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.1412,-48.4972" },
-    { id: 16, nome: "Praia da Aguada", cat: "Trilhas", lat: -27.2025, lng: -48.5178, desc: "Localizada na ponta da Tainha, rústica e vazia.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.2025,-48.5178" },
+    { id: 16, nome: "Praia da Aguada", cat: "Trilhas", lat: -27.2110, lng: -48.5045, desc: "Localizada na ponta da Tainha, rústica e vazia.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.2110,-48.5045" },
     { id: 17, nome: "Praia Vermelha", cat: "Trilhas", lat: -27.1612, lng: -48.5412, desc: "Trilha saindo de Zimbros. Natureza intocada.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.1612,-48.5412" },
     { id: 18, nome: "Praia da Lagoa", cat: "Trilhas", lat: -27.1648, lng: -48.5452, desc: "Pequena faixa de areia na trilha deserta de Zimbros.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.1648,-48.5452" },
     { id: 19, nome: "Praia Triste", cat: "Trilhas", lat: -27.1685, lng: -48.5512, desc: "Apesar do nome, é um paraíso. Tem cachoeira perto.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.1685,-48.5512" },
@@ -47,13 +47,12 @@ const locaisBombinhas = [
     { id: 40, nome: "Mirante de Bombas", cat: "Trilhas", lat: -27.1225, lng: -48.5125, desc: "Vista panorâmica da entrada da cidade.", maps: "https://www.google.com/maps/dir/?api=1&destination=-27.1225,-48.5125" }
 ];
 
-// Função global para calcular a distância no navegador (será usada pelos outros scripts)
 function haversine(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Raio da Terra em KM
+    const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;
     const dLon = (lon2 - lon1) * Math.PI / 180;
     const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
               Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    return (R * c).toFixed(1); // Retorna com 1 casa decimal
+    return (R * c).toFixed(1);
 }
