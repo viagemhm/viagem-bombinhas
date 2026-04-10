@@ -131,17 +131,20 @@
     function initMap() {
         map = new mapboxgl.Map({
             container: 'map',
-            style: 'mapbox://styles/mapbox/satellite-streets-v12',
+            style: 'mapbox://styles/mapbox/outdoors-v12',   // ← Mudança principal aqui
             center: [-48.487, -27.148],
-            zoom: 11.5,
-            pitch: 30
+            zoom: 12,          // Zoom um pouco maior para melhor visualização inicial
+            pitch: 35          // Pitch suave para dar sensação 3D nas praias
         });
 
         map.on('load', () => {
-            // Ajustar o mapa para mostrar todos os pontos de uma vez
             const bounds = new mapboxgl.LngLatBounds();
             locaisBombinhas.forEach(l => bounds.extend([l.lng, l.lat]));
-            map.fitBounds(bounds, { padding: 40, duration: 1000 });
+            map.fitBounds(bounds, { padding: 50, duration: 1200 });
+
+            // Força redesenho para evitar problemas de carregamento
+            setTimeout(() => map.resize(), 400);
+
             renderizar();
         });
     }
@@ -173,14 +176,14 @@
                     <div class="flex-1">
                         <h3 class="text-white font-bold text-sm tracking-tight">${local.nome}</h3>
                         <p class="text-[9px] text-theme font-black uppercase tracking-tighter">
-                            ${local.cat} • ${local.dist ? local.dist + ' KM' : '--- KM'}
+                            ${local.cat} • ${local.dist ? local.dist.toFixed(1) + ' KM' : '--- KM'}
                         </p>
                     </div>
                     <div class="flex gap-3">
-                        <button onclick="toggleFav('${local.nome}')" class="${isFav ? 'text-red-500' : 'text-slate-600'}">
+                        <button onclick="toggleFav('\( {local.nome}')" class=" \){isFav ? 'text-red-500' : 'text-slate-600'}">
                             <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' ${isFav ? 1 : 0}">favorite</span>
                         </button>
-                        <button onclick="toggleVis('${local.nome}')" class="${isVis ? 'text-green-500' : 'text-slate-600'}">
+                        <button onclick="toggleVis('\( {local.nome}')" class=" \){isVis ? 'text-green-500' : 'text-slate-600'}">
                             <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' ${isVis ? 1 : 0}">check_circle</span>
                         </button>
                     </div>
@@ -192,7 +195,7 @@
             `;
             container.appendChild(card);
 
-            // Criar Marcador Minimalista (Bolinha)
+            // Criar Marcador Minimalista
             const el = document.createElement('div');
             el.className = 'custom-marker';
             el.style.backgroundColor = isFav ? "#ef4444" : currentThemeColor;
@@ -210,14 +213,22 @@
         const txt = document.getElementById('txt-gps');
         txt.innerText = "GPS Ativo...";
         navigator.geolocation.getCurrentPosition(pos => {
-            userLat = pos.coords.latitude; userLng = pos.coords.longitude;
+            userLat = pos.coords.latitude; 
+            userLng = pos.coords.longitude;
             renderizar();
-            map.flyTo({ center: [userLng, userLat], zoom: 14 });
+            map.flyTo({ 
+                center: [userLng, userLat], 
+                zoom: 14.5,
+                duration: 2000 
+            });
             
-            new mapboxgl.Marker({ color: "#fff" })
+            new mapboxgl.Marker({ color: "#fff", scale: 0.8 })
                 .setLngLat([userLng, userLat])
                 .addTo(map);
-        }, () => txt.innerText = "Erro GPS");
+        }, () => {
+            txt.innerText = "Erro ao obter GPS";
+            setTimeout(() => txt.innerText = "Ordenar por Proximidade", 3000);
+        });
     }
 
     function toggleFav(n) {
@@ -239,7 +250,10 @@
         renderizar();
     }
 
-    window.onload = () => { fetchWeather(); initMap(); };
+    window.onload = () => { 
+        fetchWeather(); 
+        initMap(); 
+    };
 </script>
 </body>
 </html>
