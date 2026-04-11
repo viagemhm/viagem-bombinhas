@@ -17,23 +17,23 @@
             --theme-border: rgba(249, 115, 22, 0.4);
         }
 
-        .text-theme { color: var(--theme-color); transition: color 0.5s ease; }
-        .bg-theme { background-color: var(--theme-color); transition: background-color 0.5s ease; }
-        .border-theme { border-color: var(--theme-border) !important; transition: border-color 0.5s ease; }
-
+        .text-theme { color: var(--theme-color); transition: all 0.5s ease; }
+        .bg-theme { background-color: var(--theme-color); transition: all 0.5s ease; }
+        
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #050505; margin: 0; padding: 20px 10px; color: #f8fafc; min-height: 100vh; }
         .container { background: #0f0f0f; width: 100%; max-width: 420px; border-radius: 32px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.03); margin: auto; }
         
-        /* O MAPA COM BORDA DINÂMICA */
+        /* O MAPA COM BORDA DINÂMICA COMPLETA */
         #map { 
             height: 350px; 
             width: calc(100% - 24px); 
             border-radius: 24px; 
             margin: 0 12px 20px 12px; 
             border: 3px solid var(--theme-border); 
-            background: #111;
+            background: #111; /* Cor de fundo enquanto carrega */
         }
         
+        /* Marcadores Minimalistas (Bolinhas) */
         .custom-marker {
             width: 14px;
             height: 14px;
@@ -41,14 +41,18 @@
             border: 2px solid #fff;
             box-shadow: 0 0 10px rgba(0,0,0,0.8);
             cursor: pointer;
+            transition: background-color 0.5s ease;
         }
 
         .beach-list-item { background: rgba(255,255,255,0.03); border-radius: 20px; padding: 16px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.05); }
         .beach-list-item.visitada { opacity: 0.5; filter: grayscale(1); border-left: 4px solid #4caf50; }
         
         .active-filter { background-color: var(--theme-color) !important; color: #000 !important; font-weight: 800; }
-        .mapboxgl-popup-content { background: #111 !important; color: white !important; border-radius: 10px !important; border: 1px solid var(--theme-border); }
         
+        /* Popups do Mapbox */
+        .mapboxgl-popup-content { background: #111 !important; color: white !important; border-radius: 10px !important; border: 1px solid var(--theme-border); }
+        .mapboxgl-popup-tip { border-top-color: #111 !important; }
+
         .back-btn { color: #94a3b8; font-size: 13px; font-weight: 700; background: none; border: none; cursor: pointer; text-transform: uppercase; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
@@ -63,7 +67,7 @@
         </button>
     </div>
 
-    <div class="profile-header border-theme" style="height: 140px; background-image: url('https://i.ibb.co/j9xkVr6N/Afaste-a-imagem-202604072042.jpg'); background-size: cover; background-position: center; border-bottom-width: 5px; position: relative;">
+    <div id="header-profile" class="profile-header" style="height: 140px; background-image: url('https://i.ibb.co/j9xkVr6N/Afaste-a-imagem-202604072042.jpg'); background-size: cover; background-position: center; border-bottom: 5px solid var(--theme-color); position: relative;">
         <div style="position: absolute; bottom: -30px; left: 20px; width: 70px; height: 70px; border: 3px solid #0f0f0f; border-radius: 50%; overflow: hidden;">
             <img src="https://i.ibb.co/s9WK610w/Crie-uma-imagem-202604072021.jpg" class="w-full h-full object-cover">
         </div>
@@ -80,7 +84,7 @@
         </div>
     </div>
 
-    <div id="map" class="mt-4 border-theme"></div>
+    <div id="map"></div>
 
     <div class="flex gap-2 overflow-x-auto no-scrollbar px-4 mb-6">
         <button onclick="filtrar('Todos', this)" class="px-4 py-2 rounded-xl bg-white/5 text-slate-400 text-[9px] font-black uppercase whitespace-nowrap filter-btn active-filter">Todos</button>
@@ -99,9 +103,14 @@
     <div id="lista-praias" class="px-4 pb-10"></div>
 </div>
 
+<footer class="mt-8 text-slate-600 text-[10px] font-bold uppercase tracking-widest text-center pb-10">
+    Nossas Pegadas © 2026
+</footer>
+
 <script src="praias-db.js"></script>
 
 <script>
+    // TOKEN HELDER
     mapboxgl.accessToken = 'Pk.eyJ1IjoiaGVsZGVyMTk5NSIsImEiOiJjbW50ZG4zYnIwbmJmMnNxMHZyeWFjNmpjIn0.dkfOtjk0PbNcD78S88dljw';
 
     const API_KEY = 'bd5e378503939ddaee76f12ad7a97608';
@@ -109,16 +118,20 @@
     let markers = [];
     let favoritos = JSON.parse(localStorage.getItem('favs')) || [];
 
-    // MOTOR DE CORES DINÂMICO ATUALIZADO
+    // MOTOR DE CORES DINÂMICO
     function applyDynamicColors(timestampAtual, sunriseTs, sunsetTs) {
         const root = document.documentElement;
         const isNight = timestampAtual < sunriseTs || timestampAtual > sunsetTs;
         
         const themeColor = isNight ? '#3b82f6' : '#f97316';
-        const themeBorder = isNight ? 'rgba(59, 130, 246, 0.5)' : 'rgba(249, 115, 22, 0.5)';
+        const themeBorder = isNight ? 'rgba(59, 130, 246, 0.6)' : 'rgba(249, 115, 22, 0.6)';
         
         root.style.setProperty('--theme-color', themeColor);
         root.style.setProperty('--theme-border', themeBorder);
+        
+        // Aplica bordas manualmente para garantir
+        document.getElementById('map').style.borderColor = themeBorder;
+        document.getElementById('header-profile').style.borderColor = themeColor;
         
         renderizar();
     }
@@ -130,24 +143,27 @@
             applyDynamicColors(data.dt, data.sys.sunrise, data.sys.sunset);
             document.getElementById('temp-atual').innerText = Math.round(data.main.temp) + "°C";
             document.getElementById('weather-desc').innerText = data.weather[0].description;
-        } catch (e) {}
+        } catch (e) {
+            console.error("Erro clima:", e);
+        }
     }
 
     function initMap() {
         map = new mapboxgl.Map({
             container: 'map',
-            style: 'mapbox://styles/mapbox/satellite-streets-v12',
-            center: [-48.487, -27.148],
-            zoom: 12,
+            style: 'mapbox://styles/mapbox/satellite-streets-v12', // SATÉLITE + RUAS + TRILHAS
+            center: [-48.487, -27.148], // [lng, lat]
+            zoom: 11,
             antialias: true
         });
 
-        // Garantir que o mapa renderize ruas e satélite no mobile
-        map.on('style.load', () => {
+        // Forçar redimensionamento para evitar mapa preto
+        map.on('load', () => {
             map.resize();
             const bounds = new mapboxgl.LngLatBounds();
             locaisBombinhas.forEach(l => bounds.extend([l.lng, l.lat]));
             map.fitBounds(bounds, { padding: 30 });
+            renderizar();
         });
     }
 
@@ -163,6 +179,7 @@
         lista.forEach(local => {
             const isFav = favoritos.includes(local.nome);
             
+            // Render Lista
             const card = document.createElement('div');
             card.className = `beach-list-item`;
             card.innerHTML = `
@@ -181,6 +198,7 @@
             `;
             container.appendChild(card);
 
+            // Marcador Bolinha
             const el = document.createElement('div');
             el.className = 'custom-marker';
             el.style.backgroundColor = isFav ? "#ef4444" : currentThemeColor;
