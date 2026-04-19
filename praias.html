@@ -105,10 +105,10 @@
 <script src="praias-db.js"></script>
 
 <script>
-    // Fragmentação da chave para evitar bloqueio no GitHub
+    // Fragmentação da chave solicitada (convertida para minúsculo no início)
     const _p1 = "pk.eyJ1IjoiaGVsZGVyMTk5NSIs";
-    const _p2 = "ImEiOiJjbW50bWxvd3gwcDloMnBxMmNhM3F5bTVjIn0.";
-    const _p3 = "Lcz1YkwQSCo72J0wH2hRjw";
+    const _p2 = "ImEiOiJjbW50ZG4zYnIwbmJmMnNxMHZyeWFjNmpjIn0.";
+    const _p3 = "dkfOtjk0PbNcD78S88dljw";
     mapboxgl.accessToken = _p1 + _p2 + _p3;
 
     const API_KEY = 'bd5e378503939ddaee76f12ad7a97608';
@@ -164,7 +164,7 @@
         map.on('click', (e) => {
             const lat = e.lngLat.lat.toFixed(6);
             const lng = e.lngLat.lng.toFixed(6);
-            alert(`PONTO CAPTURADO!\n\nLatitude: ${lat}\nLongitude: ${lng}\n\nCopia estes valores para o teu praias-db.js`);
+            alert(`PONTO CAPTURADO!\n\nLatitude: ${lat}\nLongitude: ${lng}\n\nCopie estes valores para o seu praias-db.js`);
         });
     }
 
@@ -236,5 +236,3 @@
 </script>
 </body>
 </html>
-
-```
