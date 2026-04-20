@@ -188,43 +188,57 @@
 
     async function fetchWeather() {
         try {
+            // 1. PUXA E MOSTRA O CLIMA ATUAL PRIMEIRO
             const resCurr = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=-27.148&lon=-48.487&appid=${API_KEY}&units=metric&lang=pt_br`);
             const dataCurr = await resCurr.json();
             
-            applyDynamicColors(dataCurr.dt, dataCurr.sys.sunrise, dataCurr.sys.sunset);
-            
-            tempAtualIA = Math.round(dataCurr.main.temp); // Guarda a temperatura para a IA
-            
-            const formatT = (ts) => new Date(ts * 1000).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-            document.getElementById('sunrise').innerText = formatT(dataCurr.sys.sunrise);
-            document.getElementById('sunset').innerText = formatT(dataCurr.sys.sunset);
-            
-            const iconCodes = {'01d':'wb_sunny','01n':'nightlight','02d':'partly_cloudy_day','02n':'partly_cloudy_night','03d':'cloud','04d':'cloudy','09d':'rainy','10d':'rainy_heavy','11d':'thunderstorm','13d':'ac_unit','50d':'foggy'};
-            document.getElementById('weather-icon-dynamic').innerText = iconCodes[dataCurr.weather[0].icon] || 'cloud';
-            
-            const resFore = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=-27.148&lon=-48.487&appid=${API_KEY}&units=metric&lang=pt_br`);
-            const dataFore = await resFore.json();
-            const daily = {};
-            dataFore.list.forEach(i => {
-                const d = new Date(i.dt*1000).toLocaleDateString();
-                if(!daily[d]) daily[d] = { min: i.main.temp_min, max: i.main.temp_max, day: new Date(i.dt*1000).getDay() };
-                else { daily[d].min = Math.min(daily[d].min, i.main.temp_min); daily[d].max = Math.max(daily[d].max, i.main.temp_max); }
-            });
-            const weekdays = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'];
-            document.getElementById('previsao').innerHTML = Object.values(daily).slice(1, 6).map(d => `
-                <div class="min-w-[75px] bg-black/40 p-2 rounded-xl text-center border border-white/5">
-                    <div class="text-[9px] font-black text-zinc-500">${weekdays[d.day]}</div>
-                    <div class="flex flex-col mt-1">
-                        <span class="text-xs font-bold text-white">${Math.round(d.max)}°</span>
-                        <span class="text-[9px] font-bold text-zinc-500">${Math.round(d.min)}°</span>
-                    </div>
-                </div>`).join('');
+            if (dataCurr.main) {
+                tempAtualIA = Math.round(dataCurr.main.temp); 
                 
-            document.getElementById('temp-atual').innerText = tempAtualIA + "°C";
-            document.getElementById('desc-clima').innerText = dataCurr.weather[0].description;
-            document.getElementById('temp-minmax').innerText = `Mín ${Math.round(dataCurr.main.temp_min)}° / Máx ${Math.round(dataCurr.main.temp_max)}°`;
+                // Atualiza a tela NA HORA, sem esperar o resto
+                document.getElementById('temp-atual').innerText = tempAtualIA + "°C";
+                document.getElementById('desc-clima').innerText = dataCurr.weather[0].description;
+                document.getElementById('temp-minmax').innerText = `Mín ${Math.round(dataCurr.main.temp_min)}° / Máx ${Math.round(dataCurr.main.temp_max)}°`;
+                
+                applyDynamicColors(dataCurr.dt, dataCurr.sys.sunrise, dataCurr.sys.sunset);
+                
+                const formatT = (ts) => new Date(ts * 1000).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                document.getElementById('sunrise').innerText = formatT(dataCurr.sys.sunrise);
+                document.getElementById('sunset').innerText = formatT(dataCurr.sys.sunset);
+                
+                const iconCodes = {'01d':'wb_sunny','01n':'nightlight','02d':'partly_cloudy_day','02n':'partly_cloudy_night','03d':'cloud','04d':'cloudy','09d':'rainy','10d':'rainy_heavy','11d':'thunderstorm','13d':'ac_unit','50d':'foggy'};
+                document.getElementById('weather-icon-dynamic').innerText = iconCodes[dataCurr.weather[0].icon] || 'cloud';
+            }
+
+            // 2. TENTA PUXAR A PREVISÃO (Se der erro aqui, o clima atual já está na tela)
+            try {
+                const resFore = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=-27.148&lon=-48.487&appid=${API_KEY}&units=metric&lang=pt_br`);
+                const dataFore = await resFore.json();
+                
+                if (dataFore.list) {
+                    const daily = {};
+                    dataFore.list.forEach(i => {
+                        const d = new Date(i.dt*1000).toLocaleDateString();
+                        if(!daily[d]) daily[d] = { min: i.main.temp_min, max: i.main.temp_max, day: new Date(i.dt*1000).getDay() };
+                        else { daily[d].min = Math.min(daily[d].min, i.main.temp_min); daily[d].max = Math.max(daily[d].max, i.main.temp_max); }
+                    });
+                    const weekdays = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'];
+                    document.getElementById('previsao').innerHTML = Object.values(daily).slice(1, 6).map(d => `
+                        <div class="min-w-[75px] bg-black/40 p-2 rounded-xl text-center border border-white/5">
+                            <div class="text-[9px] font-black text-zinc-500">${weekdays[d.day]}</div>
+                            <div class="flex flex-col mt-1">
+                                <span class="text-xs font-bold text-white">${Math.round(d.max)}°</span>
+                                <span class="text-[9px] font-bold text-zinc-500">${Math.round(d.min)}°</span>
+                            </div>
+                        </div>`).join('');
+                }
+            } catch (errFore) {
+                console.log("A previsão de 5 dias falhou, mas o clima atual está salvo.", errFore);
+            }
+
         } catch (e) {
-            console.error(e);
+            console.error("Erro geral na API de clima:", e);
+            document.getElementById('desc-clima').innerText = "Erro de conexão";
         }
     }
 
