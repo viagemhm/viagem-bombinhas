@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Férias Bombinhas 2026 - Dynamic Theme</title>
+    <title>Férias Bombinhas 2026 - Dashboard Inteligente</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
@@ -16,7 +16,6 @@
             --theme-border-strong: rgba(249, 115, 22, 0.5);
         }
 
-        /* Classes Customizadas para usar as variáveis */
         .text-theme { color: var(--theme-color); transition: color 0.5s ease; }
         .bg-theme-light { background-color: var(--theme-bg-light); transition: background-color 0.5s ease; }
         .border-theme { border-color: var(--theme-border); transition: border-color 0.5s ease; }
@@ -45,13 +44,16 @@
             50% { border-bottom-color: #fff; filter: drop-shadow(0 0 8px var(--theme-color)); }
         }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-        .sun-info { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px; margin-top: 12px; display: flex; gap: 15px; justify-content: center; }
         
+        .sun-info { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px; margin-top: 12px; display: flex; gap: 15px; justify-content: center; }
         .finance-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 12px; flex: 1; text-align: center; }
         .praia-item { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 12px; display: flex; align-items: center; gap: 12px; border: 1px solid rgba(255,255,255,0.08); }
-        .rota-link { display: flex; align-items: center; gap: 4px; padding: 8px 12px; border-radius: 12px; font-size: 10px; font-weight: 800; color: white; text-transform: uppercase; }
+        .rota-link { display: flex; align-items: center; gap: 4px; padding: 8px 12px; border-radius: 12px; font-size: 10px; font-weight: 800; color: black; text-transform: uppercase; }
         .glass-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; transition: all 0.3s ease; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        .animate-pulse-slow { animation: pulseSlow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulseSlow { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
     </style>
 </head>
 <body>
@@ -72,7 +74,7 @@
         </div>
     </div>
     
-    <div class="weather-card mx-4 my-6 p-6 rounded-[28px] border-2 border-theme-strong bg-theme-light transition-all duration-500">
+    <div class="weather-card mx-4 my-4 p-6 rounded-[28px] border-2 border-theme-strong bg-theme-light transition-all duration-500">
         <div class="flex justify-between">
             <div id="desc-clima" class="text-lg font-bold uppercase text-white">Sincronizando...</div>
             <div class="text-right">
@@ -90,6 +92,30 @@
             <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm text-theme">bedtime_off</span> <span id="sunset">--:--</span></span>
         </div>
         <div class="flex gap-2 overflow-x-auto mt-6 no-scrollbar" id="previsao"></div>
+    </div>
+
+    <div class="px-4 mb-4">
+        <button id="btn-ia" onclick="ativarIA()" class="w-full relative overflow-hidden rounded-[20px] bg-theme/10 border border-theme py-4 text-theme font-black text-[11px] uppercase tracking-widest flex items-center justify-center gap-2 transition-all hover:bg-theme hover:text-black">
+            <span class="material-symbols-outlined text-lg animate-pulse-slow">auto_awesome</span>
+            Qual a melhor praia agora?
+        </button>
+
+        <div id="card-ia" class="hidden relative overflow-hidden rounded-[20px] border border-theme bg-[#111] p-5 shadow-2xl">
+            <div class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-theme opacity-20 blur-3xl"></div>
+            <div class="relative z-10 flex items-start gap-4">
+                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-theme text-black">
+                    <span class="material-symbols-outlined font-bold text-2xl">explore</span>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-[9px] font-black uppercase tracking-[0.2em] text-theme mb-1">Sugestão Inteligente</h3>
+                    <p id="ia-nome" class="text-xl font-bold text-white leading-tight mb-1">Calculando...</p>
+                    <p id="ia-motivo" class="text-[10px] text-slate-400 leading-relaxed mb-4">Aguardando dados...</p>
+                    <a id="ia-rota" href="#" target="_blank" class="flex items-center justify-center gap-2 w-full py-3 bg-theme rounded-xl text-black text-[10px] font-black uppercase shadow-lg shadow-theme/20">
+                        <span class="material-symbols-outlined text-sm">directions_car</span> Rota GPS
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="px-4 space-y-4 pb-8">
@@ -140,23 +166,20 @@
 
 <script>
     const API_KEY = 'bd5e378503939ddaee76f12ad7a97608';
+    let tempAtualIA = 25; // Variável global para a IA ler
     
     // FUNÇÃO DO MOTOR DE CORES
     function applyDynamicColors(timestampAtual, sunriseTs, sunsetTs) {
         const root = document.documentElement;
-        
-        // Verifica se é noite (o timestamp atual é menor que nascer ou maior que por do sol)
         const isNight = timestampAtual < sunriseTs || timestampAtual > sunsetTs;
 
         if (isNight) {
-            // TEMA NOITE: Azul Neon
-            root.style.setProperty('--theme-color', '#3b82f6'); // Tailwind blue-500
+            root.style.setProperty('--theme-color', '#3b82f6');
             root.style.setProperty('--theme-bg-light', 'rgba(59, 130, 246, 0.1)');
             root.style.setProperty('--theme-border', 'rgba(59, 130, 246, 0.3)');
             root.style.setProperty('--theme-border-strong', 'rgba(59, 130, 246, 0.6)');
         } else {
-            // TEMA DIA: Laranja Thermal
-            root.style.setProperty('--theme-color', '#f97316'); // Tailwind orange-500
+            root.style.setProperty('--theme-color', '#f97316');
             root.style.setProperty('--theme-bg-light', 'rgba(249, 115, 22, 0.1)');
             root.style.setProperty('--theme-border', 'rgba(249, 115, 22, 0.3)');
             root.style.setProperty('--theme-border-strong', 'rgba(249, 115, 22, 0.6)');
@@ -168,8 +191,9 @@
             const resCurr = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=-27.148&lon=-48.487&appid=${API_KEY}&units=metric&lang=pt_br`);
             const dataCurr = await resCurr.json();
             
-            // Ativa a troca de cores inteligente baseada no Sol
             applyDynamicColors(dataCurr.dt, dataCurr.sys.sunrise, dataCurr.sys.sunset);
+            
+            tempAtualIA = Math.round(dataCurr.main.temp); // Guarda a temperatura para a IA
             
             const formatT = (ts) => new Date(ts * 1000).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
             document.getElementById('sunrise').innerText = formatT(dataCurr.sys.sunrise);
@@ -196,7 +220,7 @@
                     </div>
                 </div>`).join('');
                 
-            document.getElementById('temp-atual').innerText = Math.round(dataCurr.main.temp) + "°C";
+            document.getElementById('temp-atual').innerText = tempAtualIA + "°C";
             document.getElementById('desc-clima').innerText = dataCurr.weather[0].description;
             document.getElementById('temp-minmax').innerText = `Mín ${Math.round(dataCurr.main.temp_min)}° / Máx ${Math.round(dataCurr.main.temp_max)}°`;
         } catch (e) {
@@ -204,6 +228,56 @@
         }
     }
 
+    // --- MOTOR DE INTELIGÊNCIA ARTIFICIAL ---
+    function ativarIA() {
+        const btn = document.getElementById('btn-ia');
+        btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-lg">sync</span> Analisando dados...';
+        
+        navigator.geolocation.getCurrentPosition(pos => {
+            const userLat = pos.coords.latitude;
+            const userLng = pos.coords.longitude;
+            
+            gerarRecomendacao(userLat, userLng);
+            
+            btn.classList.add('hidden');
+            document.getElementById('card-ia').classList.remove('hidden');
+        }, () => {
+            btn.innerHTML = 'Ative o GPS para usarmos a IA';
+        });
+    }
+
+    function gerarRecomendacao(userLat, userLng) {
+        let candidatos = [...locaisBombinhas];
+        let motivo = "";
+        const horaAtual = new Date().getHours();
+        
+        // Regras Climáticas
+        if (horaAtual >= 17 && horaAtual <= 19) {
+            candidatos = candidatos.filter(p => p.nome.includes("Canto Grande") || p.nome.includes("Zimbros") || p.nome.includes("Morrinhos"));
+            motivo = "O sol está se pondo! Sugerimos as praias com o melhor visual deste horário.";
+        } else if (tempAtualIA > 27) {
+            candidatos = candidatos.filter(p => p.cat === "Mar Calmo");
+            motivo = `Faz calor (${tempAtualIA}°C)! Filtramos uma praia de águas mansas para um banho refrescante.`;
+        } else if (tempAtualIA < 22) {
+            candidatos = candidatos.filter(p => p.cat === "Trilhas");
+            motivo = "Clima ameno, perfeito para explorar as trilhas costeiras sem sofrer com o sol.";
+        } else {
+            motivo = "Clima perfeito! Escolhemos a praia espetacular mais próxima de você.";
+        }
+
+        // Regra de Proximidade (Quem está mais perto de mim agora?)
+        candidatos.forEach(p => p.dist = parseFloat(haversine(userLat, userLng, p.lat, p.lng)));
+        candidatos.sort((a, b) => a.dist - b.dist);
+        
+        const ideal = candidatos[0];
+
+        // Mostra no Card
+        document.getElementById('ia-nome').innerText = ideal.nome;
+        document.getElementById('ia-motivo').innerText = motivo;
+        document.getElementById('ia-rota').href = ideal.maps;
+    }
+
+    // --- FUNÇÕES DA ESTRUTURA ORIGINAL ---
     function renderFavoritas() {
         const container = document.getElementById('lista-praias');
         let html = '';
@@ -249,7 +323,7 @@
     fetchWeather(); updateCD(); renderFavoritas();
     window.addEventListener('focus', renderFavoritas);
     
-    // Budget data link
+    // GASTOS (Google Sheets)
     fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSjndkscJNSa1uHNlh_3al_4smBXaiXrGKF27dIf_vK6uwUGF0eb_UzHj74Plx-cZ6PwE0EhnWSW-xA/pub?gid=0&single=true&output=tsv")
     .then(r => r.text()).then(t => {
         const lines = t.split("\n");
